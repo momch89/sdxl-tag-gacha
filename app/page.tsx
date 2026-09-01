@@ -14,6 +14,7 @@ const pick = (items: Tag[], current: Tag[]) => {
   const pool = items.length > 1 ? items.filter(item => !current.some(x => x.tag === item.tag)) : items;
   return pool[Math.floor(Math.random() * pool.length)] ?? items[0];
 };
+const formatCount = (count = 0) => count >= 1_000_000 ? `${(count / 1_000_000).toFixed(count >= 10_000_000 ? 0 : 1).replace('.0','')}M` : count >= 1_000 ? `${(count / 1_000).toFixed(count >= 100_000 ? 0 : 1).replace('.0','')}k` : `${count}`;
 
 export default function Home() {
   const [selected, setSelected] = useState<Selection>(blankSelection);
@@ -124,10 +125,10 @@ export default function Home() {
     </div>
 
     {dictionaryOpen && <div className="modal-overlay" onMouseDown={e => e.target === e.currentTarget && setDictionaryOpen(false)}><section className="dictionary-dialog" role="dialog" aria-modal="true" aria-labelledby="dictionary-title">
-      <header className="dialog-top"><div><h2 id="dictionary-title">タグ一覧から選ぶ</h2><p>タグをタップして複数選択できます。</p></div><button className="dialog-x" onClick={() => setDictionaryOpen(false)}><X /></button></header>
+      <header className="dialog-top"><div><h2 id="dictionary-title">タグ一覧から選ぶ</h2><p>Danbooru Wiki分類の一般タグ {allTags.length.toLocaleString()}件。投稿件数つき・複数選択できます。</p></div><button className="dialog-x" onClick={() => setDictionaryOpen(false)}><X /></button></header>
       <div className="dict-search"><Search /><Input value={query} onChange={e => setQuery(e.target.value)} placeholder="日本語・英語タグで検索"/></div>
       <div className="dict-layout"><nav className="dict-categories">{categories.map(c => <button key={c.id} className={dictCategory === c.id ? 'active' : ''} style={{ '--cat': c.color } as React.CSSProperties} onClick={() => setDictCategory(c.id)}><span>{c.icon}</span>{c.name}<b>{c.subcategories.reduce((n,s) => n + (selected[s.id]?.length || 0),0)}</b></button>)}</nav>
-        <div className="dict-content">{(categories.find(c => c.id === dictCategory)?.subcategories || []).map(sub => { const tags = shownTags.filter(x => x.subcategory.id === sub.id); if (!tags.length) return null; return <section key={sub.id}><h3>{sub.name}<small>複数選択可</small></h3><div className="dict-tags">{tags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><small>{item.note}</small>{on && <Check />}</button>})}</div></section>})}{!shownTags.length && <p className="no-result">一致するタグがありません。</p>}</div>
+        <div className="dict-content">{(categories.find(c => c.id === dictCategory)?.subcategories || []).map(sub => { const tags = shownTags.filter(x => x.subcategory.id === sub.id); if (!tags.length) return null; return <section key={sub.id}><h3>{sub.name}<small>{tags.length}件・複数選択可</small></h3><div className="dict-tags">{tags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><small>{item.note}</small><em>{formatCount(item.postCount)}</em>{on && <Check />}</button>})}</div></section>})}{!shownTags.length && <p className="no-result">一致するタグがありません。</p>}</div>
       </div><footer className="dict-footer"><span>{tagNames.length}件 選択中</span><Button onClick={() => setDictionaryOpen(false)}>選択を反映して閉じる</Button></footer>
     </section></div>}
 

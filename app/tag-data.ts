@@ -1,8 +1,12 @@
-export type Tag = { tag: string; ja: string; note: string };
+import countData from './danbooru-counts.json';
+import importedGroups from './danbooru-import.json';
+
+export type Tag = { tag: string; ja: string; note: string; postCount: number };
 export type Subcategory = { id: string; name: string; tags: Tag[]; optional?: boolean };
 export type Category = { id: string; name: string; icon: string; color: string; subcategories: Subcategory[] };
 
-const t = (tag: string, ja: string, note: string): Tag => ({ tag, ja, note });
+const counts = countData as Record<string, number>;
+const t = (tag: string, ja: string, note: string): Tag => ({ tag, ja, note, postCount: counts[tag.replaceAll(' ', '_')] || 0 });
 const s = (id: string, name: string, tags: Tag[], optional = false): Subcategory => ({ id, name, tags, optional });
 
 const categoryData: Category[] = [
@@ -61,6 +65,19 @@ const categoryData: Category[] = [
     s('light_direction','光の向き',[t('backlighting','逆光','背後から光が差す。'),t('rim lighting','リムライト','輪郭の縁だけが光る。'),t('side lighting','横からの光','片側から光を当てる。'),t('light rays','光芒','筋状の光が差し込む。'),t('dappled sunlight','木漏れ日','斑点状の日差しが当たる。')]),
   ]},
 ];
+
+type ImportedGroup = { categoryId: string; subcategoryId: string; subcategoryName: string; optional: boolean; tags: Tag[] };
+for (const group of importedGroups as ImportedGroup[]) {
+  const category = categoryData.find(item => item.id === group.categoryId);
+  if (!category) continue;
+  let subcategory = category.subcategories.find(item => item.id === group.subcategoryId);
+  if (!subcategory) {
+    subcategory = s(group.subcategoryId, group.subcategoryName, [], group.optional);
+    category.subcategories.push(subcategory);
+  }
+  const known = new Set(subcategory.tags.map(item => item.tag));
+  subcategory.tags.push(...group.tags.filter(item => !known.has(item.tag)));
+}
 
 export const categories: Category[] = [
   categoryData.find(category => category.id === 'body')!,
