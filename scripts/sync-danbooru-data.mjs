@@ -12,8 +12,8 @@ const sources = [
   ['tag_group:image_composition', 'camera'], ['tag_group:lighting', 'lighting'],
 ];
 
-const excluded = /(?:masterpiece|quality|absurdres|highres|lowres|artist|artstyle|drawn_by|inspired_by|official_art|official_style|traditional_media|watercolor|oil_painting|pixel_art|sketch|lineart|realistic|photorealistic|3d|render|anime_coloring|flat_color|limited_palette|monochrome|greyscale|sepia|oekaki|vector_trace|ai-generated|painterly|fine_art|manga|comic|koma|screentone|hatching|dithering|halftone|film_grain|still_life|surreal|abstract|collage|glitch|artistic_error|bad_anatomy|bad_hands|bad_feet|bad_proportions|censored|uncensored|watermark|web_address|logo|cover_page|doujin_cover|album_cover|magazine_cover|fake_cover|calendar_\(medium\)|card_\(medium\)|screenshot|typo|ranguage)/i;
-const unsafe = /(?:sex|nude|naked|penis|vagina|anus|pussy|cum|semen|nipple|areola|masturbat|fellatio|paizuri|rape|bondage|guro|corpse|decapitat|vore|urine|feces|ass(?:$|_)|breast|pubic|erection|testicle|clitoris|groin|cervix|uterus|perineum|foreskin|phimosis|mons|cameltoe|bulge|cleavage|underboob|sideboob|no_bra)/i;
+const excluded = /(?:masterpiece|quality|absurdres|highres|lowres|artist|artstyle|drawn_by|inspired_by|official_art|official_style|traditional_media|watercolor|oil_painting|pixel_art|sketch|lineart|realistic|photorealistic|3d|render|anime_coloring|flat_color|limited_palette|monochrome|greyscale|sepia|oekaki|vector_trace|ai-generated|painterly|fine_art|manga|comic|koma|screentone|hatching|dithering|halftone|film_grain|still_life|surreal|abstract|collage|glitch|artistic_error|bad_anatomy|bad_hands|bad_feet|bad_proportions|censored|uncensored|watermark|web_address|logo|outline|no_humans|outside_border|cover_page|doujin_cover|album_cover|magazine_cover|fake_cover|calendar_\(medium\)|card_\(medium\)|screenshot|typo|ranguage)/i;
+const unsafe = /(?:sex|nude|naked|penis|vagina|anus|pussy|cum|semen|nipple|areola|masturbat|fellatio|paizuri|rape|bondage|guro|corpse|decapitat|vore|urine|feces|ass(?:$|_)|breast|pubic|erection|testicle|clitoris|groin|cervix|uterus|perineum|foreskin|phimosis|mons|cameltoe|bulge|cleavage|underboob|sideboob|no_bra|groping|fondling|molestation)/i;
 const structural = /^(?:tag_group:|list_of_|help:|howto:|topic:|template:)/;
 
 const tokenJa = {
@@ -47,29 +47,32 @@ function classify(source, name) {
   }
   if (source.includes('eyes_tags')) {
     if (/^looking_|gaze|glance|averting|staring/.test(name)) return 'gaze';
+    if (/glasses|eyewear|eyepatch|blindfold|mask$/.test(name)) return 'eyewear';
+    if (/makeup|eyeshadow|eyeliner|mascara/.test(name)) return 'face_feature';
     if (/pupil|iris|heterochromia|ringed_eyes|multicolored_eyes/.test(name)) return 'pupils';
     if (/^(?:black|blue|brown|green|grey|gray|orange|pink|purple|red|white|yellow|aqua|golden)_eyes$/.test(name)) return 'eye_color';
     return 'eye_shape';
   }
   if (source.includes('skin_color')) return 'skin';
-  if (source.includes('wings')) return 'wings';
+  if (source.includes('wings')) return /wing_collar|winged_collar|wing_bow|wing_hair_ornament/.test(name) ? null : 'wings';
   if (source.includes('body_parts')) {
     if (/face|cheek|mouth|teeth|fang|ear|nose|eyebrow|freckle|mole/.test(name)) return 'face_feature';
     if (/scar|tattoo|marking|sweat|navel|body_hair/.test(name)) return 'markings';
-    if (/abs$|pectorals|wide_hips|narrow_waist|thick_thighs|long_legs|biceps|obliques|slim_legs|thick_arms|collarbone/.test(name)) return 'body_type';
+    if (/collarbone|navel|body_hair/.test(name)) return 'markings';
+    if (/abs$|pectorals|wide_hips|narrow_waist|thick_thighs|long_legs|biceps|obliques|slim_legs|thick_arms/.test(name)) return 'body_type';
     return null;
   }
   if (source.includes('attire')) {
     if (/glasses|eyewear|eyepatch|blindfold|mask$/.test(name)) return 'eyewear';
     if (/earring|bracelet|ring$|brooch|piercing|anklet|armlet|circlet|necklace|choker|jewelry/.test(name)) return 'jewelry';
-    if (/hat|cap|helmet|headwear|hood|crown|beret|bonnet|tiara/.test(name)) return 'headwear';
-    if (/coat|jacket|cardigan|cloak|cape|poncho|parka/.test(name)) return 'outerwear';
+    if (/(?:^|_)(?:hat|cap|helmet|headwear|hood|crown|beret|bonnet|tiara|headdress)$/.test(name)) return 'headwear';
+    if (/coat|jacket|cardigan|cloak|cape$|poncho|parka|hoodie/.test(name)) return 'outerwear';
     if (/shirt|blouse|sweater|top$|vest|camisole|hoodie|turtleneck/.test(name)) return 'top';
     if (/skirt|pants|shorts|trousers|jeans/.test(name)) return 'bottom';
-    if (/sock|stocking|pantyhose|leggings|legwear|leg_warmers/.test(name)) return 'legwear';
+    if (/sock|stocking|pantyhose|leggings|legwear|leg_warmers|thighhighs|kneehighs/.test(name)) return 'legwear';
     if (/shoe|boot|sandal|heel|loafer|slipper|footwear|barefoot/.test(name)) return 'footwear';
     if (/bikini|swimsuit|school_swimsuit|wetsuit|bodysuit|leotard|one-piece_swimsuit|rash_guard/.test(name)) return 'swimwear';
-    if (/dress$|gown|robe$|sundress|cocktail_dress|evening_dress/.test(name)) return 'dresses';
+    if (/(?:^dress$|_dress$|^gown$|_gown$|^robe$|_robe$|sundress$)/.test(name)) return 'dresses';
     if (/kimono|yukata|hakama|hanfu|qipao|china_dress|sari|traditional/.test(name)) return 'traditional';
     if (/uniform|costume|maid|nurse|armor|suit$|witch|miko|sportswear|track_suit/.test(name)) return 'outfit_theme';
     if (/glove|scarf|necktie|bowtie|belt|suspender|apron|hair_ornament|hair_ribbon|hair_bow|hairband|hairclip|headband|veil|neckerchief/.test(name)) return 'accessory';
@@ -96,6 +99,7 @@ function classify(source, name) {
     return 'base_pose';
   }
   if (source.includes('image_composition')) {
+    if (/lens_flare|chromatic_aberration|bokeh|bloom|glow|light/.test(name)) return 'light_effect';
     if (/from_|angle|view$|profile|top-down|side_view|behind/.test(name)) return 'angle';
     if (/perspective|foreshorten|pov|lens|reflection|over-the-shoulder/.test(name)) return 'perspective';
     if (/blur|focus|depth|speed_lines|motion|zoom/.test(name)) return 'focus';
@@ -106,7 +110,8 @@ function classify(source, name) {
     if (/backlight|rim_light|side_light|top_light|underlight|light_rays|dappled|crepuscular/.test(name)) return 'light_direction';
     if (/sunlight|moonlight|candle|firelight|spotlight|neon|window_light|screen_light|light_source/.test(name)) return 'light_source';
     if (/mist|smoke|dust|ember|snowflake|raindrop|underwater|haze/.test(name)) return 'atmosphere';
-    return 'light_effect';
+    if (/light|lighting|shadow|sun|moon|glow|flare|illumination|ray|spotlight|candle|neon|reflection|silhouette|backlit|darkness|contrast/.test(name)) return 'light_effect';
+    return null;
   }
   return null;
 }
@@ -123,6 +128,7 @@ async function json(url) {
 }
 
 const currentSource = await readFile(new URL('../app/tag-data.ts', import.meta.url), 'utf8');
+const japaneseCopy = JSON.parse(await readFile(new URL('./.japanese-copy.tmp.json', import.meta.url), 'utf8'));
 const currentTags = [...currentSource.matchAll(/\bt\('([^']+)'/g)].map(match => match[1].replaceAll(' ', '_'));
 const candidates = new Map();
 for (const [title, category] of sources) {
@@ -130,9 +136,9 @@ for (const [title, category] of sources) {
   if (!pages[0]) continue;
   for (const match of pages[0].body.matchAll(/\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]/g)) {
     const name = match[1].trim().toLowerCase().replaceAll(' ', '_');
-    if (!name || !/^[a-z0-9_()'-]+$/.test(name) || structural.test(name) || excluded.test(name) || unsafe.test(name)) continue;
+    if (!name || !/^[a-z0-9_()'-]+$/.test(name) || structural.test(name) || excluded.test(name) || unsafe.test(name) || /(?:^|_)cover(?:$|_)/.test(name)) continue;
     const key = classify(title, name);
-    if (key && groupInfo[key]) candidates.set(name, key);
+    if (key && groupInfo[key] && !candidates.has(name)) candidates.set(name, key);
   }
 }
 
@@ -150,11 +156,30 @@ for (let index = 0; index < lookupNames.length; index += 75) {
 
 const groups = new Map();
 for (const [name, key] of candidates) {
-  if (!general.has(name)) continue;
+  if (!general.has(name) || !japaneseCopy[name]?.ja) continue;
   const [categoryId, subcategoryId, subcategoryName, optional, note] = groupInfo[key];
   const groupKey = `${categoryId}:${subcategoryId}`;
   if (!groups.has(groupKey)) groups.set(groupKey, { categoryId, subcategoryId, subcategoryName, optional, tags: [] });
-  groups.get(groupKey).tags.push({ tag: name.replaceAll('_', ' '), ja: label(name), note, postCount: counts[name] });
+  const ja = japaneseCopy[name].ja;
+  const naturalNote = subcategoryId === 'hair_color' ? `髪色を「${ja}」にする。`
+    : categoryId === 'hair' ? `「${ja}」の髪型になる。`
+    : subcategoryId === 'eye_color' ? `「${ja}」になる。`
+    : ['pupils','eye_shape'].includes(subcategoryId) ? `目元を「${ja}」にする。`
+    : subcategoryId === 'skin' ? `肌を「${ja}」にする。`
+    : subcategoryId === 'wings' ? `「${ja}」を生やす。`
+    : subcategoryId === 'body_type' ? `「${ja}」の体格になる。`
+    : categoryId === 'body' ? `「${ja}」の特徴が加わる。`
+    : categoryId === 'outfit' ? `「${ja}」を身につける。`
+    : name === 'transparent_background' ? '背景を透明にする。'
+    : categoryId === 'background' ? `背景に「${ja}」を描く。`
+    : categoryId === 'pose' ? `「${ja}」の姿勢・動作になる。`
+    : name === 'from_above' ? '上から見下ろす構図。'
+    : name === 'from_below' ? '下から見上げる構図。'
+    : name === 'from_behind' ? '人物を後ろから写す。'
+    : categoryId === 'camera' ? `「${ja}」の構図になる。`
+    : categoryId === 'lighting' ? `「${ja}」の光・空気感になる。`
+    : note;
+  groups.get(groupKey).tags.push({ tag: name.replaceAll('_', ' '), ja, note: naturalNote, postCount: counts[name] });
 }
 for (const group of groups.values()) group.tags.sort((a, b) => b.postCount - a.postCount);
 

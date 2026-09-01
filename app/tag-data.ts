@@ -67,6 +67,7 @@ const categoryData: Category[] = [
 ];
 
 type ImportedGroup = { categoryId: string; subcategoryId: string; subcategoryName: string; optional: boolean; tags: Tag[] };
+const knownTags = new Set(categoryData.flatMap(category => category.subcategories.flatMap(subcategory => subcategory.tags.map(item => item.tag))));
 for (const group of importedGroups as ImportedGroup[]) {
   const category = categoryData.find(item => item.id === group.categoryId);
   if (!category) continue;
@@ -75,8 +76,9 @@ for (const group of importedGroups as ImportedGroup[]) {
     subcategory = s(group.subcategoryId, group.subcategoryName, [], group.optional);
     category.subcategories.push(subcategory);
   }
-  const known = new Set(subcategory.tags.map(item => item.tag));
-  subcategory.tags.push(...group.tags.filter(item => !known.has(item.tag)));
+  const additions = group.tags.filter(item => !knownTags.has(item.tag));
+  additions.forEach(item => knownTags.add(item.tag));
+  subcategory.tags.push(...additions);
 }
 
 export const categories: Category[] = [
