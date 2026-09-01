@@ -1,140 +1,129 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Check, Clipboard, Copy, Dice5, Lock, LockOpen, Search, Sparkles, X } from 'lucide-react';
+import { BookOpen, Check, Copy, Dice5, Lock, LockOpen, Save, Search, Sparkles, Trash2, UserRound, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { allTags, categories, type Category, type Subcategory, type Tag } from './tag-data';
 
-type Tag = { tag: string; ja: string; note: string };
-type Category = { id: string; name: string; icon: string; color: string; tags: Tag[] };
-const t = (tag: string, ja: string, note: string): Tag => ({ tag, ja, note });
-
-const categories: Category[] = [
-  { id: 'hair', name: '髪型', icon: '✂', color: '#ee7d63', tags: [
-    t('long hair','ロングヘア','肩より下まで伸びた長い髪。'), t('short hair','ショートヘア','首元までの短い髪。'),
-    t('bob cut','ボブカット','顎まわりで揃えた丸い短髪。'), t('ponytail','ポニーテール','後ろで一本に束ねた髪。'),
-    t('high ponytail','ハイポニー','頭の高い位置で束ねた髪。'), t('twintails','ツインテール','髪全体を左右二つに結ぶ。'),
-    t('two side up','ツーサイドアップ','一部だけ左右で結び、残りは下ろす。'), t('single braid','一本三つ編み','一本にまとめた編み髪。'),
-    t('hair bun','お団子ヘア','髪を丸くまとめた髪型。'), t('messy hair','無造作ヘア','寝癖のように乱れた髪。'),
-    t('hime cut','姫カット','ぱっつん前髪と直線的な横髪。'), t('hair over one eye','片目隠れ','前髪が片方の目を覆う。'),
-  ]},
-  { id: 'outfit', name: '服装', icon: '◇', color: '#6f79d8', tags: [
-    t('school uniform','学生服','学校の制服らしい装い。'), t('sailor collar','セーラー襟','背面が四角い水兵風の襟。'),
-    t('hoodie','パーカー','フード付きのカジュアルな上着。'), t('oversized shirt','オーバーサイズシャツ','体より大きくゆったりしたシャツ。'),
-    t('summer dress','サマードレス','薄手で涼しげなワンピース。'), t('business suit','ビジネススーツ','ジャケット中心の仕事着。'),
-    t('maid','メイド服','エプロンを合わせた給仕服。'), t('kimono','着物','帯を締めた和装。'),
-    t('track suit','ジャージ','運動用の上下セット。'), t('denim shorts','デニムショートパンツ','短丈のジーンズ素材パンツ。'),
-    t('pleated skirt','プリーツスカート','細かなひだのあるスカート。'), t('trench coat','トレンチコート','ベルト付きの長いコート。'),
-  ]},
-  { id: 'background', name: '背景', icon: '▧', color: '#45a77f', tags: [
-    t('classroom','教室','机と黒板のある学校の教室。'), t('bedroom','寝室','ベッドのある個人的な室内。'),
-    t('convenience store','コンビニ','商品棚と明るい店内照明。'), t('city street','街路','建物に囲まれた街中の道。'),
-    t('train station','駅','ホームや改札のある鉄道駅。'), t('rooftop','屋上','空が広く見える建物の屋上。'),
-    t('cafe','カフェ','テーブルと飲み物のある喫茶空間。'), t('forest','森林','木々に囲まれた自然の中。'),
-    t('beach','海辺','砂浜と海が広がる場所。'), t('Japanese garden','日本庭園','池や石、植木のある和風庭園。'),
-    t('night sky','夜空','暗い空に星や月が見える。'), t('simple background','シンプル背景','情報量を抑えた単色寄りの背景。'),
-  ]},
-  { id: 'prop', name: '小物', icon: '♢', color: '#d99b32', tags: [
-    t('smartphone','スマートフォン','手に収まる現代的な携帯端末。'), t('umbrella','傘','雨や日差しを避ける開いた傘。'),
-    t('book','本','手持ちや机上に置かれた本。'), t('headphones','ヘッドホン','頭や首に掛ける大型イヤホン。'),
-    t('shopping bag','買い物袋','買った品物を入れた手提げ袋。'), t('coffee cup','コーヒーカップ','温かい飲み物の入ったカップ。'),
-    t('camera','カメラ','写真撮影用のカメラ。'), t('stuffed toy','ぬいぐるみ','柔らかな動物や人物の人形。'),
-    t('handbag','ハンドバッグ','手に持つ小型の鞄。'), t('bouquet','花束','複数の花を束ねたもの。'),
-    t('lollipop','棒付きキャンディ','棒の付いた丸い飴。'), t('paper fan','扇子','折りたためる和風の扇。'),
-  ]},
-  { id: 'pose', name: 'ポーズ', icon: '⌁', color: '#b46bb9', tags: [
-    t('standing','立つ','直立した基本姿勢。'), t('sitting','座る','椅子や床に腰を下ろす。'),
-    t('kneeling','ひざまずく','膝を床につけた姿勢。'), t('lying','横になる','体を寝かせた姿勢。'),
-    t('looking back','振り返る','体と逆方向へ顔を向ける。'), t('hands on hips','腰に手','両手または片手を腰に当てる。'),
-    t('arms behind back','後ろ手','両腕を背中側へ回す。'), t('crossed arms','腕組み','胸の前で両腕を交差する。'),
-    t('peace sign','ピースサイン','二本指をV字に立てる。'), t('hand in pocket','ポケットに手','片手を服のポケットに入れる。'),
-    t('walking','歩く','一歩踏み出した動きのある姿勢。'), t('stretching','伸びをする','腕や体を大きく伸ばす。'),
-  ]},
-  { id: 'expression', name: '表情', icon: '☺', color: '#e0628b', tags: [
-    t('smile','微笑み','口元を軽く上げた表情。'), t('grin','にっこり笑う','歯が見えるほど大きく笑う。'),
-    t('serious','真剣','笑わず引き締まった表情。'), t('surprised','驚き','目と口を大きく開いた表情。'),
-    t('blush','赤面','頬が赤く染まった状態。'), t('sleepy','眠そう','まぶたが重く力の抜けた表情。'),
-    t('pout','ふくれっ面','不満げに唇を尖らせる。'), t('smirk','得意げな笑み','片側の口角を上げた笑み。'),
-  ]},
-  { id: 'camera', name: '構図・カメラ', icon: '⌾', color: '#3e90be', tags: [
-    t('full body','全身','頭から足先まで画面に入れる。'), t('upper body','上半身','腰より上を中心に写す。'),
-    t('portrait','ポートレート','顔や上半身を主役にする。'), t('close-up','接写','被写体へ大きく寄った構図。'),
-    t('from above','俯瞰','被写体を上から見下ろす。'), t('from below','あおり','被写体を下から見上げる。'),
-    t('dutch angle','斜め構図','カメラを傾けた不安定な構図。'), t('depth of field','被写界深度','前後をぼかして主役を際立たせる。'),
-  ]},
-  { id: 'atmosphere', name: '照明・天候', icon: '☼', color: '#7b9c48', tags: [
-    t('sunlight','日差し','太陽からの明るい自然光。'), t('golden hour','ゴールデンアワー','夕方の柔らかな金色の光。'),
-    t('neon lights','ネオン照明','鮮やかな色の人工光。'), t('backlighting','逆光','被写体の背後から光が差す。'),
-    t('rain','雨','雨粒や濡れた景色が見える。'), t('snowing','降雪','雪が空から舞い落ちる。'),
-    t('fog','霧','白い霞で遠景がぼやける。'), t('wind','風','髪や服が風になびく。'),
-  ]},
-];
-
-const empty: Record<string, Tag | null> = Object.fromEntries(categories.map(c => [c.id, null]));
-const random = (tags: Tag[], old?: Tag | null) => {
-  const pool = tags.length > 1 ? tags.filter(x => x.tag !== old?.tag) : tags;
-  return pool[Math.floor(Math.random() * pool.length)];
+type Selection = Record<string, Tag[]>;
+type SavedCharacter = { id: string; name: string; tags: Record<string, Tag[]> };
+const blankSelection = (): Selection => Object.fromEntries(categories.flatMap(c => c.subcategories.map(s => [s.id, []])));
+const pick = (items: Tag[], current: Tag[]) => {
+  const pool = items.length > 1 ? items.filter(item => !current.some(x => x.tag === item.tag)) : items;
+  return pool[Math.floor(Math.random() * pool.length)] ?? items[0];
 };
 
 export default function Home() {
-  const [selected, setSelected] = useState<Record<string, Tag | null>>(empty);
+  const [selected, setSelected] = useState<Selection>(blankSelection);
   const [locked, setLocked] = useState<Record<string, boolean>>({});
-  const [quality, setQuality] = useState('');
-  const [position, setPosition] = useState<'before' | 'after'>('before');
+  const [activeId, setActiveId] = useState('hair');
+  const [dictionaryOpen, setDictionaryOpen] = useState(false);
+  const [dictCategory, setDictCategory] = useState('hair');
   const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [characterOpen, setCharacterOpen] = useState(false);
+  const [characterName, setCharacterName] = useState('');
+  const [characters, setCharacters] = useState<SavedCharacter[]>([]);
+  const [quality, setQuality] = useState('');
+  const [position, setPosition] = useState<'before'|'after'>('before');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    try { const s = JSON.parse(localStorage.getItem('tag-gacha-settings') || '{}'); setQuality(s.quality || ''); setPosition(s.position || 'before'); } catch {}
+    try {
+      const settings = JSON.parse(localStorage.getItem('tag-gacha-settings-v2') || '{}');
+      setQuality(settings.quality || ''); setPosition(settings.position || 'before');
+      setCharacters(JSON.parse(localStorage.getItem('tag-gacha-characters') || '[]'));
+    } catch {}
   }, []);
-  useEffect(() => { localStorage.setItem('tag-gacha-settings', JSON.stringify({ quality, position })); }, [quality, position]);
+  useEffect(() => { localStorage.setItem('tag-gacha-settings-v2', JSON.stringify({ quality, position })); }, [quality, position]);
+  useEffect(() => { localStorage.setItem('tag-gacha-characters', JSON.stringify(characters)); }, [characters]);
 
-  const picked = useMemo(() => categories.map(c => selected[c.id]?.tag).filter(Boolean) as string[], [selected]);
+  const active = categories.find(c => c.id === activeId) ?? categories[0];
+  const flatSelected = useMemo(() => categories.flatMap(c => c.subcategories.flatMap(s => selected[s.id] || [])), [selected]);
+  const tagNames = useMemo(() => [...new Set(flatSelected.map(t => t.tag))], [flatSelected]);
   const prompt = useMemo(() => {
-    const main = picked.join(', '), fixed = quality.trim().replace(/^,|,$/g, '').trim();
+    const main = tagNames.join(', '); const fixed = quality.trim().replace(/^,|,$/g, '').trim();
     return fixed && main ? (position === 'before' ? `${fixed}, ${main}` : `${main}, ${fixed}`) : fixed || main;
-  }, [picked, quality, position]);
-  const shown = useMemo(() => {
+  }, [tagNames, quality, position]);
+  const shownTags = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return categories.flatMap(category => category.tags.map(tag => ({ ...tag, category }))).filter(x =>
-      (filter === 'all' || x.category.id === filter) && (!q || `${x.tag} ${x.ja} ${x.note}`.toLowerCase().includes(q))
-    );
-  }, [filter, query]);
+    return allTags.filter(x => x.category.id === dictCategory && (!q || `${x.tag} ${x.ja} ${x.note}`.toLowerCase().includes(q)));
+  }, [dictCategory, query]);
 
-  const roll = (category: Category) => !locked[category.id] && setSelected(v => ({ ...v, [category.id]: random(category.tags, v[category.id]) }));
-  const rollAll = () => setSelected(v => Object.fromEntries(categories.map(c => [c.id, locked[c.id] ? v[c.id] : random(c.tags, v[c.id])])));
-  const choose = (category: Category, tag: Tag) => setSelected(v => ({ ...v, [category.id]: v[category.id]?.tag === tag.tag ? null : tag }));
-  const copy = async () => { if (!prompt) return; await navigator.clipboard.writeText(prompt); setCopied(true); setTimeout(() => setCopied(false), 1600); };
+  const toggleTag = (subcategoryId: string, tag: Tag) => setSelected(v => {
+    const current = v[subcategoryId] || []; const exists = current.some(x => x.tag === tag.tag);
+    return { ...v, [subcategoryId]: exists ? current.filter(x => x.tag !== tag.tag) : [...current, tag] };
+  });
+  const rollSubcategory = (subcategory: Subcategory) => {
+    if (locked[subcategory.id]) return;
+    setSelected(v => ({ ...v, [subcategory.id]: [pick(subcategory.tags, v[subcategory.id] || [])] }));
+  };
+  const rollCategory = (category: Category) => setSelected(v => ({ ...v, ...Object.fromEntries(category.subcategories.map(s => [s.id, locked[s.id] ? v[s.id] : [pick(s.tags, v[s.id] || [])]])) }));
+  const rollAll = () => setSelected(v => ({ ...v, ...Object.fromEntries(categories.flatMap(c => c.subcategories.map(s => [s.id, locked[s.id] ? v[s.id] : [pick(s.tags, v[s.id] || [])]]))) }));
+  const clear = () => setSelected(blankSelection());
+  const copyPrompt = async () => { if (!prompt) return; await navigator.clipboard.writeText(prompt); setCopied(true); setTimeout(() => setCopied(false), 1400); };
+
+  const saveCharacter = () => {
+    const name = characterName.trim(); if (!name) return;
+    const ids = categories.filter(c => c.id === 'hair' || c.id === 'body').flatMap(c => c.subcategories.map(s => s.id));
+    const tags = Object.fromEntries(ids.map(id => [id, selected[id] || []]));
+    setCharacters(v => [...v, { id: crypto.randomUUID(), name, tags }]); setCharacterName('');
+  };
+  const applyCharacter = (character: SavedCharacter) => {
+    setSelected(v => ({ ...v, ...character.tags }));
+    const ids = Object.keys(character.tags); setLocked(v => ({ ...v, ...Object.fromEntries(ids.map(id => [id, true])) }));
+    setCharacterOpen(false);
+  };
 
   return <main className="min-h-screen pb-28">
-    <header className="topbar"><div className="shell flex h-full items-center justify-between gap-4">
-      <div className="flex min-w-0 items-center gap-3"><div className="logo-mark"><Dice5 /></div><div className="min-w-0"><p className="truncate text-[10px] font-bold tracking-[.14em] text-[var(--ink-soft)]">SDXL DANBOORU PROMPT TOOL</p><h1 className="truncate text-lg font-black sm:text-xl">タグガチャ</h1></div></div>
-      <Button onClick={rollAll} className="roll-all h-11 rounded-full px-4 sm:px-6"><Sparkles /><span className="hidden sm:inline">ぜんぶまとめて</span>抽選</Button>
+    <header className="topbar"><div className="shell topbar-inner">
+      <div className="brand"><span className="logo-mark"><Dice5 /></span><span><small>SDXL DANBOORU</small><strong>タグガチャ</strong></span></div>
+      <div className="header-actions">
+        <Button variant="outline" className="header-tool" onClick={() => setCharacterOpen(true)}><UserRound /><span>キャラ固定</span>{characters.length > 0 && <b>{characters.length}</b>}</Button>
+        <Button variant="outline" className="header-tool" onClick={() => setDictionaryOpen(true)}><BookOpen /><span>辞書から選ぶ</span></Button>
+        <Button className="roll-all" onClick={rollAll}><Sparkles /><span className="wide-label">ぜんぶまとめて</span>抽選</Button>
+      </div>
     </div></header>
 
-    <div className="shell pt-6 sm:pt-9">
-      <section><div className="mb-4 flex flex-wrap items-end justify-between gap-3"><div><p className="section-kicker">01 / RANDOMIZE</p><h2 className="section-title">カテゴリ別に引く</h2></div><p className="text-xs text-[var(--ink-soft)]">固定したカードは一括抽選でも変わりません</p></div>
-        <div className="category-grid">{categories.map(category => { const item = selected[category.id]; return <article key={category.id} className="category-card" style={{ '--cat': category.color } as React.CSSProperties}>
-          <div className="flex items-center justify-between gap-2"><div className="flex items-center gap-2.5"><span className="category-icon">{category.icon}</span><h3 className="font-extrabold">{category.name}</h3></div><button className="lock-button" aria-label={`${category.name}を固定`} onClick={() => setLocked(v => ({ ...v, [category.id]: !v[category.id] }))}>{locked[category.id] ? <Lock /> : <LockOpen />}</button></div>
-          <div className="result-box">{item ? <><button aria-label="選択解除" className="remove-result" onClick={() => setSelected(v => ({ ...v, [category.id]: null }))}><X /></button><strong>{item.tag}</strong><span>{item.ja}</span><p>{item.note}</p></> : <p className="empty-result">まだ選ばれていません</p>}</div>
-          <Button variant="outline" className="h-10 w-full rounded-xl bg-white" onClick={() => roll(category)} disabled={locked[category.id]}><Dice5 />{locked[category.id] ? '固定中' : 'このカテゴリを抽選'}</Button>
-        </article>})}</div>
+    <div className="shell workspace">
+      <section className="prompt-dock">
+        <div className="prompt-main"><div className="prompt-meta"><strong>FINAL PROMPT</strong><span>{tagNames.length} tags</span></div><p>{prompt || 'カテゴリを抽選するか、辞書からタグを選んでください。'}</p></div>
+        <div className="quality-compact"><label>固定クオリティタグ</label><Input value={quality} onChange={e => setQuality(e.target.value)} placeholder="自分で入力（抽選対象外）"/><div className="segmented"><button className={position === 'before' ? 'active' : ''} onClick={() => setPosition('before')}>先頭</button><button className={position === 'after' ? 'active' : ''} onClick={() => setPosition('after')}>末尾</button></div></div>
+        <Button className="copy-main" onClick={copyPrompt} disabled={!prompt}>{copied ? <Check /> : <Copy />}{copied ? 'コピー済み' : 'コピー'}</Button>
       </section>
 
-      <section className="builder-section"><div><p className="section-kicker">02 / BUILD & COPY</p><h2 className="section-title">プロンプトを仕上げる</h2></div>
-        <div className="builder-grid"><div className="selected-panel"><div className="mb-3 flex items-center justify-between"><h3 className="font-extrabold">選択中のタグ</h3><button className="text-button" onClick={() => setSelected(empty)}>すべて外す</button></div><div className="chip-area">{categories.map(c => selected[c.id] && <button key={c.id} className="tag-chip" style={{ '--cat': c.color } as React.CSSProperties} onClick={() => setSelected(v => ({ ...v, [c.id]: null }))}><span>{selected[c.id]!.tag}</span><X /></button>)}{!picked.length && <span className="text-sm text-[var(--ink-soft)]">抽選するか、下の一覧から選んでください。</span>}</div></div>
-          <div className="quality-panel"><div className="mb-2 flex items-center justify-between gap-3"><div><h3 className="font-extrabold">固定クオリティタグ</h3><p className="mt-0.5 text-xs text-[var(--ink-soft)]">抽選対象には含まれません</p></div><div className="position-switch"><button className={position === 'before' ? 'active' : ''} onClick={() => setPosition('before')}>先頭</button><button className={position === 'after' ? 'active' : ''} onClick={() => setPosition('after')}>末尾</button></div></div><Input value={quality} onChange={e => setQuality(e.target.value)} className="h-11 rounded-xl bg-white" placeholder="自分の固定タグをカンマ区切りで入力" /></div>
-          <div className="output-panel"><div className="min-w-0 flex-1"><p className="mb-1 text-xs font-bold text-[var(--ink-soft)]">FINAL PROMPT</p><p className={`prompt-text ${prompt ? '' : 'text-[var(--ink-soft)]'}`}>{prompt || 'タグを選ぶとここに表示されます'}</p></div><Button onClick={copy} disabled={!prompt} className="copy-button h-12 rounded-xl px-5">{copied ? <Check /> : <Copy />}{copied ? 'コピー済み' : 'まとめてコピー'}</Button></div>
-        </div>
+      <nav className="category-tabs" aria-label="カテゴリ">
+        {categories.map(category => <button key={category.id} className={activeId === category.id ? 'active' : ''} style={{ '--cat': category.color } as React.CSSProperties} onClick={() => setActiveId(category.id)}><span>{category.icon}</span>{category.name}<b>{category.subcategories.reduce((n,s) => n + (selected[s.id]?.length || 0), 0)}</b></button>)}
+      </nav>
+
+      <section className="category-work" style={{ '--cat': active.color } as React.CSSProperties}>
+        <div className="work-heading"><div><p className="section-kicker">CATEGORY BUILDER</p><h1>{active.icon} {active.name}を組み立てる</h1><p>細分類ごとに抽選。選択済みタグは複数残せます。</p></div><div><Button variant="outline" onClick={() => { setDictCategory(active.id); setDictionaryOpen(true); }}><BookOpen />一覧から選ぶ</Button><Button onClick={() => rollCategory(active)}><Dice5 />このカテゴリを一括抽選</Button></div></div>
+        <div className="subcategory-grid">{active.subcategories.map(subcategory => <article className="subcategory-row" key={subcategory.id}>
+          <div className="sub-name"><strong>{subcategory.name}</strong>{subcategory.optional && <small>任意</small>}</div>
+          <div className="sub-values">{(selected[subcategory.id] || []).map(tag => <button key={tag.tag} className="selected-token" onClick={() => toggleTag(subcategory.id, tag)} title={tag.note}><span>{tag.tag}</span><small>{tag.ja}</small><X /></button>)}{!selected[subcategory.id]?.length && <span className="unselected">未選択</span>}</div>
+          <div className="sub-actions"><button className={locked[subcategory.id] ? 'locked' : ''} onClick={() => setLocked(v => ({ ...v, [subcategory.id]: !v[subcategory.id] }))} aria-label={`${subcategory.name}の固定`}>{locked[subcategory.id] ? <Lock /> : <LockOpen />}</button><button onClick={() => rollSubcategory(subcategory)} disabled={locked[subcategory.id]} aria-label={`${subcategory.name}を抽選`}><Dice5 /></button></div>
+        </article>)}</div>
+        <div className="category-bottom"><button onClick={() => setSelected(v => ({ ...v, ...Object.fromEntries(active.subcategories.map(s => [s.id, []])) }))}>このカテゴリを空にする</button><span>タグに触れると短い説明を確認できます</span></div>
       </section>
 
-      <section className="tag-library"><div className="mb-4 flex flex-wrap items-end justify-between gap-4"><div><p className="section-kicker">03 / TAG LIBRARY</p><h2 className="section-title">タグ一覧から選ぶ</h2></div><div className="search-box"><Search /><Input value={query} onChange={e => setQuery(e.target.value)} placeholder="英語・日本語で検索" /></div></div>
-        <div className="filter-row"><button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>すべて</button>{categories.map(c => <button key={c.id} className={filter === c.id ? 'active' : ''} onClick={() => setFilter(c.id)}>{c.name}</button>)}</div>
-        <div className="tag-list">{shown.map(x => { const on = selected[x.category.id]?.tag === x.tag; return <button key={`${x.category.id}-${x.tag}`} className={`library-tag ${on ? 'selected' : ''}`} style={{ '--cat': x.category.color } as React.CSSProperties} onClick={() => choose(x.category, x)}><span className="tag-dot"/><span className="min-w-0 flex-1 text-left"><strong>{x.tag}</strong><small>{x.ja} — {x.note}</small></span>{on ? <Check /> : <span className="plus">＋</span>}</button>})}</div>
-        {!shown.length && <div className="empty-search">該当するタグがありません。</div>}
-      </section>
+      <section className="selected-summary"><div className="summary-head"><div><p className="section-kicker">SELECTED TAGS</p><h2>現在の組み合わせ</h2></div><button onClick={clear}>すべて解除</button></div><div className="summary-chips">{categories.map(c => c.subcategories.flatMap(s => (selected[s.id] || []).map(tag => <button key={`${s.id}-${tag.tag}`} style={{ '--cat': c.color } as React.CSSProperties} onClick={() => toggleTag(s.id, tag)}><span>{tag.tag}</span><small>{s.name}</small><X /></button>)))}{!tagNames.length && <p>まだタグがありません。</p>}</div></section>
     </div>
-    <div className="mobile-copybar"><span><Clipboard /> {picked.length} tags</span><Button onClick={copy} disabled={!prompt}>{copied ? <Check /> : <Copy />}{copied ? 'コピー済み' : 'まとめてコピー'}</Button></div>
+
+    <Dialog open={dictionaryOpen} onOpenChange={setDictionaryOpen}><DialogContent className="dictionary-dialog" showCloseButton={false}>
+      <DialogHeader className="dialog-top"><div><DialogTitle>辞書から選んで作る</DialogTitle><DialogDescription>タグをタップして複数選択できます。</DialogDescription></div><button className="dialog-x" onClick={() => setDictionaryOpen(false)}><X /></button></DialogHeader>
+      <div className="dict-search"><Search /><Input value={query} onChange={e => setQuery(e.target.value)} placeholder="日本語・英語タグで検索"/></div>
+      <div className="dict-layout"><nav className="dict-categories">{categories.map(c => <button key={c.id} className={dictCategory === c.id ? 'active' : ''} style={{ '--cat': c.color } as React.CSSProperties} onClick={() => setDictCategory(c.id)}><span>{c.icon}</span>{c.name}<b>{c.subcategories.reduce((n,s) => n + (selected[s.id]?.length || 0),0)}</b></button>)}</nav>
+        <div className="dict-content">{(categories.find(c => c.id === dictCategory)?.subcategories || []).map(sub => { const tags = shownTags.filter(x => x.subcategory.id === sub.id); if (!tags.length) return null; return <section key={sub.id}><h3>{sub.name}<small>複数選択可</small></h3><div className="dict-tags">{tags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><small>{item.note}</small>{on && <Check />}</button>})}</div></section>})}{!shownTags.length && <p className="no-result">一致するタグがありません。</p>}</div>
+      </div><footer className="dict-footer"><span>{tagNames.length}件 選択中</span><Button onClick={() => setDictionaryOpen(false)}>選択を反映して閉じる</Button></footer>
+    </DialogContent></Dialog>
+
+    <Dialog open={characterOpen} onOpenChange={setCharacterOpen}><DialogContent className="character-dialog">
+      <DialogHeader><DialogTitle>キャラ固定</DialogTitle><DialogDescription>髪・瞳・身体・種族の現在値を名前付きで保存し、いつでも固定できます。</DialogDescription></DialogHeader>
+      <div className="save-character"><Input value={characterName} onChange={e => setCharacterName(e.target.value)} placeholder="例：銀髪の看板娘" onKeyDown={e => e.key === 'Enter' && saveCharacter()}/><Button onClick={saveCharacter} disabled={!characterName.trim()}><Save />現在の外見を保存</Button></div>
+      <div className="character-list">{characters.map(character => { const names = Object.values(character.tags).flat().map(t => t.tag); return <article key={character.id}><div><strong>{character.name}</strong><p>{names.length ? names.join(', ') : 'タグなし'}</p></div><Button size="sm" onClick={() => applyCharacter(character)}><Lock />適用して固定</Button><button className="delete-character" aria-label={`${character.name}を削除`} onClick={() => setCharacters(v => v.filter(x => x.id !== character.id))}><Trash2 /></button></article>})}{!characters.length && <div className="empty-characters"><UserRound /><p>まだ保存されたキャラはいません。</p></div>}</div>
+    </DialogContent></Dialog>
+
+    <div className="mobile-bar"><span>{tagNames.length} tags</span><Button variant="outline" onClick={() => setDictionaryOpen(true)}><BookOpen />辞書</Button><Button onClick={copyPrompt} disabled={!prompt}>{copied ? <Check /> : <Copy />}{copied ? '済み' : 'コピー'}</Button></div>
   </main>;
 }
