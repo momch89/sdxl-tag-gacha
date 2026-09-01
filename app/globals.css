@@ -617,6 +617,29 @@ button {
   font-size: 9px;
   font-weight: 600;
 }
+.dict-micro + .dict-micro {
+  margin-top: 11px;
+}
+.dict-content h4 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 6px;
+  color: #68645d;
+  font-size: 10px;
+  font-weight: 750;
+}
+.dict-content h4::before {
+  width: 12px;
+  height: 1px;
+  background: var(--cat);
+  content: '';
+}
+.dict-content h4 small {
+  color: var(--soft);
+  font-size: 8px;
+  font-weight: 600;
+}
 .dict-tags {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

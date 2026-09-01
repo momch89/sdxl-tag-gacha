@@ -1,128 +1,172 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
-const ROOT = new URL('../', import.meta.url);
 const API = 'https://danbooru.donmai.us';
-const HEADERS = { 'User-Agent': 'SDXLTagGacha/1.0 (tag dictionary sync)' };
+const HEADERS = { 'User-Agent': 'SDXLTagGacha/1.0 (SoreNuts taxonomy sync)' };
 
-const sources = [
-  ['tag_group:hair_styles', 'hair'], ['tag_group:hair_color', 'hair'],
-  ['tag_group:eyes_tags', 'body'], ['tag_group:skin_color', 'body'], ['tag_group:body_parts', 'body'], ['tag_group:wings', 'body'],
-  ['tag_group:attire', 'outfit'], ['tag_group:backgrounds', 'background'], ['tag_group:locations', 'background'],
-  ['tag_group:posture', 'pose'], ['tag_group:hands', 'pose'],
-  ['tag_group:image_composition', 'camera'], ['tag_group:lighting', 'lighting'],
-];
-
-const excluded = /(?:masterpiece|quality|absurdres|highres|lowres|artist|artstyle|drawn_by|inspired_by|official_art|official_style|traditional_media|watercolor|oil_painting|pixel_art|sketch|lineart|realistic|photorealistic|3d|render|anime_coloring|flat_color|limited_palette|monochrome|greyscale|sepia|oekaki|vector_trace|ai-generated|painterly|fine_art|manga|comic|koma|screentone|hatching|dithering|halftone|film_grain|still_life|surreal|abstract|collage|glitch|artistic_error|bad_anatomy|bad_hands|bad_feet|bad_proportions|censored|uncensored|watermark|web_address|logo|outline|no_humans|outside_border|cover_page|doujin_cover|album_cover|magazine_cover|fake_cover|calendar_\(medium\)|card_\(medium\)|screenshot|typo|ranguage)/i;
-const unsafe = /(?:sex|nude|naked|penis|vagina|anus|pussy|cum|semen|nipple|areola|masturbat|fellatio|paizuri|rape|bondage|guro|corpse|decapitat|vore|urine|feces|ass(?:$|_)|breast|pubic|erection|testicle|clitoris|groin|cervix|uterus|perineum|foreskin|phimosis|mons|cameltoe|bulge|cleavage|underboob|sideboob|no_bra|groping|fondling|molestation)/i;
+const excluded = /(?:masterpiece|quality|absurdres|highres|lowres|artist|artstyle|drawn_by|inspired_by|official_art|official_style|traditional_media|watercolor|oil_painting|pixel_art|sketch|lineart|realistic|photorealistic|3d|render|anime_coloring|flat_color|limited_palette|monochrome|greyscale|sepia|oekaki|vector_trace|ai-generated|painterly|fine_art|manga|comic|koma|screentone|hatching|dithering|halftone|film_grain|still_life|surreal|abstract|collage|glitch|artistic_error|bad_anatomy|bad_hands|bad_feet|bad_proportions|censored|uncensored|watermark|web_address|logo|outline|no_humans|outside_border|screenshot|typo|ranguage)/i;
+const unsafe = /(?:sex|nude|naked|penis|vagina|anus|pussy|cum|semen|nipple|areola|masturbat|fellatio|paizuri|rape|bondage|guro|corpse|decapitat|vore|urine|feces|ass(?:$|_)|breast|pubic|erection|testicle|clitoris|groin|cervix|uterus|perineum|foreskin|phimosis|mons|cameltoe|bulge|cleavage|underboob|sideboob|no_bra|groping|fondling|molestation|aroused|in_heat|fucked|ahegao|torogao)/i;
 const structural = /^(?:tag_group:|list_of_|help:|howto:|topic:|template:)/;
-
-const tokenJa = {
-  black:'黒', white:'白', red:'赤', blue:'青', green:'緑', yellow:'黄', pink:'ピンク', purple:'紫', orange:'橙', brown:'茶', grey:'灰', gray:'灰', aqua:'水色', gold:'金', golden:'金色', silver:'銀', dark:'濃い', light:'明るい', multicolored:'多色', two:'二つ', multiple:'複数', single:'一つ', long:'長い', short:'短い', very:'とても', hair:'髪', bangs:'前髪', braid:'三つ編み', braided:'編み込み', bun:'お団子', ponytail:'ポニーテール', twintails:'ツインテール', sidelocks:'横髪', forehead:'額', eyes:'瞳', eye:'目', pupils:'瞳孔', pupil:'瞳孔', sclera:'白目', skin:'肌', face:'顔', facial:'顔', ears:'耳', tail:'尻尾', wings:'翼', horns:'角', shirt:'シャツ', blouse:'ブラウス', sweater:'セーター', jacket:'ジャケット', coat:'コート', skirt:'スカート', pants:'パンツ', shorts:'短パン', dress:'ドレス', uniform:'制服', sleeves:'袖', sleeve:'袖', socks:'靴下', stockings:'ストッキング', boots:'ブーツ', shoes:'靴', gloves:'手袋', hat:'帽子', cap:'帽子', hood:'フード', collar:'襟', bow:'リボン', ribbon:'リボン', belt:'ベルト', indoors:'屋内', outdoors:'屋外', room:'部屋', street:'通り', city:'街', forest:'森', mountain:'山', beach:'海辺', sky:'空', cloud:'雲', clouds:'雲', background:'背景', standing:'立ち', sitting:'座り', lying:'寝姿勢', kneeling:'膝立ち', arms:'腕', arm:'腕', hands:'手', hand:'手', legs:'脚', leg:'脚', looking:'見る', viewer:'こちら', head:'頭', body:'身体', holding:'持つ', light:'光', lighting:'照明', shadow:'影', shadows:'影', sunlight:'日差し', moonlight:'月明かり', backlighting:'逆光', close:'近い', view:'視点', from:'から', above:'上', below:'下', behind:'後ろ', side:'横', full:'全体', upper:'上半分', focus:'焦点', perspective:'遠近', motion:'動き', blur:'ぼけ', depth:'奥行き', open:'開く', closed:'閉じる', crossed:'交差', raised:'上げる', tilted:'傾ける', on:'上', off:'外す', around:'周り', under:'下', over:'上', own:'自分の', other:'他人の', animal:'動物', demon:'悪魔', angel:'天使', bird:'鳥', insect:'虫', mechanical:'機械', transparent:'透明', glowing:'発光', simple:'単純', gradient:'グラデーション', pattern:'模様', striped:'縞', plaid:'チェック', high:'高い', low:'低い', front:'前', back:'後ろ', left:'左', right:'右', one:'片方', both:'両方', with:'付き', without:'なし'
-};
-
-const exactJa = {
-  ahoge:'アホ毛', drill_hair:'縦ロール', hime_cut:'姫カット', bob_cut:'ボブ', pixie_cut:'ピクシーカット', blunt_bangs:'ぱっつん前髪', asymmetrical_bangs:'非対称前髪', hair_over_one_eye:'片目隠れ', hair_between_eyes:'目の間の髪', animal_ears:'獣耳', pointy_ears:'尖り耳', heterochromia:'オッドアイ', tareme:'たれ目', tsurime:'つり目', sanpaku:'三白眼', serafuku:'セーラー服', kimono:'着物', yukata:'浴衣', hakama:'袴', maid:'メイド服', barefoot:'裸足', thighhighs:'ニーハイ', pantyhose:'パンスト', kneehighs:'膝下ソックス', from_above:'俯瞰', from_below:'あおり', cowboy_shot:'膝上構図', 'close-up':'接写', full_body:'全身', upper_body:'上半身', looking_at_viewer:'こちらを見る', depth_of_field:'被写界深度', rim_lighting:'リムライト', dappled_sunlight:'木漏れ日', lens_flare:'レンズフレア'
-};
+const unsafePlacement = /女性器|男性器|性器|胸揉み|乳合わせ|性的|性交|成人向け/;
+const unsafeJapanese = /胸揉み|乳合わせ|裏乳|胸部を揉/;
 
 const groupInfo = {
-  hair_color:['hair','hair_color','髪色',false,'髪色として反映。'], hair_effect:['hair','hair_extra','色分け・特殊髪',true,'髪の色分けや特殊効果。'], hair_length:['hair','hair_length','長さ・量',false,'髪の長さや量を指定。'], bangs:['hair','bangs','前髪・額',false,'前髪や額まわりの形。'], tied_hair:['hair','tied_hair','結び髪',false,'髪を結んだ形。'], braids_buns:['hair','braids_buns','三つ編み・お団子',false,'編み髪やまとめ髪。'], hair_texture:['hair','hair_texture','髪質・毛先',false,'髪の質感や毛先の形。'], hairstyle:['hair','hairstyle','髪型',false,'髪型全体の形。'],
-  eye_color:['body','eye_color','瞳の色',false,'虹彩の色を指定。'], pupils:['body','pupils','瞳孔・虹彩',true,'瞳孔や虹彩の形。'], eye_shape:['body','eye_shape','目の形・状態',true,'目の形や開き方。'], skin:['body','skin','肌色・材質',false,'肌の色や材質を指定。'], face_feature:['body','face_feature','顔の特徴',true,'顔まわりの特徴。'], markings:['body','markings','身体の特徴',true,'身体の見える特徴。'], body_type:['body','body_type','体格',false,'体格や輪郭を指定。'], wings:['body','wings','翼',true,'翼の形や位置を指定。'],
-  headwear:['outfit','headwear','帽子・頭装備',true,'頭に着ける衣類。'], top:['outfit','top','トップス',false,'上半身の服。'], outerwear:['outfit','outerwear','上着・コート',true,'上から羽織る服。'], bottom:['outfit','bottom','ボトムス',false,'腰から下の服。'], legwear:['outfit','legwear','靴下・脚衣',true,'脚を覆う衣類。'], footwear:['outfit','footwear','履物',false,'靴や履物。'], outfit_theme:['outfit','outfit_theme','制服・衣装',false,'衣装全体のテーマ。'], traditional:['outfit','traditional','伝統衣装',true,'地域性のある伝統服。'], accessory:['outfit','accessory','服飾小物',true,'服に合わせる装身具。'], clothing_detail:['outfit','clothing_detail','着こなし',true,'袖や襟、着崩し方。'],
-  dresses:['outfit','dresses','ドレス・ワンピース',false,'一枚ものの衣服。'], swimwear:['outfit','swimwear','水着・ボディスーツ',true,'水着や身体に沿う衣装。'], eyewear:['outfit','eyewear','眼鏡・顔装備',true,'目や顔に着ける装備。'], jewelry:['outfit','jewelry','宝飾・アクセサリー',true,'身体に着ける装飾品。'],
-  indoor:['background','indoor','屋内',false,'屋内の場所を背景にする。'], urban:['background','urban','街・建物',false,'街や建物を背景にする。'], nature:['background','nature','自然',false,'自然の場所を背景にする。'], sky:['background','sky','空・天体',true,'空や天体を背景にする。'], weather:['background','weather','天候・季節',false,'天候や季節感を加える。'], background_detail:['background','background_detail','背景効果',true,'背景の見え方を指定。'],
-  base_pose:['pose','base_pose','基本姿勢',false,'身体の基本姿勢。'], arms:['pose','arms','腕',false,'腕の位置を指定。'], hands:['pose','hands','手・指',false,'手や指の形を指定。'], legs:['pose','legs','脚',false,'脚の位置を指定。'], gaze:['pose','gaze','視線・向き',false,'顔や視線の向き。'], action:['pose','action','移動・動作',true,'身体の動きを指定。'], interaction:['pose','interaction','交流',true,'他の人物との動作。'],
-  framing:['camera','framing','画角',false,'画面に入る範囲。'], angle:['camera','angle','アングル',false,'カメラの高さや向き。'], perspective:['camera','perspective','遠近・視点',true,'遠近感や主観視点。'], focus:['camera','focus','フォーカス・動き',true,'ぼけや動きの見え方。'], composition:['camera','composition','配置・レイアウト',true,'画面内の配置を指定。'],
-  light_source:['lighting','light_source','光源',false,'光源の種類を指定。'], light_direction:['lighting','light_direction','光の向き',false,'光が差す方向。'], light_effect:['lighting','light_effect','光・色の演出',true,'光学的な演出を加える。'], atmosphere:['lighting','atmosphere','空気・環境演出',true,'空気中の粒子や霞。']
+  hair_color:['hair','hair_color','髪色',false], hair_effect:['hair','hair_extra','色分け・特殊髪',true], hair_length:['hair','hair_length','髪の長さ',false], bangs:['hair','bangs','前髪・額',false], hairstyle:['hair','hairstyle','髪型',false], hair_texture:['hair','hair_texture','髪質・毛先',false],
+  eye_color:['body','eye_color','瞳の色',false], pupils:['body','pupils','瞳孔・虹彩',true], eye_shape:['body','eye_shape','目の形',true], eye_state:['body','eye_state','目の状態',true], skin:['body','skin','肌色・材質',false], face_feature:['body','face_feature','顔の特徴',true], markings:['body','markings','身体の特徴',true], body_type:['body','body_type','体型・体格',false], wings:['body','wings','翼',true], species:['body','species','獣耳・亜人・種族',true],
+  top:['outfit','top','トップス',false], clothing_detail:['outfit','clothing_detail','袖・襟・着こなし',true], outerwear:['outfit','outerwear','上着・コート',true], bottom:['outfit','bottom','ボトムス',false], dresses:['outfit','dresses','ドレス・ワンピース',false], footwear:['outfit','footwear','履物',false], legwear:['outfit','legwear','靴下・脚衣',true], outfit_theme:['outfit','outfit_theme','制服・衣装',false], swimwear:['outfit','swimwear','水着・ボディスーツ',true], traditional:['outfit','traditional','伝統衣装',true], accessory:['outfit','accessory','服飾小物',true], jewelry:['outfit','jewelry','宝飾・アクセサリー',true], eyewear:['outfit','eyewear','眼鏡・顔装備',true], headwear:['outfit','headwear','帽子・頭装備',true],
+  indoor:['background','indoor','屋内・施設',false], urban:['background','urban','街・建物・交通',false], nature:['background','nature','自然・水辺',false], sky:['background','sky','空・天体',true], weather:['background','weather','天候・季節・時間',false], background_detail:['background','background_detail','背景効果・柄',true],
+  held_item:['prop','held_item','手持ち品',false], nearby_item:['prop','nearby_item','家具・小物',true], tech_music:['prop','tech_music','機械・音楽',true], food_drink:['prop','food_drink','食べ物・飲み物',true], weapon:['prop','weapon','武器',true], wearable:['prop','wearable','身につける小物',true],
+  base_pose:['pose','base_pose','基本姿勢',false], hands:['pose','hands','手・指',false], arms:['pose','arms','腕',false], legs:['pose','legs','脚・座り方',false], gaze:['pose','gaze','視線・向き',false], action:['pose','action','移動・動作',true], interaction:['pose','interaction','接触・交流',true],
+  emotion:['expression','emotion','感情・表情',false], mouth:['expression','mouth','口の表情',false], eye_expression:['expression','eye_expression','目の表情',true], face_detail:['expression','face_detail','眉・歯・鼻・化粧',true], emoticon:['expression','emoticon','顔文字表現',true], expression_symbol:['expression','expression_symbol','シンボル・吹き出し',true], emotion_detail:['expression','emotion_detail','感情の補助',true],
+  framing:['camera','framing','画角',false], angle:['camera','angle','アングル',false], perspective:['camera','perspective','遠近・視点',true], focus:['camera','focus','フォーカス・動き',true], composition:['camera','composition','配置・レイアウト',true],
+  light_source:['lighting','light_source','光源',false], light_direction:['lighting','light_direction','光の向き',false], light_effect:['lighting','light_effect','光・色の演出',true], atmosphere:['lighting','atmosphere','空気・環境演出',true],
 };
 
-function classify(source, name) {
-  if (source.includes('hair_color')) return /two-tone|multicolored|gradient|colored|streak|split-color|rainbow|tips|inner|ombre|glowing|transparent/.test(name) ? 'hair_effect' : 'hair_color';
-  if (source.includes('hair_styles')) {
-    if (/bang|forehead|hair_between|hair_over|sidelock|fringe/.test(name)) return 'bangs';
-    if (/braid|bun|cornrow|dreadlock/.test(name)) return 'braids_buns';
-    if (/ponytail|twintail|two_side_up|tied_hair|half_updo|topknot|hair_up/.test(name)) return 'tied_hair';
-    if (/long_hair|short_hair|medium_hair|bald|big_hair|hair_length/.test(name)) return 'hair_length';
-    if (/wavy|curly|straight|messy|spiked|fluffy|drill|ringlet|hair_flaps|widow/.test(name)) return 'hair_texture';
-    return 'hairstyle';
+const text = (placement) => `${placement.section || ''} ${placement.microcategory || ''} ${placement.column || ''}`;
+const micro = (placement, fallback) => (placement.microcategory || placement.section || fallback)
+  .replace(/\s*[（(][A-Za-z &/\-]+[）)]/g, '')
+  .replace(/[\u{1F3FB}-\u{1F3FF}]/gu, '')
+  .replace(/\s*・\s*/g, '・')
+  .trim();
+
+function classifyPlacement(placement, name) {
+  const where = text(placement);
+  const detail = `${placement.microcategory || ''} ${placement.column || ''}`;
+
+  // 見出しよりタグ自体の意味を優先する横断ルール。
+  if (/^(?:looking_|staring$|glance|averting_eyes|rolling_eyes|upturned_eyes)/.test(name)) return { key:'gaze', micro:'視線', score:30 };
+  if (/^(?:blinking|eyelid_pull|akanbe)$/.test(name)) return { key:'action', micro:'顔・目の動作', score:29 };
+  if (/^(?:eyepatch|blindfold)$/.test(name)) return { key:'eyewear', micro:'目元の装備', score:28 };
+  if (/(?:^|_)(?:pupils?|iris)(?:$|_)/.test(name) || name === 'heterochromia') return { key:'pupils', micro:'瞳孔・虹彩', score:31 };
+  if (/(?:^|_)(?:cat|dog|fox|wolf|rabbit|bunny|bear|mouse|cow|sheep|goat|horse|deer|kemonomimi)_ears$/.test(name)) return { key:'species', micro:'獣耳', score:30 };
+
+  if (placement.page === 'hair') {
+    if (/髪色/.test(where)) return { key:/複合|ツートン|グラデ|メッシュ/.test(where) ? 'hair_effect' : 'hair_color', micro:micro(placement,'髪色'), score:9 };
+    if (/髪の動作|動作・状態/.test(where)) return { key:'action', micro:micro(placement,'髪の動作'), score:8 };
+    if (/アクセサリー/.test(where)) return { key:'accessory', micro:micro(placement,'髪飾り'), score:7 };
+    if (/ヒゲ/.test(where)) return { key:'face_feature', micro:micro(placement,'ひげ'), score:7 };
+    if (/前髪/.test(where)) return { key:'bangs', micro:micro(placement,'前髪'), score:9 };
+    if (/長さ/.test(where)) return { key:'hair_length', micro:micro(placement,'長さ'), score:9 };
+    if (/テクスチャ|巻き|質感|細部/.test(where)) return { key:'hair_texture', micro:micro(placement,'髪質'), score:9 };
+    return { key:'hairstyle', micro:micro(placement,'髪型'), score:7 };
   }
-  if (source.includes('eyes_tags')) {
-    if (/^looking_|gaze|glance|averting|staring/.test(name)) return 'gaze';
-    if (/glasses|eyewear|eyepatch|blindfold|mask$/.test(name)) return 'eyewear';
-    if (/makeup|eyeshadow|eyeliner|mascara/.test(name)) return 'face_feature';
-    if (/pupil|iris|heterochromia|ringed_eyes|multicolored_eyes/.test(name)) return 'pupils';
-    if (/^(?:black|blue|brown|green|grey|gray|orange|pink|purple|red|white|yellow|aqua|golden)_eyes$/.test(name)) return 'eye_color';
-    return 'eye_shape';
+
+  if (placement.page === 'expression') {
+    if (/顔文字/.test(detail)) return { key:'emoticon', micro:micro(placement,'顔文字'), score:24 };
+    if (/シンボル|吹き出し/.test(detail)) return { key:'expression_symbol', micro:micro(placement,'シンボル・吹き出し'), score:23 };
+    if (/目の形|瞳孔/.test(where)) {
+      if (/pupil|iris|heterochromia/.test(name)) return { key:'pupils', micro:micro(placement,'瞳孔'), score:22 };
+      return { key:'eye_shape', micro:micro(placement,'目の形'), score:20 };
+    }
+    if (/身体の震え|震える|痙攣|揺れる/.test(where)) return { key:'action', micro:micro(placement,'身体の動き'), score:18 };
+    if (/目の表情|虚ろな目/.test(where)) return { key:'eye_expression', micro:micro(placement,'目の表情'), score:17 };
+    if (/口の表現/.test(where)) return { key:'mouth', micro:micro(placement,'口の表情'), score:17 };
+    if (/歯|鼻|眉|顔の特徴|化粧/.test(where)) return { key:'face_detail', micro:micro(placement,'顔の細部'), score:17 };
+    if (/汗|赤面|涙/.test(where)) return { key:'emotion_detail', micro:micro(placement,'感情の補助'), score:15 };
+    return { key:'emotion', micro:micro(placement,'感情・表情'), score:14 };
   }
-  if (source.includes('skin_color')) return 'skin';
-  if (source.includes('wings')) return /wing_collar|winged_collar|wing_bow|wing_hair_ornament/.test(name) ? null : 'wings';
-  if (source.includes('body_parts')) {
-    if (/face|cheek|mouth|teeth|fang|ear|nose|eyebrow|freckle|mole/.test(name)) return 'face_feature';
-    if (/scar|tattoo|marking|sweat|navel|body_hair/.test(name)) return 'markings';
-    if (/collarbone|navel|body_hair/.test(name)) return 'markings';
-    if (/abs$|pectorals|wide_hips|narrow_waist|thick_thighs|long_legs|biceps|obliques|slim_legs|thick_arms/.test(name)) return 'body_type';
+
+  if (placement.page === 'outfit') {
+    if (/トップス|シャツ|セーター/.test(where)) return { key:'top', micro:micro(placement,'トップス'), score:12 };
+    if (/袖|襟|露出度|未分類/.test(where)) return { key:'clothing_detail', micro:micro(placement,'着こなし'), score:11 };
+    if (/アウター/.test(where)) return { key:'outerwear', micro:micro(placement,'アウター'), score:12 };
+    if (/ボトムス/.test(where)) return { key:'bottom', micro:micro(placement,'ボトムス'), score:12 };
+    if (/ワンピース|ドレス/.test(where)) return { key:'dresses', micro:micro(placement,'ドレス'), score:12 };
+    if (/靴・レッグウェア|ソックス|ストッキング|タイツ|レギンス/.test(where)) return { key:/靴|ブーツ|履物/.test(placement.microcategory || '') ? 'footwear' : 'legwear', micro:micro(placement,'靴・レッグウェア'), score:12 };
+    if (/制服|コスチューム|擬人化/.test(where)) return { key:'outfit_theme', micro:micro(placement,'制服・衣装'), score:12 };
+    if (/水着|ボディスーツ/.test(where)) return { key:'swimwear', micro:micro(placement,'水着'), score:12 };
+    if (/伝統|和服|宗教/.test(where)) return { key:'traditional', micro:micro(placement,'伝統衣装'), score:12 };
+    if (/眼鏡|アイウェア|顔装備/.test(where)) return { key:'eyewear', micro:micro(placement,'眼鏡・顔装備'), score:12 };
+    if (/帽子|頭装備/.test(where)) return { key:'headwear', micro:micro(placement,'帽子・頭装備'), score:12 };
+    if (/宝飾|ジュエリー|アクセサリー/.test(where)) return { key:/耳|首|腕|指輪|宝飾|ジュエリー/.test(where) ? 'jewelry' : 'accessory', micro:micro(placement,'アクセサリー'), score:12 };
+    return { key:'clothing_detail', micro:micro(placement,'服装の細部'), score:6 };
+  }
+
+  if (placement.page === 'pose_body') {
+    if (/手持ち/.test(where)) return { key:'held_item', micro:micro(placement,'手持ち品'), score:15 };
+    if (/武器/.test(where)) return { key:'weapon', micro:micro(placement,'武器'), score:15 };
+    if (/身体特徴|肌の色/.test(where)) {
+      if (/肌の色|特殊な肌質/.test(detail) || /(?:^|_)(?:skin|tan|dark-skinned|pale)(?:$|_)/.test(name)) return { key:'skin', micro:micro(placement,'肌'), score:16 };
+      if (/頭部|顔部|頸部/.test(detail)) return { key:'face_feature', micro:micro(placement,'顔・頭部'), score:15 };
+      if (/体格|体型|年齢/.test(detail)) return { key:'body_type', micro:micro(placement,'体型・体格'), score:15 };
+      return { key:'markings', micro:micro(placement,'身体の特徴'), score:14 };
+    }
+    if (/座り方|足の姿勢|脚|膝|つま先|立位/.test(where)) return { key:'legs', micro:micro(placement,'脚・座り方'), score:15 };
+    if (/接触|他者|人との/.test(where)) return { key:'interaction', micro:micro(placement,'接触動作'), score:14 };
+    if (/手|指差し|ハンドジェスチャー/.test(where)) return { key:'hands', micro:micro(placement,'手・指'), score:14 };
+    if (/腕/.test(where)) return { key:'arms', micro:micro(placement,'腕'), score:14 };
+    if (/動作|行動|アクシデント/.test(where)) return { key:'action', micro:micro(placement,'動作'), score:13 };
+    return { key:'base_pose', micro:micro(placement,'基本姿勢'), score:8 };
+  }
+
+  if (placement.page === 'action') {
+    if (/感情/.test(where)) return { key:'emotion', micro:micro(placement,'感情'), score:11 };
+    if (/社会|関係|交流/.test(where)) return { key:'interaction', micro:micro(placement,'交流'), score:11 };
+    return { key:'action', micro:micro(placement,'動作・行動'), score:10 };
+  }
+
+  if (placement.page === 'species') {
+    if (/種族|民族|文化|起源|背景/.test(placement.column || '')) return { key:'species', micro:micro({...placement, microcategory:placement.section},'種族'), score:13 };
     return null;
   }
-  if (source.includes('attire')) {
-    if (/glasses|eyewear|eyepatch|blindfold|mask$/.test(name)) return 'eyewear';
-    if (/earring|bracelet|ring$|brooch|piercing|anklet|armlet|circlet|necklace|choker|jewelry/.test(name)) return 'jewelry';
-    if (/(?:^|_)(?:hat|cap|helmet|headwear|hood|crown|beret|bonnet|tiara|headdress)$/.test(name)) return 'headwear';
-    if (/coat|jacket|cardigan|cloak|cape$|poncho|parka|hoodie/.test(name)) return 'outerwear';
-    if (/shirt|blouse|sweater|top$|vest|camisole|hoodie|turtleneck/.test(name)) return 'top';
-    if (/skirt|pants|shorts|trousers|jeans/.test(name)) return 'bottom';
-    if (/sock|stocking|pantyhose|leggings|legwear|leg_warmers|thighhighs|kneehighs/.test(name)) return 'legwear';
-    if (/shoe|boot|sandal|heel|loafer|slipper|footwear|barefoot/.test(name)) return 'footwear';
-    if (/bikini|swimsuit|school_swimsuit|wetsuit|bodysuit|leotard|one-piece_swimsuit|rash_guard/.test(name)) return 'swimwear';
-    if (/(?:^dress$|_dress$|^gown$|_gown$|^robe$|_robe$|sundress$)/.test(name)) return 'dresses';
-    if (/kimono|yukata|hakama|hanfu|qipao|china_dress|sari|traditional/.test(name)) return 'traditional';
-    if (/uniform|costume|maid|nurse|armor|suit$|witch|miko|sportswear|track_suit/.test(name)) return 'outfit_theme';
-    if (/glove|scarf|necktie|bowtie|belt|suspender|apron|hair_ornament|hair_ribbon|hair_bow|hairband|hairclip|headband|veil|neckerchief/.test(name)) return 'accessory';
-    return 'clothing_detail';
+
+  if (placement.page === 'background') {
+    if (/水関連活動/.test(where)) return { key:'action', micro:micro(placement,'水中の動作'), score:12 };
+    if (/小物|家具|備品|椅子|机/.test(where)) return { key:'nearby_item', micro:micro(placement,'家具・小物'), score:14 };
+    if (/電子機器/.test(where)) return { key:'tech_music', micro:micro(placement,'電子機器'), score:14 };
+    if (/天候|空の状態|四季|時間帯/.test(where)) return { key:'weather', micro:micro(placement,'天候・季節・時間'), score:14 };
+    if (/天体|宇宙/.test(where)) return { key:'sky', micro:micro(placement,'空・天体'), score:14 };
+    if (/効果・色・柄背景/.test(where)) return { key:'background_detail', micro:micro(placement,'背景効果'), score:14 };
+    if (/部屋|学校|店舗|施設/.test(where)) return { key:'indoor', micro:micro(placement,'屋内・施設'), score:13 };
+    if (/交通|道路|構造物/.test(where)) return { key:'urban', micro:micro(placement,'街・交通'), score:13 };
+    return { key:'nature', micro:micro(placement,'自然・水辺'), score:9 };
   }
-  if (source.includes('locations')) {
-    if (/room|indoors|interior|classroom|bedroom|kitchen|bath|library|cafe|restaurant|office|hospital|shop|store/.test(name)) return 'indoor';
-    if (/city|street|alley|station|rooftop|balcony|bridge|castle|church|building|urban|road/.test(name)) return 'urban';
-    return 'nature';
+
+  if (placement.page === 'camera') {
+    if (/lens_flare|chromatic_aberration|bokeh|bloom|glow|light/.test(name)) return { key:'light_effect', micro:micro(placement,'光学効果'), score:13 };
+    if (/from_|angle|view$|profile|top-down|side_view|behind/.test(name)) return { key:'angle', micro:micro(placement,'アングル'), score:12 };
+    if (/perspective|foreshorten|pov|lens|reflection|over-the-shoulder/.test(name)) return { key:'perspective', micro:micro(placement,'遠近・視点'), score:12 };
+    if (/blur|focus|depth|speed_lines|motion|zoom/.test(name)) return { key:'focus', micro:micro(placement,'フォーカス・動き'), score:12 };
+    if (/body|shot|portrait|close-up|frame|waist/.test(name)) return { key:'framing', micro:micro(placement,'画角'), score:12 };
+    return { key:'composition', micro:micro(placement,'構図'), score:8 };
   }
-  if (source.includes('backgrounds')) {
-    if (/sky|moon|sun|star|cloud|rainbow|aurora/.test(name)) return 'sky';
-    if (/rain|snow|fog|wind|storm|weather|spring|summer|autumn|winter/.test(name)) return 'weather';
-    return 'background_detail';
-  }
-  if (source.includes('hands')) return /arm/.test(name) ? 'arms' : 'hands';
-  if (source.includes('posture')) {
-    if (/look|facing|head|gaze/.test(name)) return 'gaze';
-    if (/hand|finger|thumb|palm|fist/.test(name)) return 'hands';
-    if (/arm|shoulder/.test(name)) return 'arms';
-    if (/leg|knee|feet|foot|tiptoe|seiza|wariza/.test(name)) return 'legs';
-    if (/walking|running|jump|dance|falling|flying|reading|writing|drinking|eating|sleeping/.test(name)) return 'action';
-    if (/hug|holding_hands|handshake|headpat|carry|piggyback|around_another/.test(name)) return 'interaction';
-    return 'base_pose';
-  }
-  if (source.includes('image_composition')) {
-    if (/lens_flare|chromatic_aberration|bokeh|bloom|glow|light/.test(name)) return 'light_effect';
-    if (/from_|angle|view$|profile|top-down|side_view|behind/.test(name)) return 'angle';
-    if (/perspective|foreshorten|pov|lens|reflection|over-the-shoulder/.test(name)) return 'perspective';
-    if (/blur|focus|depth|speed_lines|motion|zoom/.test(name)) return 'focus';
-    if (/body|shot|portrait|close-up|frame|waist/.test(name)) return 'framing';
-    return 'composition';
-  }
-  if (source.includes('lighting')) {
-    if (/backlight|rim_light|side_light|top_light|underlight|light_rays|dappled|crepuscular/.test(name)) return 'light_direction';
-    if (/sunlight|moonlight|candle|firelight|spotlight|neon|window_light|screen_light|light_source/.test(name)) return 'light_source';
-    if (/mist|smoke|dust|ember|snowflake|raindrop|underwater|haze/.test(name)) return 'atmosphere';
-    if (/light|lighting|shadow|sun|moon|glow|flare|illumination|ray|spotlight|candle|neon|reflection|silhouette|backlit|darkness|contrast/.test(name)) return 'light_effect';
-    return null;
-  }
+
   return null;
 }
 
-function label(name) {
-  if (exactJa[name]) return exactJa[name];
-  return name.split('_').map(word => tokenJa[word] || word).join('・');
+function classify(entry, name) {
+  const options = (entry.placements || []).map(placement => {
+    const result = classifyPlacement(placement, name);
+    return result ? { ...result, placement } : null;
+  }).filter(Boolean);
+  options.sort((a, b) => b.score - a.score);
+  return options[0] || null;
+}
+
+function noteFor(categoryId, subcategoryId, ja, name) {
+  if (name === 'transparent_background') return '背景を透明にする。';
+  if (name === 'from_above') return '上から見下ろす構図。';
+  if (name === 'from_below') return '下から見上げる構図。';
+  if (name === 'from_behind') return '人物を後ろから写す。';
+  if (subcategoryId === 'hair_color') return `髪色を「${ja}」にする。`;
+  if (categoryId === 'hair') return `「${ja}」の髪型になる。`;
+  if (subcategoryId === 'eye_color') return `「${ja}」になる。`;
+  if (['pupils','eye_shape','eye_state'].includes(subcategoryId)) return `目元を「${ja}」にする。`;
+  if (subcategoryId === 'skin') return `肌を「${ja}」にする。`;
+  if (subcategoryId === 'wings') return `「${ja}」を生やす。`;
+  if (subcategoryId === 'body_type') return `「${ja}」の体格になる。`;
+  if (categoryId === 'body') return `「${ja}」の特徴が加わる。`;
+  if (categoryId === 'outfit') return `「${ja}」を身につける。`;
+  if (categoryId === 'background') return `背景に「${ja}」を描く。`;
+  if (categoryId === 'prop') return `「${ja}」を画面に加える。`;
+  if (categoryId === 'pose') return `「${ja}」の姿勢・動作になる。`;
+  if (categoryId === 'expression') return `「${ja}」の表情になる。`;
+  if (categoryId === 'camera') return `「${ja}」の構図になる。`;
+  if (categoryId === 'lighting') return `「${ja}」の光・空気感になる。`;
+  return `${ja}を描く。`;
 }
 
 async function json(url) {
-  const response = await fetch(url, { headers: HEADERS });
+  const response = await fetch(url, { headers:HEADERS });
   if (!response.ok) throw new Error(`${response.status} ${url}`);
   return response.json();
 }
@@ -131,15 +175,12 @@ const currentSource = await readFile(new URL('../app/tag-data.ts', import.meta.u
 const japaneseCopy = JSON.parse(await readFile(new URL('./.japanese-copy.tmp.json', import.meta.url), 'utf8'));
 const currentTags = [...currentSource.matchAll(/\bt\('([^']+)'/g)].map(match => match[1].replaceAll(' ', '_'));
 const candidates = new Map();
-for (const [title, category] of sources) {
-  const pages = await json(`${API}/wiki_pages.json?search%5Btitle%5D=${encodeURIComponent(title)}&limit=1`);
-  if (!pages[0]) continue;
-  for (const match of pages[0].body.matchAll(/\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]/g)) {
-    const name = match[1].trim().toLowerCase().replaceAll(' ', '_');
-    if (!name || !/^[a-z0-9_()'-]+$/.test(name) || structural.test(name) || excluded.test(name) || unsafe.test(name) || /(?:^|_)cover(?:$|_)/.test(name)) continue;
-    const key = classify(title, name);
-    if (key && groupInfo[key] && !candidates.has(name)) candidates.set(name, key);
-  }
+
+for (const [name, entry] of Object.entries(japaneseCopy)) {
+  if (!name || structural.test(name) || excluded.test(name) || unsafe.test(name) || unsafeJapanese.test(entry.ja || '') || /(?:^|_)cover(?:$|_)/.test(name)) continue;
+  if ((entry.placements || []).some(placement => unsafePlacement.test(text(placement)))) continue;
+  const result = classify(entry, name);
+  if (result && groupInfo[result.key]) candidates.set(name, { ...result, ja:entry.ja });
 }
 
 const lookupNames = [...new Set([...currentTags, ...candidates.keys()])];
@@ -155,34 +196,21 @@ for (let index = 0; index < lookupNames.length; index += 75) {
 }
 
 const groups = new Map();
-for (const [name, key] of candidates) {
-  if (!general.has(name) || !japaneseCopy[name]?.ja) continue;
-  const [categoryId, subcategoryId, subcategoryName, optional, note] = groupInfo[key];
+for (const [name, candidate] of candidates) {
+  if (!general.has(name)) continue;
+  const [categoryId, subcategoryId, subcategoryName, optional] = groupInfo[candidate.key];
   const groupKey = `${categoryId}:${subcategoryId}`;
-  if (!groups.has(groupKey)) groups.set(groupKey, { categoryId, subcategoryId, subcategoryName, optional, tags: [] });
-  const ja = japaneseCopy[name].ja;
-  const naturalNote = subcategoryId === 'hair_color' ? `髪色を「${ja}」にする。`
-    : categoryId === 'hair' ? `「${ja}」の髪型になる。`
-    : subcategoryId === 'eye_color' ? `「${ja}」になる。`
-    : ['pupils','eye_shape'].includes(subcategoryId) ? `目元を「${ja}」にする。`
-    : subcategoryId === 'skin' ? `肌を「${ja}」にする。`
-    : subcategoryId === 'wings' ? `「${ja}」を生やす。`
-    : subcategoryId === 'body_type' ? `「${ja}」の体格になる。`
-    : categoryId === 'body' ? `「${ja}」の特徴が加わる。`
-    : categoryId === 'outfit' ? `「${ja}」を身につける。`
-    : name === 'transparent_background' ? '背景を透明にする。'
-    : categoryId === 'background' ? `背景に「${ja}」を描く。`
-    : categoryId === 'pose' ? `「${ja}」の姿勢・動作になる。`
-    : name === 'from_above' ? '上から見下ろす構図。'
-    : name === 'from_below' ? '下から見上げる構図。'
-    : name === 'from_behind' ? '人物を後ろから写す。'
-    : categoryId === 'camera' ? `「${ja}」の構図になる。`
-    : categoryId === 'lighting' ? `「${ja}」の光・空気感になる。`
-    : note;
-  groups.get(groupKey).tags.push({ tag: name.replaceAll('_', ' '), ja, note: naturalNote, postCount: counts[name] });
+  if (!groups.has(groupKey)) groups.set(groupKey, { categoryId, subcategoryId, subcategoryName, optional, tags:[] });
+  groups.get(groupKey).tags.push({
+    tag:name.replaceAll('_',' '),
+    ja:candidate.ja,
+    note:noteFor(categoryId, subcategoryId, candidate.ja, name),
+    postCount:counts[name],
+    microcategory:candidate.micro || subcategoryName,
+  });
 }
-for (const group of groups.values()) group.tags.sort((a, b) => b.postCount - a.postCount);
 
+for (const group of groups.values()) group.tags.sort((a, b) => b.postCount - a.postCount);
 await writeFile(new URL('../app/danbooru-counts.json', import.meta.url), `${JSON.stringify(counts, null, 2)}\n`);
 await writeFile(new URL('../app/danbooru-import.json', import.meta.url), `${JSON.stringify([...groups.values()], null, 2)}\n`);
-console.log(`Wiki groups: ${sources.length}, imported general tags: ${[...groups.values()].reduce((sum, group) => sum + group.tags.length, 0)}, count records: ${Object.keys(counts).length}`);
+console.log(`SoreNuts candidates: ${candidates.size}, Danbooru general tags: ${[...groups.values()].reduce((sum, group) => sum + group.tags.length, 0)}, count records: ${Object.keys(counts).length}`);

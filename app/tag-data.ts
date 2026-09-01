@@ -1,7 +1,7 @@
 import countData from './danbooru-counts.json';
 import importedGroups from './danbooru-import.json';
 
-export type Tag = { tag: string; ja: string; note: string; postCount: number };
+export type Tag = { tag: string; ja: string; note: string; postCount: number; microcategory?: string };
 export type Subcategory = { id: string; name: string; tags: Tag[]; optional?: boolean };
 export type Category = { id: string; name: string; icon: string; color: string; subcategories: Subcategory[] };
 
@@ -21,7 +21,9 @@ const categoryData: Category[] = [
   { id:'body', name:'瞳・身体・種族', icon:'◉', color:'#8468c9', subcategories:[
     s('person','人物',[t('1girl','女の子一人','女性キャラクターが一人。'),t('1boy','男の子一人','男性キャラクターが一人。'),t('androgynous','中性的','性別を限定しにくい外見。')]),
     s('eye_color','瞳の色',[t('blue eyes','青い瞳','青色の瞳。'),t('red eyes','赤い瞳','赤色の瞳。'),t('green eyes','緑の瞳','緑色の瞳。'),t('brown eyes','茶色い瞳','茶色の瞳。'),t('purple eyes','紫の瞳','紫色の瞳。'),t('golden eyes','金色の瞳','金色に輝く瞳。'),t('pink eyes','ピンクの瞳','桃色の瞳。'),t('grey eyes','灰色の瞳','灰色の瞳。')]),
-    s('eye_shape','目・瞳の特徴',[t('tareme','たれ目','目尻が下がった柔らかな目。'),t('tsurime','つり目','目尻が上がった鋭い目。'),t('sanpaku','三白眼','黒目の三方に白目が見える。'),t('heterochromia','オッドアイ','左右で瞳の色が異なる。'),t('slit pupils','縦長瞳孔','縦に細い獣のような瞳孔。'),t('heart-shaped pupils','ハート瞳孔','瞳孔がハート形。'),t('star-shaped pupils','星形瞳孔','瞳孔が星形。'),t('empty eyes','光のない目','ハイライトのない暗い目。')]),
+    s('eye_shape','目の形',[t('tareme','たれ目','目尻が下がった柔らかな目。'),t('tsurime','つり目','目尻が上がった鋭い目。'),t('sanpaku','三白眼','黒目の三方に白目が見える。')]),
+    s('pupils','瞳孔・虹彩',[t('heterochromia','オッドアイ','左右で瞳の色が異なる。'),t('slit pupils','縦長瞳孔','縦に細い獣のような瞳孔。'),t('heart-shaped pupils','ハート瞳孔','瞳孔がハート形。'),t('star-shaped pupils','星形瞳孔','瞳孔が星形。')],true),
+    s('eye_state','目の状態',[t('empty eyes','光のない目','ハイライトのない暗い目。')],true),
     s('body_type','体型',[t('slender','細身','ほっそりした体型。'),t('petite','小柄','小さく華奢な体格。'),t('tall female','長身女性','背が高い女性体型。'),t('curvy','曲線的','腰や胸の曲線が目立つ体型。'),t('plump','ぽっちゃり','丸みのある柔らかな体型。'),t('muscular female','筋肉質','筋肉の輪郭が目立つ体型。')]),
     s('skin','肌色',[t('pale skin','色白','明るく白い肌。'),t('fair skin','明るい肌','自然で明るい肌色。'),t('tan','日焼け肌','日焼けした褐色の肌。'),t('dark skin','濃い肌','濃い褐色の肌。'),t('blue skin','青い肌','人外的な青色の肌。'),t('green skin','緑の肌','人外的な緑色の肌。')]),
     s('face_feature','顔の特徴',[t('freckles','そばかす','頬や鼻に小さな斑点。'),t('mole under eye','泣きぼくろ','目の下に小さなほくろ。'),t('fang','八重歯','口元から一本の牙が見える。'),t('sharp teeth','鋭い歯','ギザギザした歯が並ぶ。'),t('bags under eyes','目の下の隈','目の下に疲れた影がある。'),t('pointy ears','尖った耳','耳先が長く尖っている。')],true),
