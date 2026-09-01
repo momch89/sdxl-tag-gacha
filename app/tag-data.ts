@@ -5,7 +5,7 @@ export type Category = { id: string; name: string; icon: string; color: string; 
 const t = (tag: string, ja: string, note: string): Tag => ({ tag, ja, note });
 const s = (id: string, name: string, tags: Tag[], optional = false): Subcategory => ({ id, name, tags, optional });
 
-export const categories: Category[] = [
+const categoryData: Category[] = [
   { id:'hair', name:'髪', icon:'✂', color:'#ee765b', subcategories:[
     s('hair_color','髪色',[t('black hair','黒髪','黒色の髪。'),t('blonde hair','金髪','明るい金色の髪。'),t('brown hair','茶髪','茶色の髪。'),t('white hair','白髪','白く明るい髪。'),t('silver hair','銀髪','銀灰色に光る髪。'),t('red hair','赤髪','赤色の髪。'),t('blue hair','青髪','青色の髪。'),t('pink hair','ピンク髪','桃色の髪。'),t('purple hair','紫髪','紫色の髪。'),t('green hair','緑髪','緑色の髪。')]),
     s('hair_length','髪の長さ',[t('very short hair','ベリーショート','耳や顎より短い髪。'),t('short hair','ショート','首元までの短い髪。'),t('medium hair','ミディアム','肩ほどの長さの髪。'),t('long hair','ロング','肩より下まで伸びた髪。'),t('very long hair','超ロング','腰より長く伸びた髪。')]),
@@ -60,6 +60,12 @@ export const categories: Category[] = [
     s('light_source','光',[t('sunlight','日差し','太陽からの自然光。'),t('golden hour','金色の夕光','夕方の柔らかな金色光。'),t('neon lights','ネオン','鮮やかな色の人工光。'),t('candlelight','ろうそく光','暖かな小さい炎の光。'),t('moonlight','月明かり','青白く静かな夜の光。')]),
     s('light_direction','光の向き',[t('backlighting','逆光','背後から光が差す。'),t('rim lighting','リムライト','輪郭の縁だけが光る。'),t('side lighting','横からの光','片側から光を当てる。'),t('light rays','光芒','筋状の光が差し込む。'),t('dappled sunlight','木漏れ日','斑点状の日差しが当たる。')]),
   ]},
+];
+
+export const categories: Category[] = [
+  categoryData.find(category => category.id === 'body')!,
+  categoryData.find(category => category.id === 'hair')!,
+  ...categoryData.filter(category => category.id !== 'body' && category.id !== 'hair'),
 ];
 
 export const allTags = categories.flatMap(category => category.subcategories.flatMap(subcategory => subcategory.tags.map(tag => ({ ...tag, category, subcategory }))));
