@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { BadgeCheck, BookOpen, Check, Copy, Dice5, Lock, LockOpen, Save, Search, Sparkles, Trash2, UserRound, X } from 'lucide-react';
+import { BadgeCheck, BookOpen, Check, Copy, Dice5, Lock, LockOpen, Menu, Save, Search, Sparkles, Trash2, UserRound, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { allTags, categories, type Category, type Subcategory, type Tag } from './tag-data';
@@ -28,9 +28,10 @@ const groupByMicrocategory = (tags: DictionaryTag[], fallback: string) => {
 export default function Home() {
   const [selected, setSelected] = useState<Selection>(blankSelection);
   const [locked, setLocked] = useState<Record<string, boolean>>({});
-  const [activeId, setActiveId] = useState('body');
+  const [activeId, setActiveId] = useState(categories[0]?.id || 'hair');
   const [dictionaryOpen, setDictionaryOpen] = useState(false);
-  const [dictCategory, setDictCategory] = useState('hair');
+  const [dictCategory, setDictCategory] = useState(categories[0]?.id || 'hair');
+  const [dictionaryMenuOpen, setDictionaryMenuOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [characterOpen, setCharacterOpen] = useState(false);
   const [characterName, setCharacterName] = useState('');
@@ -83,7 +84,7 @@ export default function Home() {
 
   const saveCharacter = () => {
     const name = characterName.trim(); if (!name) return;
-    const ids = categories.filter(c => c.id === 'hair' || c.id === 'body').flatMap(c => c.subcategories.map(s => s.id));
+    const ids = categories.filter(c => ['hair','pose_body','species','expression'].includes(c.id)).flatMap(c => c.subcategories.map(s => s.id));
     const tags = Object.fromEntries(ids.map(id => [id, selected[id] || []]));
     const locks = Object.fromEntries(ids.map(id => [id, !!locked[id]]));
     setCharacters(v => [...v, { id: crypto.randomUUID(), name, tags, freePrompt: characterFree.trim(), locks }]); setCharacterName('');
@@ -97,6 +98,14 @@ export default function Home() {
   const saveQuality = () => {
     const name = qualityName.trim(); if (!name || !quality.trim()) return;
     setQualityPresets(v => [...v, { id: crypto.randomUUID(), name, prompt: quality.trim(), position }]); setQualityName('');
+  };
+  const chooseDictionaryCategory = (categoryId: string) => {
+    setDictCategory(categoryId); setQuery('');
+    requestAnimationFrame(() => document.querySelector('.dict-content')?.scrollTo({ top:0, behavior:'smooth' }));
+  };
+  const jumpToSubcategory = (categoryId: string, subcategoryId: string) => {
+    setDictCategory(categoryId); setQuery(''); setDictionaryMenuOpen(false);
+    setTimeout(() => document.getElementById(`dict-${categoryId}-${subcategoryId}`)?.scrollIntoView({ behavior:'smooth', block:'start' }), 0);
   };
 
   return <main className="min-h-screen pb-28">
@@ -133,14 +142,15 @@ export default function Home() {
       <section className="selected-summary"><div className="summary-head"><div><p className="section-kicker">SELECTED TAGS</p><h2>現在の組み合わせ</h2></div><button onClick={clear}>すべて解除</button></div><div className="summary-chips">{categories.map(c => c.subcategories.flatMap(s => (selected[s.id] || []).map(tag => <button key={`${s.id}-${tag.tag}`} style={{ '--cat': c.color } as React.CSSProperties} onClick={() => toggleTag(s.id, tag)}><span>{tag.tag}</span><small>{s.name}</small><X /></button>)))}{!tagNames.length && <p>まだタグがありません。</p>}</div></section>
     </div>
 
-    {dictionaryOpen && <div className="modal-overlay" onMouseDown={e => e.target === e.currentTarget && setDictionaryOpen(false)}><section className="dictionary-dialog" role="dialog" aria-modal="true" aria-labelledby="dictionary-title">
-      <header className="dialog-top"><div><h2 id="dictionary-title">タグ一覧から選ぶ</h2><p>SoreNutsの分類を参考にした一般Danbooruタグ {allTags.length.toLocaleString()}件。投稿件数つき・複数選択できます。</p></div><button className="dialog-x" onClick={() => setDictionaryOpen(false)}><X /></button></header>
+    {dictionaryOpen && <div className="modal-overlay" onMouseDown={e => { if (e.target === e.currentTarget) { setDictionaryOpen(false); setDictionaryMenuOpen(false); } }}><section className="dictionary-dialog" role="dialog" aria-modal="true" aria-labelledby="dictionary-title">
+      <header className="dialog-top"><div><h2 id="dictionary-title">タグ一覧から選ぶ</h2><p>SoreNuts分類の一般Danbooruタグ {allTags.length.toLocaleString()}件。投稿件数つき・複数選択できます。</p></div><div className="dialog-actions"><button className="dict-menu-trigger" aria-expanded={dictionaryMenuOpen} aria-controls="dictionary-jump-menu" onClick={() => setDictionaryMenuOpen(v => !v)}><Menu /><span>分類</span></button><button className="dialog-x" onClick={() => { setDictionaryOpen(false); setDictionaryMenuOpen(false); }}><X /></button></div></header>
+      {dictionaryMenuOpen && <><button className="dict-menu-scrim" aria-label="分類メニューを閉じる" onClick={() => setDictionaryMenuOpen(false)}/><aside className="dict-jump-menu" id="dictionary-jump-menu"><header><strong>分類から移動</strong><button aria-label="分類メニューを閉じる" onClick={() => setDictionaryMenuOpen(false)}><X /></button></header><nav>{categories.map(category => <div key={category.id}><button className={`jump-category ${dictCategory === category.id ? 'active' : ''}`} style={{ '--cat':category.color } as React.CSSProperties} onClick={() => chooseDictionaryCategory(category.id)}><span>{category.icon}</span><strong>{category.name}</strong><small>{category.subcategories.length}</small></button>{dictCategory === category.id && <div className="jump-subcategories">{category.subcategories.map(subcategory => <button key={subcategory.id} onClick={() => jumpToSubcategory(category.id, subcategory.id)}>{subcategory.name}<small>{subcategory.tags.length}</small></button>)}</div>}</div>)}</nav></aside></>}
       <div className="dict-search"><Search /><Input value={query} onChange={e => setQuery(e.target.value)} placeholder="日本語・英語タグで検索"/></div>
       <div className="dict-layout"><nav className="dict-categories">{categories.map(c => <button key={c.id} className={dictCategory === c.id ? 'active' : ''} style={{ '--cat': c.color } as React.CSSProperties} onClick={() => setDictCategory(c.id)}><span>{c.icon}</span>{c.name}<b>{c.subcategories.reduce((n,s) => n + (selected[s.id]?.length || 0),0)}</b></button>)}</nav>
         <div className="dict-content">{(categories.find(c => c.id === dictCategory)?.subcategories || []).map(sub => {
           const tags = shownTags.filter(x => x.subcategory.id === sub.id);
           if (!tags.length) return null;
-          return <section key={sub.id}><h3>{sub.name}<small>{tags.length}件・複数選択可</small></h3>
+          return <section key={sub.id} id={`dict-${dictCategory}-${sub.id}`}><h3>{sub.name}<small>{tags.length}件・複数選択可</small></h3>
             {groupByMicrocategory(tags, sub.name).map(([microName, microTags]) => <div className="dict-micro" key={microName}>
               <h4>{microName}<small>{microTags.length}件</small></h4>
               <div className="dict-tags">{microTags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><small>{item.note}</small><em>{formatCount(item.postCount)}</em>{on && <Check />}</button>})}</div>
