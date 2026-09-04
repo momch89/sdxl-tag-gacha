@@ -601,7 +601,7 @@ button {
 }
 .jump-category {
   display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
+  grid-template-columns: 22px minmax(0, 1fr) auto 16px;
   align-items: center;
   gap: 7px;
   width: 100%;
@@ -625,6 +625,15 @@ button {
   color: var(--soft);
   font-size: 11px;
 }
+.jump-category > svg,
+.jump-subcategory > button > svg {
+  width: 14px;
+  transition: transform 160ms ease;
+}
+.jump-category[aria-expanded="true"] > svg,
+.jump-subcategory > button[aria-expanded="true"] > svg {
+  transform: rotate(180deg);
+}
 .jump-category.active {
   color: var(--foreground);
   background: #fff;
@@ -637,11 +646,12 @@ button {
   padding-left: 10px;
   border-left: 1px solid #d8d2c7;
 }
-.jump-subcategories button {
+.jump-subcategory > button {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  width: 100%;
   min-height: 34px;
   padding: 5px 8px;
   border: 0;
@@ -651,19 +661,46 @@ button {
   font-size: 12px;
   text-align: left;
 }
-.jump-subcategories button:hover {
+.jump-subcategory > button > span {
+  flex: 1;
+}
+.jump-subcategory > button:hover,
+.jump-microcategories button:hover {
   color: var(--foreground);
   background: #fff;
 }
+.jump-microcategories {
+  display: grid;
+  gap: 1px;
+  margin: 1px 0 5px 10px;
+  padding-left: 9px;
+  border-left: 1px dashed #d8d2c7;
+}
+.jump-microcategories button {
+  min-height: 29px;
+  padding: 4px 7px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--soft);
+  background: transparent;
+  font-size: 11px;
+  text-align: left;
+}
 .dict-search {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 10px 14px;
   border-bottom: 1px solid var(--border);
   background: #faf7f1;
 }
-.dict-search svg {
+.dict-search-field {
+  position: relative;
+  flex: 1;
+}
+.dict-search-field svg {
   position: absolute;
-  left: 26px;
+  left: 12px;
   top: 50%;
   width: 16px;
   transform: translateY(-50%);
@@ -673,6 +710,35 @@ button {
   height: 40px;
   padding-left: 36px;
   background: #fff;
+}
+.dict-sort {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 9px;
+  background: #e9e4da;
+}
+.dict-sort > span {
+  padding: 0 5px;
+  color: var(--soft);
+  font-size: 10px;
+  font-weight: 800;
+}
+.dict-sort button {
+  height: 32px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 7px;
+  color: var(--soft);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 800;
+}
+.dict-sort button.active {
+  color: var(--foreground);
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 .dict-layout {
   display: grid;
@@ -1106,10 +1172,12 @@ button {
     padding: 13px 14px;
   }
   .dict-search {
+    align-items: stretch;
+    flex-direction: column;
     padding: 8px 10px;
   }
-  .dict-search svg {
-    left: 21px;
+  .dict-sort {
+    align-self: flex-start;
   }
   .dict-layout {
     display: flex;

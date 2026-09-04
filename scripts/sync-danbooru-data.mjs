@@ -93,11 +93,34 @@ function placementScore(placement) {
   return score;
 }
 
-function shortJapanese(sorenuts, csv) {
+const garmentNouns = [
+  ['t_shirt','Tシャツ'], ['dress_shirt','ドレスシャツ'], ['shirt','シャツ'], ['sweater','セーター'],
+  ['miniskirt','ミニスカート'], ['skirt','スカート'], ['shorts','ショートパンツ'], ['pants','パンツ'],
+  ['dress','ドレス'], ['jacket','ジャケット'], ['coat','コート'], ['cardigan','カーディガン'],
+  ['swimsuit','水着'], ['bikini','ビキニ'], ['bodysuit','ボディスーツ'], ['leotard','レオタード'],
+  ['boots','ブーツ'], ['shoes','靴'], ['socks','ソックス'], ['stockings','ストッキング'], ['pantyhose','タイツ'],
+  ['gloves','手袋'], ['sleeves','袖'], ['bra','ブラ'], ['panties','ショーツ'], ['kimono','着物'],
+];
+
+function garmentNoun(name) {
+  const match = garmentNouns.find(([key]) => name === key || name.endsWith(`_${key}`));
+  return match?.[1] || '';
+}
+
+function shortJapanese(name, sorenuts, csv, microcategory) {
   const source = (sorenuts || '').trim();
   const csvLabel = (csv || '').trim();
   const suspicious = !/[ぁ-んァ-ヶ一-龠]/.test(source) || /["「]$|\([^)]*$/.test(source) || source.length > 24;
-  return (suspicious && csvLabel ? csvLabel : source || csvLabel || '名称未設定').slice(0, 32);
+  let label = suspicious && csvLabel ? csvLabel : source || csvLabel || '名称未設定';
+  const noun = garmentNoun(name);
+  if (/色タグ/.test(microcategory) && noun) {
+    label = csvLabel && /シャツ|セーター|ドレス|スカート|パンツ|ジャケット|コート|水着|ビキニ|靴|ブーツ|ソックス|タイツ|ストッキング|手袋|袖|着物/.test(csvLabel)
+      ? csvLabel : `${source || csvLabel}${noun}`;
+  }
+  if (/構造的特徴/.test(microcategory) && noun && !/シャツ|セーター|ドレス|ワンピース|スカート|パンツ|ショーツ|ズボン|ジャケット|コート|水着|ビキニ|靴|ブーツ|ソックス|タイツ|ストッキング|手袋|着物/.test(label)) {
+    label = `${label.endsWith('露出') ? `${label}した` : label}${noun}`;
+  }
+  return label.slice(0, 32);
 }
 
 function noteFor(page, ja) {
@@ -152,13 +175,12 @@ for (const [name, entry] of candidateEntries) {
     groups.set(subcategory, group);
     categoryMap.get(info.id).subcategories.push(group);
   }
-  const ja = shortJapanese(entry.ja, reference.translations.get(name));
+  const ja = shortJapanese(name, entry.ja, reference.translations.get(name), microcategory);
   groups.get(subcategory).tags.push({ tag:name.replaceAll('_', ' '), ja, note:noteFor(placement.page, ja), postCount, microcategory });
   seenTags.add(name);
 }
 
 const categories = [...categoryMap.values()].filter(category => category.subcategories.length);
-for (const category of categories) for (const group of category.subcategories) group.tags.sort((a, b) => b.postCount - a.postCount);
 const countObject = Object.fromEntries([...seenTags].sort().map(name => [name, reference.counts.get(name)]));
 await writeFile(new URL('../app/danbooru-counts.json', import.meta.url), `${JSON.stringify(countObject, null, 2)}\n`);
 await writeFile(new URL('../app/danbooru-import.json', import.meta.url), `${JSON.stringify(categories, null, 2)}\n`);
