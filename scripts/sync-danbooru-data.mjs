@@ -94,17 +94,51 @@ function placementScore(placement) {
 }
 
 const garmentNouns = [
-  ['t_shirt','Tシャツ'], ['dress_shirt','ドレスシャツ'], ['shirt','シャツ'], ['sweater','セーター'],
-  ['miniskirt','ミニスカート'], ['skirt','スカート'], ['shorts','ショートパンツ'], ['pants','パンツ'],
-  ['dress','ドレス'], ['jacket','ジャケット'], ['coat','コート'], ['cardigan','カーディガン'],
-  ['swimsuit','水着'], ['bikini','ビキニ'], ['bodysuit','ボディスーツ'], ['leotard','レオタード'],
-  ['boots','ブーツ'], ['shoes','靴'], ['socks','ソックス'], ['stockings','ストッキング'], ['pantyhose','タイツ'],
-  ['gloves','手袋'], ['sleeves','袖'], ['bra','ブラ'], ['panties','ショーツ'], ['kimono','着物'],
+  ['one-piece_swimsuit','ワンピース水着',/ワンピース水着/], ['slingshot_swimsuit','スリングショット水着',/スリングショット水着/],
+  ['sweater_vest','セーターベスト',/セーターベスト|ニットベスト/], ['sailor_collar','セーラー襟',/セーラー襟/],
+  ['dress_shirt','ドレスシャツ',/ドレスシャツ/], ['t_shirt','Tシャツ',/Tシャツ/], ['miniskirt','ミニスカート',/ミニスカート/],
+  ['thighhighs','サイハイソックス',/サイハイ|ニーハイ/], ['kneehighs','ハイソックス',/ハイソックス/],
+  ['pantyhose','タイツ',/タイツ|パンスト/], ['stockings','ストッキング',/ストッキング/],
+  ['cardigan','カーディガン',/カーディガン/], ['capelet','ケープレット',/ケープレット/], ['bodysuit','ボディスーツ',/ボディスーツ/],
+  ['sweater','セーター',/セーター|ニット/], ['hoodie','パーカー',/パーカー|フーディ/], ['swimsuit','水着',/水着/],
+  ['leotard','レオタード',/レオタード/], ['jacket','ジャケット',/ジャケット/], ['sleeves','袖',/袖/],
+  ['blouse','ブラウス',/ブラウス/], ['camisole','キャミソール',/キャミソール/], ['tank_top','タンクトップ',/タンクトップ/],
+  ['shirt','シャツ',/シャツ/], ['skirt','スカート',/スカート/], ['shorts','ショートパンツ',/ショートパンツ/],
+  ['pants','パンツ',/パンツ|ズボン/], ['panties','ショーツ',/ショーツ|パンティ/], ['dress','ドレス',/ドレス|ワンピース/],
+  ['cloak','マント',/マント|クローク/], ['cape','ケープ',/ケープ/], ['coat','コート',/コート/], ['vest','ベスト',/ベスト/],
+  ['robe','ローブ',/ローブ/], ['hood','フード',/フード/], ['bikini','ビキニ',/ビキニ/], ['boots','ブーツ',/ブーツ/],
+  ['shoes','靴',/靴|シューズ/], ['socks','ソックス',/ソックス|靴下/], ['gloves','手袋',/手袋|グローブ/],
+  ['bra','ブラ',/ブラ/], ['kimono','着物',/着物|和服/],
 ];
 
-function garmentNoun(name) {
-  const match = garmentNouns.find(([key]) => name === key || name.endsWith(`_${key}`));
-  return match?.[1] || '';
+const colorDescriptors = new Map([
+  ['white','白い'], ['black','黒い'], ['blue','青い'], ['brown','茶色の'], ['red','赤い'], ['grey','グレーの'],
+  ['green','緑の'], ['pink','ピンクの'], ['purple','紫の'], ['yellow','黄色い'], ['orange','オレンジ色の'],
+  ['aqua','水色の'], ['gold','金色の'], ['silver','銀色の'], ['two-tone','ツートンカラーの'],
+  ['multicolored','カラフルな'], ['gradient','グラデーションの'], ['rainbow','虹色の'],
+  ['striped','ストライプ柄の'], ['vertical-striped','縦縞の'], ['diagonal-striped','斜め縞の'], ['pinstripe','細い縦縞の'],
+  ['plaid','チェック柄の'], ['checkered','市松模様の'], ['polka_dot','水玉模様の'], ['print','柄入りの'],
+  ['camouflage','迷彩柄の'], ['gingham','ギンガムチェック柄の'], ['argyle','アーガイル柄の'], ['american_flag','星条旗柄の'],
+]);
+
+const garmentLabelOverrides = new Map([
+  ['sleeveless_shirt','袖無しシャツ'], ['sleeveless_sweater','袖無しセーター'], ['sleeveless_dress','袖無しドレス'],
+  ['ribbed_sweater','リブ編みセーター'], ['off-shoulder_sweater','肩出しセーター'], ['cropped_sweater','丈が短いセーター'],
+  ['sweater_lift','セーターをたくし上げる'], ['sweater_pull','セーターの襟を引っ張る'], ['sweater_tug','セーターの裾を引っ張る'],
+  ['sweater_around_waist','腰に巻いたセーター'], ['sweater_around_neck','首に巻いたセーター'], ['sweater_tucked_in','ボトムスに入れたセーター'],
+  ['sideless_dress','脇が開いたドレス'], ['shirt_tucked_in','シャツをボトムスの中に入れる'], ['unbuttoned_shirt','ボタンを留めていないシャツ'],
+  ['skirt_cutout','裾付近が切り抜かれたスカート'], ['crotch_seam','股部分に縫い目のあるショーツ'],
+  ['wet_panties','濡れたショーツ'], ['crotchless_panties','股部分が開いたショーツ'], ['stained_panties','染みの付いたショーツ'],
+]);
+
+function garmentFor(name) {
+  return garmentNouns.find(([key]) => new RegExp(`(?:^|_)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:_|$)`).test(name));
+}
+
+function colorGarmentLabel(name, garment) {
+  const [key, noun] = garment;
+  const descriptor = name.replace(new RegExp(`(?:^|_)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:_|$)`), '_').replace(/^_+|_+$/g, '');
+  return colorDescriptors.has(descriptor) ? `${colorDescriptors.get(descriptor)}${noun}` : '';
 }
 
 function shortJapanese(name, sorenuts, csv, microcategory) {
@@ -112,24 +146,13 @@ function shortJapanese(name, sorenuts, csv, microcategory) {
   const csvLabel = (csv || '').trim();
   const suspicious = !/[ぁ-んァ-ヶ一-龠]/.test(source) || /["「]$|\([^)]*$/.test(source) || source.length > 24;
   let label = suspicious && csvLabel ? csvLabel : source || csvLabel || '名称未設定';
-  const noun = garmentNoun(name);
-  if (/色タグ/.test(microcategory) && noun) {
-    label = csvLabel && /シャツ|セーター|ドレス|スカート|パンツ|ジャケット|コート|水着|ビキニ|靴|ブーツ|ソックス|タイツ|ストッキング|手袋|袖|着物/.test(csvLabel)
-      ? csvLabel : `${source || csvLabel}${noun}`;
-  }
-  if (/構造的特徴/.test(microcategory) && noun && !/シャツ|セーター|ドレス|ワンピース|スカート|パンツ|ショーツ|ズボン|ジャケット|コート|水着|ビキニ|靴|ブーツ|ソックス|タイツ|ストッキング|手袋|着物/.test(label)) {
-    label = `${label.endsWith('露出') ? `${label}した` : label}${noun}`;
+  const garment = garmentFor(name);
+  if (garmentLabelOverrides.has(name)) label = garmentLabelOverrides.get(name);
+  else if (/色タグ/.test(microcategory) && garment) label = colorGarmentLabel(name, garment) || label;
+  else if (garment && /構造的特徴|セーター/.test(microcategory) && !garment[2].test(label)) {
+    label = `${label.endsWith('露出') ? `${label}した` : label}${garment[1]}`;
   }
   return label.slice(0, 32);
-}
-
-function noteFor(page, ja) {
-  const notes = {
-    hair:`髪を「${ja}」に。`, outfit:`「${ja}」を着用。`, pose_body:`「${ja}」の姿勢・特徴。`,
-    action:`「${ja}」の動作。`, species:`「${ja}」の役割・種族。`, background:`背景に「${ja}」。`,
-    expression:`「${ja}」の表情・目。`, camera:`「${ja}」の構図。`,
-  };
-  return notes[page] || `「${ja}」を指定。`;
 }
 
 function stableId(page, label) {
@@ -176,7 +199,7 @@ for (const [name, entry] of candidateEntries) {
     categoryMap.get(info.id).subcategories.push(group);
   }
   const ja = shortJapanese(name, entry.ja, reference.translations.get(name), microcategory);
-  groups.get(subcategory).tags.push({ tag:name.replaceAll('_', ' '), ja, note:noteFor(placement.page, ja), postCount, microcategory });
+  groups.get(subcategory).tags.push({ tag:name.replaceAll('_', ' '), ja, postCount, microcategory });
   seenTags.add(name);
 }
 

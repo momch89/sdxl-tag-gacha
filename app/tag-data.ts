@@ -1,6 +1,6 @@
 import importedCategories from './danbooru-import.json';
 
-export type Tag = { tag: string; ja: string; note: string; postCount: number; microcategory?: string };
+export type Tag = { tag: string; ja: string; postCount: number; microcategory?: string };
 export type Subcategory = { id: string; name: string; tags: Tag[]; optional?: boolean };
 export type Category = { id: string; name: string; icon: string; color: string; subcategories: Subcategory[] };
 
