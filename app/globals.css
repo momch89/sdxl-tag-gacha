@@ -829,6 +829,43 @@ button {
   font-size: 8px;
   font-weight: 600;
 }
+.dict-micro-toggle {
+  display: flex;
+  width: 100%;
+  min-height: 32px;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 7px;
+  border: 1px solid color-mix(in srgb, var(--cat) 24%, var(--border));
+  border-radius: 8px;
+  color: #5f5a53;
+  background: color-mix(in srgb, var(--cat) 5%, white);
+  font-size: 10px;
+  font-weight: 750;
+  text-align: left;
+}
+.dict-micro-toggle::before {
+  width: 12px;
+  height: 1px;
+  background: var(--cat);
+  content: '';
+}
+.dict-micro-toggle small {
+  color: var(--soft);
+  font-size: 8px;
+  font-weight: 600;
+}
+.dict-micro-toggle svg {
+  width: 14px;
+  margin-left: auto;
+  transition: transform 160ms ease;
+}
+.dict-micro-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.dict-micro.foldable .dict-tags {
+  margin-top: 6px;
+}
 .dict-tags {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

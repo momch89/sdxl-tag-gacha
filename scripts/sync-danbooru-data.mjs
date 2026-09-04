@@ -114,12 +114,36 @@ const garmentNouns = [
 const colorDescriptors = new Map([
   ['white','白い'], ['black','黒い'], ['blue','青い'], ['brown','茶色の'], ['red','赤い'], ['grey','グレーの'],
   ['green','緑の'], ['pink','ピンクの'], ['purple','紫の'], ['yellow','黄色い'], ['orange','オレンジ色の'],
+  ['light_brown','薄茶色の'], ['light_blue','水色の'], ['light_purple','薄紫の'], ['dark_blue','濃い青の'],
   ['aqua','水色の'], ['gold','金色の'], ['silver','銀色の'], ['two-tone','ツートンカラーの'],
-  ['multicolored','カラフルな'], ['gradient','グラデーションの'], ['rainbow','虹色の'],
+  ['multicolored','カラフルな'], ['gradient','グラデーションの'], ['rainbow','虹色の'], ['split-color','2色に分かれた'],
+  ['colored_inner','インナーカラーの'], ['colored','色付きの'],
   ['striped','ストライプ柄の'], ['vertical-striped','縦縞の'], ['diagonal-striped','斜め縞の'], ['pinstripe','細い縦縞の'],
   ['plaid','チェック柄の'], ['checkered','市松模様の'], ['polka_dot','水玉模様の'], ['print','柄入りの'],
   ['camouflage','迷彩柄の'], ['gingham','ギンガムチェック柄の'], ['argyle','アーガイル柄の'], ['american_flag','星条旗柄の'],
+  ['strawberry','イチゴ柄の'], ['bear','クマ柄の'], ['cow_print','牛柄の'], ['german_flag','ドイツ国旗柄の'],
+  ['floral','花柄の'], ['heart','ハート柄の'], ['grid','格子柄の'], ['paw_print','肉球柄の'], ['snowflake','雪の結晶柄の'],
+  ['honeycomb','ハニカム柄の'], ['flag','旗柄の'], ['lace','レース柄の'], ['food-themed','食べ物柄の'],
 ]);
+
+const patternDescriptors = new Set([
+  'striped', 'vertical-striped', 'horizontal-striped', 'diagonal-striped', 'pinstripe', 'plaid', 'checkered',
+  'polka_dot', 'print', 'camouflage', 'gingham', 'argyle', 'american_flag',
+  'strawberry', 'bear', 'cow_print', 'german_flag', 'floral', 'heart', 'grid', 'paw_print', 'snowflake',
+  'honeycomb', 'flag', 'lace', 'food-themed',
+]);
+
+const coloredObjects = [
+  ...garmentNouns,
+  ['fundoshi','ふんどし',/ふんどし/], ['loincloth','腰布',/腰布/], ['legwear','レッグウェア',/レッグウェア/],
+  ['hairband','ヘアバンド',/ヘアバンド/], ['neckerchief','ネッカチーフ',/ネッカチーフ/], ['necktie','ネクタイ',/ネクタイ/],
+  ['eyeliner','アイライナー',/アイライナー/], ['background','背景',/背景/], ['earrings','イヤリング',/イヤリング|ピアス/],
+  ['pupils','瞳孔',/瞳孔/], ['sclera','強膜',/強膜/], ['ribbon','リボン',/リボン/], ['gloves','手袋',/手袋|グローブ/],
+  ['hair','髪',/髪/], ['clothes','服',/服|衣装/], ['halo','天使の輪',/天使の輪|光輪/], ['hat','帽子',/帽子/],
+  ['scarf','スカーフ',/スカーフ/], ['ascot','アスコットタイ',/アスコット/], ['bow','リボン',/リボン|蝶ネクタイ/],
+  ['belt','ベルト',/ベルト/], ['wings','翼',/翼/], ['horns','角',/角/], ['skin','肌',/肌/], ['sky','空',/空/],
+  ['moon','月',/月/], ['eyes','瞳',/目|瞳/], ['lips','唇',/唇/], ['trim','縁取り',/縁取り|縁飾り/], ['pattern','模様',/模様/],
+];
 
 const garmentLabelOverrides = new Map([
   ['sleeveless_shirt','袖無しシャツ'], ['sleeveless_sweater','袖無しセーター'], ['sleeveless_dress','袖無しドレス'],
@@ -135,10 +159,31 @@ function garmentFor(name) {
   return garmentNouns.find(([key]) => new RegExp(`(?:^|_)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:_|$)`).test(name));
 }
 
-function colorGarmentLabel(name, garment) {
-  const [key, noun] = garment;
-  const descriptor = name.replace(new RegExp(`(?:^|_)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:_|$)`), '_').replace(/^_+|_+$/g, '');
+function coloredObjectFor(name) {
+  return coloredObjects.find(([key]) => new RegExp(`(?:^|_)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:_|$)`).test(name));
+}
+
+function descriptorFor(name, object) {
+  const [key] = object;
+  return name.replace(new RegExp(`(?:^|_)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:_|$)`), '_').replace(/^_+|_+$/g, '');
+}
+
+function coloredObjectLabel(name, object) {
+  const [, noun] = object;
+  const descriptor = descriptorFor(name, object);
   return colorDescriptors.has(descriptor) ? `${colorDescriptors.get(descriptor)}${noun}` : '';
+}
+
+function organizeColorMicrocategory(page, subcategory, microcategory, name) {
+  const object = coloredObjectFor(name);
+  if (!object || !colorDescriptors.has(descriptorFor(name, object))) return microcategory;
+  if (page === 'hair' && subcategory === '髪色') return microcategory;
+  if (page === 'pose_body' && /肌の色|肌色/.test(microcategory)) return microcategory;
+  const kind = patternDescriptors.has(descriptorFor(name, object)) ? '柄タグ' : '色タグ';
+  if (kind === '柄タグ' && /色タグ/.test(microcategory)) return microcategory.replace('色タグ', '柄タグ');
+  if (kind === '柄タグ' && /柄|パターン/.test(microcategory) && !/効果・色・柄背景/.test(microcategory)) return microcategory;
+  if (kind === '色タグ' && /色タグ/.test(microcategory)) return microcategory;
+  return `${kind}（${subcategory}）`;
 }
 
 function shortJapanese(name, sorenuts, csv, microcategory) {
@@ -147,8 +192,9 @@ function shortJapanese(name, sorenuts, csv, microcategory) {
   const suspicious = !/[ぁ-んァ-ヶ一-龠]/.test(source) || /["「]$|\([^)]*$/.test(source) || source.length > 24;
   let label = suspicious && csvLabel ? csvLabel : source || csvLabel || '名称未設定';
   const garment = garmentFor(name);
+  const coloredObject = coloredObjectFor(name);
   if (garmentLabelOverrides.has(name)) label = garmentLabelOverrides.get(name);
-  else if (/色タグ/.test(microcategory) && garment) label = colorGarmentLabel(name, garment) || label;
+  else if (coloredObject) label = coloredObjectLabel(name, coloredObject) || label;
   else if (garment && /構造的特徴|セーター/.test(microcategory) && !garment[2].test(label)) {
     label = `${label.endsWith('露出') ? `${label}した` : label}${garment[1]}`;
   }
@@ -191,7 +237,8 @@ for (const [name, entry] of candidateEntries) {
   const placement = [...(entry.placements || [])].sort((a, b) => placementScore(b) - placementScore(a))[0];
   const taxonomy = taxonomyFor(placement);
   if (!taxonomy) continue;
-  const { info, subcategory, microcategory } = taxonomy;
+  const { info, subcategory } = taxonomy;
+  const microcategory = organizeColorMicrocategory(info.id, subcategory, taxonomy.microcategory, name);
   const groups = groupMaps.get(info.id);
   if (!groups.has(subcategory)) {
     const group = { id:stableId(info.id, subcategory), name:subcategory, tags:[], optional:/未分類|反映されにくい/.test(subcategory) };

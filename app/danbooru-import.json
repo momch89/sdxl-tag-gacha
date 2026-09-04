@@ -972,97 +972,97 @@
           },
           {
             "tag": "black hair",
-            "ja": "黒髪",
+            "ja": "黒い髪",
             "postCount": 1775720,
             "microcategory": "自然な髪色"
           },
           {
             "tag": "brown hair",
-            "ja": "茶髪",
+            "ja": "茶色の髪",
             "postCount": 1740277,
             "microcategory": "自然な髪色"
           },
           {
             "tag": "white hair",
-            "ja": "白髪",
+            "ja": "白い髪",
             "postCount": 838983,
             "microcategory": "自然な髪色"
           },
           {
             "tag": "light brown hair",
-            "ja": "茶色髪",
+            "ja": "薄茶色の髪",
             "postCount": 849,
             "microcategory": "自然な髪色"
           },
           {
             "tag": "grey hair",
-            "ja": "銀髪",
+            "ja": "グレーの髪",
             "postCount": 823294,
             "microcategory": "自然な髪色"
           },
           {
             "tag": "blue hair",
-            "ja": "青",
+            "ja": "青い髪",
             "postCount": 1001076,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "purple hair",
-            "ja": "紫",
+            "ja": "紫の髪",
             "postCount": 752297,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "light blue hair",
-            "ja": "水色",
+            "ja": "水色の髪",
             "postCount": 26968,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "light purple hair",
-            "ja": "薄紫",
+            "ja": "薄紫の髪",
             "postCount": 3996,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "dark blue hair",
-            "ja": "濃紫",
+            "ja": "濃い青の髪",
             "postCount": 13325,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "pink hair",
-            "ja": "ピンク",
+            "ja": "ピンクの髪",
             "postCount": 830793,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "aqua hair",
-            "ja": "青緑",
+            "ja": "水色の髪",
             "postCount": 142726,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "red hair",
-            "ja": "赤",
+            "ja": "赤い髪",
             "postCount": 614374,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "green hair",
-            "ja": "緑",
+            "ja": "緑の髪",
             "postCount": 486167,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "orange hair",
-            "ja": "オレンジ",
+            "ja": "オレンジ色の髪",
             "postCount": 282878,
             "microcategory": "ファンタジー系カラー"
           },
           {
             "tag": "multicolored hair",
-            "ja": "多色髪",
+            "ja": "カラフルな髪",
             "postCount": 873108,
             "microcategory": "複合カラー"
           },
@@ -1074,7 +1074,7 @@
           },
           {
             "tag": "two-tone hair",
-            "ja": "ツートン",
+            "ja": "ツートンカラーの髪",
             "postCount": 304192,
             "microcategory": "複合カラー"
           },
@@ -1086,19 +1086,19 @@
           },
           {
             "tag": "gradient hair",
-            "ja": "グラデ髪",
+            "ja": "グラデーションの髪",
             "postCount": 169854,
             "microcategory": "複合カラー"
           },
           {
             "tag": "split-color hair",
-            "ja": "バイカラー",
+            "ja": "2色に分かれた髪",
             "postCount": 21009,
             "microcategory": "複合カラー"
           },
           {
             "tag": "colored inner hair",
-            "ja": "インナーカラー",
+            "ja": "インナーカラーの髪",
             "postCount": 108972,
             "microcategory": "複合カラー"
           },
@@ -1110,7 +1110,7 @@
           },
           {
             "tag": "rainbow hair",
-            "ja": "虹髪",
+            "ja": "虹色の髪",
             "postCount": 1834,
             "microcategory": "複合カラー"
           }
@@ -1269,13 +1269,13 @@
           },
           {
             "tag": "collared shirt",
-            "ja": "襟付きシャツ",
+            "ja": "襟付き",
             "postCount": 569526,
             "microcategory": "シャツ・構造的特徴"
           },
           {
             "tag": "strapless shirt",
-            "ja": "肩紐のないシャツ",
+            "ja": "肩紐のない",
             "postCount": 5361,
             "microcategory": "シャツ・構造的特徴"
           },
@@ -1287,19 +1287,19 @@
           },
           {
             "tag": "off-shoulder shirt",
-            "ja": "肩を露出させたシャツ",
+            "ja": "肩を露出させた",
             "postCount": 28458,
             "microcategory": "シャツ・構造的特徴"
           },
           {
             "tag": "cropped shirt",
-            "ja": "丈が短いシャツ",
+            "ja": "丈が短い",
             "postCount": 29382,
             "microcategory": "シャツ・構造的特徴"
           },
           {
             "tag": "single-shoulder shirt",
-            "ja": "片方の肩だけを露出したシャツ",
+            "ja": "片方の肩だけを露出",
             "postCount": 1098,
             "microcategory": "シャツ・構造的特徴"
           },
@@ -1323,7 +1323,7 @@
           },
           {
             "tag": "side-tie shirt",
-            "ja": "横で紐を結んだシャツ",
+            "ja": "横で紐を結んだ",
             "postCount": 941,
             "microcategory": "シャツ・構造的特徴"
           },
@@ -1335,7 +1335,7 @@
           },
           {
             "tag": "tied shirt",
-            "ja": "裾を結んだシャツ",
+            "ja": "裾を結んだ",
             "postCount": 17114,
             "microcategory": "シャツ・構造的特徴"
           },
@@ -1347,7 +1347,7 @@
           },
           {
             "tag": "untucked shirt",
-            "ja": "裾を出したシャツ",
+            "ja": "裾を出した",
             "postCount": 3921,
             "microcategory": "シャツ・構造的特徴"
           },
@@ -1401,55 +1401,55 @@
           },
           {
             "tag": "plaid shirt",
-            "ja": "チェック柄",
+            "ja": "チェック柄のシャツ",
             "postCount": 9989,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "print shirt",
-            "ja": "柄物全般",
+            "ja": "柄入りのシャツ",
             "postCount": 21621,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "vertical-striped shirt",
-            "ja": "縦縞",
+            "ja": "縦縞のシャツ",
             "postCount": 10472,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "polka dot shirt",
-            "ja": "水玉模様",
+            "ja": "水玉模様のシャツ",
             "postCount": 1592,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "striped shirt",
-            "ja": "ストライプ",
+            "ja": "ストライプ柄のシャツ",
             "postCount": 39150,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "checkered shirt",
-            "ja": "市松模様",
+            "ja": "市松模様のシャツ",
             "postCount": 1315,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "pinstripe shirt",
-            "ja": "細い縦縞",
+            "ja": "細い縦縞のシャツ",
             "postCount": 2612,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "camouflage shirt",
-            "ja": "迷彩",
+            "ja": "迷彩柄のシャツ",
             "postCount": 867,
             "microcategory": "シャツ・柄・パターン"
           },
           {
             "tag": "american flag shirt",
-            "ja": "アメリカ国旗",
+            "ja": "星条旗柄のシャツ",
             "postCount": 640,
             "microcategory": "シャツ・柄・パターン"
           },
@@ -1665,13 +1665,13 @@
           },
           {
             "tag": "open-chest sweater",
-            "ja": "胸元が開いたセーター",
+            "ja": "胸元が開いた",
             "postCount": 3268,
             "microcategory": "セーター"
           },
           {
             "tag": "hooded sweater",
-            "ja": "フード付きセーター",
+            "ja": "フード付き",
             "postCount": 2531,
             "microcategory": "セーター"
           },
@@ -1683,9 +1683,9 @@
           },
           {
             "tag": "striped sweater",
-            "ja": "ストライプ柄セーター",
+            "ja": "ストライプ柄のセーター",
             "postCount": 3490,
-            "microcategory": "セーター"
+            "microcategory": "柄タグ（トップス）"
           },
           {
             "tag": "sleeveless sweater",
@@ -1695,15 +1695,15 @@
           },
           {
             "tag": "argyle sweater",
-            "ja": "アーガイル柄セーター",
+            "ja": "アーガイル柄のセーター",
             "postCount": 1199,
-            "microcategory": "セーター"
+            "microcategory": "柄タグ（トップス）"
           },
           {
             "tag": "print sweater",
-            "ja": "柄入りセーター",
+            "ja": "柄入りのセーター",
             "postCount": 1142,
-            "microcategory": "セーター"
+            "microcategory": "柄タグ（トップス）"
           },
           {
             "tag": "white shirt",
@@ -2074,37 +2074,37 @@
           },
           {
             "tag": "off-shoulder dress",
-            "ja": "オフショルダードレス",
+            "ja": "オフショルダー",
             "postCount": 33361,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
           {
             "tag": "strapless dress",
-            "ja": "ストラップレスドレス",
+            "ja": "ストラップレス",
             "postCount": 62268,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
           {
             "tag": "single-shoulder dress",
-            "ja": "ワンショルダードレス",
+            "ja": "ワンショルダー",
             "postCount": 1136,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
           {
             "tag": "pleated dress",
-            "ja": "プリーツ加工ドレス",
+            "ja": "プリーツ加工",
             "postCount": 26454,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
           {
             "tag": "backless dress",
-            "ja": "バックレスドレス",
+            "ja": "バックレス",
             "postCount": 17163,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
           {
             "tag": "layered dress",
-            "ja": "重ね着風・段重ねドレス",
+            "ja": "重ね着風・段重ね",
             "postCount": 18195,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
@@ -2116,7 +2116,7 @@
           },
           {
             "tag": "two-sided dress",
-            "ja": "リバーシブルドレス",
+            "ja": "リバーシブル",
             "postCount": 1920,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
@@ -2128,7 +2128,7 @@
           },
           {
             "tag": "side-tie dress",
-            "ja": "サイドタイドレス",
+            "ja": "サイドタイ",
             "postCount": 668,
             "microcategory": "ワンピース・ドレス・構造的特徴"
           },
@@ -2202,7 +2202,7 @@
             "tag": "striped dress",
             "ja": "ストライプ柄のドレス",
             "postCount": 14224,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "black dress",
@@ -2214,7 +2214,7 @@
             "tag": "print dress",
             "ja": "柄入りのドレス",
             "postCount": 11163,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "blue dress",
@@ -2226,7 +2226,7 @@
             "tag": "plaid dress",
             "ja": "チェック柄のドレス",
             "postCount": 7214,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "red dress",
@@ -2238,7 +2238,7 @@
             "tag": "vertical-striped dress",
             "ja": "縦縞のドレス",
             "postCount": 6753,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "pink dress",
@@ -2250,7 +2250,7 @@
             "tag": "american flag dress",
             "ja": "星条旗柄のドレス",
             "postCount": 4174,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "purple dress",
@@ -2262,7 +2262,7 @@
             "tag": "polka dot dress",
             "ja": "水玉模様のドレス",
             "postCount": 3161,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "green dress",
@@ -2274,7 +2274,7 @@
             "tag": "checkered dress",
             "ja": "市松模様のドレス",
             "postCount": 1096,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "brown dress",
@@ -2286,7 +2286,7 @@
             "tag": "pinstripe dress",
             "ja": "細い縦縞のドレス",
             "postCount": 1397,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "grey dress",
@@ -2298,7 +2298,7 @@
             "tag": "argyle dress",
             "ja": "アーガイル柄のドレス",
             "postCount": 753,
-            "microcategory": "色タグ（ワンピース・ドレス）"
+            "microcategory": "柄タグ（ワンピース・ドレス）"
           },
           {
             "tag": "two-tone dress",
@@ -2591,9 +2591,9 @@
           },
           {
             "tag": "print sleeves",
-            "ja": "柄物全般",
+            "ja": "柄入りの袖",
             "postCount": 1570,
-            "microcategory": "袖"
+            "microcategory": "柄タグ（袖・襟）"
           },
           {
             "tag": "collar",
@@ -2809,7 +2809,7 @@
             "tag": "plaid sailor collar",
             "ja": "チェック柄のセーラー襟",
             "postCount": 434,
-            "microcategory": "色タグ（袖・襟）"
+            "microcategory": "柄タグ（袖・襟）"
           }
         ],
         "optional": false
@@ -3199,9 +3199,9 @@
           },
           {
             "tag": "black bodysuit",
-            "ja": "黒ボディスーツ",
+            "ja": "黒いボディスーツ",
             "postCount": 38172,
-            "microcategory": "未分類"
+            "microcategory": "色タグ（未分類）"
           },
           {
             "tag": "chest sarashi",
@@ -3289,15 +3289,15 @@
           },
           {
             "tag": "multicolored clothes",
-            "ja": "多色使いの服",
+            "ja": "カラフルな服",
             "postCount": 5605,
-            "microcategory": "未分類"
+            "microcategory": "色タグ（未分類）"
           },
           {
             "tag": "argyle clothes",
-            "ja": "ひし形模様のデザインが特徴の服",
+            "ja": "アーガイル柄の服",
             "postCount": 11754,
-            "microcategory": "未分類"
+            "microcategory": "柄タグ（未分類）"
           },
           {
             "tag": "official alternate costume",
@@ -3403,21 +3403,21 @@
           },
           {
             "tag": "black leotard",
-            "ja": "黒レオタード",
+            "ja": "黒いレオタード",
             "postCount": 83780,
-            "microcategory": "未分類"
+            "microcategory": "色タグ（未分類）"
           },
           {
             "tag": "white leotard",
-            "ja": "白",
+            "ja": "白いレオタード",
             "postCount": 35145,
-            "microcategory": "未分類"
+            "microcategory": "色タグ（未分類）"
           },
           {
             "tag": "blue leotard",
-            "ja": "青",
+            "ja": "青いレオタード",
             "postCount": 26787,
-            "microcategory": "未分類"
+            "microcategory": "色タグ（未分類）"
           },
           {
             "tag": "negligee",
@@ -3668,7 +3668,7 @@
           },
           {
             "tag": "high-waist skirt",
-            "ja": "ハイウエストスカート",
+            "ja": "ハイウエスト",
             "postCount": 45783,
             "microcategory": "スカート・構造的特徴"
           },
@@ -3680,7 +3680,7 @@
           },
           {
             "tag": "layered skirt",
-            "ja": "重ね着風・段重ねスカート",
+            "ja": "重ね着風・段重ね",
             "postCount": 17601,
             "microcategory": "スカート・構造的特徴"
           },
@@ -3692,7 +3692,7 @@
           },
           {
             "tag": "two-sided skirt",
-            "ja": "リバーシブルスカート",
+            "ja": "リバーシブル",
             "postCount": 1279,
             "microcategory": "スカート・構造的特徴"
           },
@@ -3704,7 +3704,7 @@
           },
           {
             "tag": "asymmetrical skirt",
-            "ja": "左右非対称スカート",
+            "ja": "左右非対称",
             "postCount": 233,
             "microcategory": "スカート・構造的特徴"
           },
@@ -4340,37 +4340,37 @@
           },
           {
             "tag": "asymmetrical pants",
-            "ja": "左右非対称パンツ",
+            "ja": "左右非対称",
             "postCount": 810,
             "microcategory": "ズボン・ショーツ・構造的特徴・状態"
           },
           {
             "tag": "side slit shorts",
-            "ja": "横に切れ込みが入ったショートパンツ",
+            "ja": "横に切れ込みが入った",
             "postCount": 1711,
             "microcategory": "ズボン・ショーツ・構造的特徴・状態"
           },
           {
             "tag": "detached pants",
-            "ja": "独立したパンツ",
+            "ja": "独立した",
             "postCount": 691,
             "microcategory": "ズボン・ショーツ・構造的特徴・状態"
           },
           {
             "tag": "asymmetrical shorts",
-            "ja": "左右非対称ショートパンツ",
+            "ja": "左右非対称",
             "postCount": 112,
             "microcategory": "ズボン・ショーツ・構造的特徴・状態"
           },
           {
             "tag": "crotchless pants",
-            "ja": "股抜きパンツ",
+            "ja": "股抜き",
             "postCount": 786,
             "microcategory": "ズボン・ショーツ・構造的特徴・状態"
           },
           {
             "tag": "crotchless shorts",
-            "ja": "股抜きショートパンツ",
+            "ja": "股抜き",
             "postCount": 95,
             "microcategory": "ズボン・ショーツ・構造的特徴・状態"
           },
@@ -4618,13 +4618,13 @@
             "tag": "black fundoshi",
             "ja": "黒いふんどし",
             "postCount": 281,
-            "microcategory": "ふんどし・腰布"
+            "microcategory": "色タグ（ボトムス）"
           },
           {
             "tag": "red fundoshi",
             "ja": "赤いふんどし",
             "postCount": 314,
-            "microcategory": "ふんどし・腰布"
+            "microcategory": "色タグ（ボトムス）"
           },
           {
             "tag": "loincloth",
@@ -4648,7 +4648,7 @@
             "tag": "white loincloth",
             "ja": "白い腰布",
             "postCount": 268,
-            "microcategory": "ふんどし・腰布"
+            "microcategory": "色タグ（ボトムス）"
           },
           {
             "tag": "black skirt",
@@ -4660,7 +4660,7 @@
             "tag": "plaid skirt",
             "ja": "チェック柄のスカート",
             "postCount": 107274,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "blue skirt",
@@ -4672,7 +4672,7 @@
             "tag": "striped skirt",
             "ja": "ストライプ柄のスカート",
             "postCount": 8209,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "red skirt",
@@ -4684,7 +4684,7 @@
             "tag": "print skirt",
             "ja": "柄入りのスカート",
             "postCount": 8261,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "white skirt",
@@ -4696,7 +4696,7 @@
             "tag": "checkered skirt",
             "ja": "市松模様のスカート",
             "postCount": 5452,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "green skirt",
@@ -4708,7 +4708,7 @@
             "tag": "vertical-striped skirt",
             "ja": "縦縞のスカート",
             "postCount": 3599,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "grey skirt",
@@ -4720,7 +4720,7 @@
             "tag": "polka dot skirt",
             "ja": "水玉模様のスカート",
             "postCount": 1539,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "pink skirt",
@@ -4732,7 +4732,7 @@
             "tag": "camouflage skirt",
             "ja": "迷彩柄のスカート",
             "postCount": 525,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "purple skirt",
@@ -4744,7 +4744,7 @@
             "tag": "pinstripe skirt",
             "ja": "細い縦縞のスカート",
             "postCount": 717,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "brown skirt",
@@ -4756,7 +4756,7 @@
             "tag": "argyle skirt",
             "ja": "アーガイル柄のスカート",
             "postCount": 235,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "yellow skirt",
@@ -4768,7 +4768,7 @@
             "tag": "diagonal-striped skirt",
             "ja": "斜め縞のスカート",
             "postCount": 237,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "orange skirt",
@@ -4780,7 +4780,7 @@
             "tag": "gingham skirt",
             "ja": "ギンガムチェック柄のスカート",
             "postCount": 249,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "multicolored skirt",
@@ -4990,97 +4990,97 @@
             "tag": "striped pants",
             "ja": "ストライプ柄のパンツ",
             "postCount": 5572,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "striped shorts",
             "ja": "ストライプ柄のショートパンツ",
             "postCount": 3234,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "plaid pants",
             "ja": "チェック柄のパンツ",
             "postCount": 3465,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "print shorts",
             "ja": "柄入りのショートパンツ",
             "postCount": 1576,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "camouflage pants",
             "ja": "迷彩柄のパンツ",
             "postCount": 2220,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "vertical-striped shorts",
             "ja": "縦縞のショートパンツ",
             "postCount": 1560,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "vertical-striped pants",
             "ja": "縦縞のパンツ",
             "postCount": 1853,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "plaid shorts",
             "ja": "チェック柄のショートパンツ",
             "postCount": 980,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "pinstripe pants",
             "ja": "細い縦縞のパンツ",
             "postCount": 1180,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "camouflage shorts",
             "ja": "迷彩柄のショートパンツ",
             "postCount": 473,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "print pants",
             "ja": "柄入りのパンツ",
             "postCount": 999,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "polka dot shorts",
             "ja": "水玉模様のショートパンツ",
             "postCount": 257,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "american flag pants",
             "ja": "星条旗柄のパンツ",
             "postCount": 207,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "checkered shorts",
             "ja": "市松模様のショートパンツ",
             "postCount": 96,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "polka dot pants",
             "ja": "水玉模様のパンツ",
             "postCount": 148,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           },
           {
             "tag": "checkered pants",
             "ja": "市松模様のパンツ",
             "postCount": 141,
-            "microcategory": "色タグ（ボトムス）"
+            "microcategory": "柄タグ（ボトムス）"
           }
         ],
         "optional": false
@@ -5469,9 +5469,9 @@
           },
           {
             "tag": "striped thighhighs",
-            "ja": "縞ニーソ",
+            "ja": "ストライプ柄のサイハイソックス",
             "postCount": 61729,
-            "microcategory": "ロングソックス"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "fishnet thighhighs",
@@ -5481,9 +5481,9 @@
           },
           {
             "tag": "vertical-striped thighhighs",
-            "ja": "縦縞ニーソックス",
+            "ja": "縦縞のサイハイソックス",
             "postCount": 9452,
-            "microcategory": "ロングソックス"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "frilled thighhighs",
@@ -5499,9 +5499,9 @@
           },
           {
             "tag": "print thighhighs",
-            "ja": "柄付きサイハイ",
+            "ja": "柄入りのサイハイソックス",
             "postCount": 12884,
-            "microcategory": "ロングソックス"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "torn thighhighs",
@@ -5565,9 +5565,9 @@
           },
           {
             "tag": "striped socks",
-            "ja": "ストライプソックス",
+            "ja": "ストライプ柄のソックス",
             "postCount": 9600,
-            "microcategory": "通常丈ソックス"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "ankle socks",
@@ -5595,9 +5595,9 @@
           },
           {
             "tag": "vertical-striped socks",
-            "ja": "縦方向に縞模様がある靴下",
+            "ja": "縦縞のソックス",
             "postCount": 1326,
-            "microcategory": "通常丈ソックス"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "unworn socks",
@@ -5667,9 +5667,9 @@
           },
           {
             "tag": "american flag legwear",
-            "ja": "アメリカ国旗模様レッグウェア",
+            "ja": "星条旗柄のレッグウェア",
             "postCount": 4408,
-            "microcategory": "脚部に着用する衣類全般・レッグウェア"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "bow legwear",
@@ -5679,9 +5679,9 @@
           },
           {
             "tag": "gradient legwear",
-            "ja": "グラデーションレッグウェア",
+            "ja": "グラデーションのレッグウェア",
             "postCount": 1889,
-            "microcategory": "脚部に着用する衣類全般・レッグウェア"
+            "microcategory": "色タグ（靴・レッグウェア）"
           },
           {
             "tag": "animal ear legwear",
@@ -5691,9 +5691,9 @@
           },
           {
             "tag": "two-tone legwear",
-            "ja": "ツートーンレッグウェア",
+            "ja": "ツートンカラーのレッグウェア",
             "postCount": 1829,
-            "microcategory": "脚部に着用する衣類全般・レッグウェア"
+            "microcategory": "色タグ（靴・レッグウェア）"
           },
           {
             "tag": "cat ear legwear",
@@ -5703,9 +5703,9 @@
           },
           {
             "tag": "polka dot legwear",
-            "ja": "水玉レッグウェア",
+            "ja": "水玉模様のレッグウェア",
             "postCount": 1370,
-            "microcategory": "脚部に着用する衣類全般・レッグウェア"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "shiny legwear",
@@ -5769,9 +5769,9 @@
           },
           {
             "tag": "striped pantyhose",
-            "ja": "ストライプタイツ",
+            "ja": "ストライプ柄のタイツ",
             "postCount": 10629,
-            "microcategory": "タイツ・ストッキング"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "torn pantyhose",
@@ -5781,15 +5781,15 @@
           },
           {
             "tag": "vertical-striped pantyhose",
-            "ja": "縦縞タイツ",
+            "ja": "縦縞のタイツ",
             "postCount": 3344,
-            "microcategory": "タイツ・ストッキング"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "print pantyhose",
-            "ja": "柄パンスト",
+            "ja": "柄入りのタイツ",
             "postCount": 8004,
-            "microcategory": "タイツ・ストッキング"
+            "microcategory": "柄タグ（靴・レッグウェア）"
           },
           {
             "tag": "single leg pantyhose",
@@ -5896,43 +5896,43 @@
           },
           {
             "tag": "striped panties",
-            "ja": "縞パン",
+            "ja": "ストライプ柄のショーツ",
             "postCount": 44889,
             "microcategory": "パンツ・柄・パターン"
           },
           {
             "tag": "print panties",
-            "ja": "柄物全般",
+            "ja": "柄入りのショーツ",
             "postCount": 9864,
             "microcategory": "パンツ・柄・パターン"
           },
           {
             "tag": "polka dot panties",
-            "ja": "水玉模様",
+            "ja": "水玉模様のショーツ",
             "postCount": 7412,
             "microcategory": "パンツ・柄・パターン"
           },
           {
             "tag": "plaid panties",
-            "ja": "チェック柄",
+            "ja": "チェック柄のショーツ",
             "postCount": 1563,
             "microcategory": "パンツ・柄・パターン"
           },
           {
             "tag": "strawberry panties",
-            "ja": "苺パンツ",
+            "ja": "イチゴ柄のショーツ",
             "postCount": 1201,
             "microcategory": "パンツ・柄・パターン"
           },
           {
             "tag": "vertical-striped panties",
-            "ja": "縦縞パンツ",
+            "ja": "縦縞のショーツ",
             "postCount": 972,
             "microcategory": "パンツ・柄・パターン"
           },
           {
             "tag": "bear panties",
-            "ja": "くまさんパンツ",
+            "ja": "クマ柄のショーツ",
             "postCount": 833,
             "microcategory": "パンツ・柄・パターン"
           },
@@ -5956,9 +5956,9 @@
           },
           {
             "tag": "lace panties",
-            "ja": "レースパンティ",
+            "ja": "レース柄のショーツ",
             "postCount": 4979,
-            "microcategory": "パンツ・装飾要素"
+            "microcategory": "柄タグ（下着・インナーウェア）"
           },
           {
             "tag": "crotch seam",
@@ -5992,7 +5992,7 @@
           },
           {
             "tag": "backless panties",
-            "ja": "Vバックショーツ",
+            "ja": "Vバック",
             "postCount": 732,
             "microcategory": "パンツ・構造的特徴・状態"
           },
@@ -6130,31 +6130,31 @@
           },
           {
             "tag": "polka dot bra",
-            "ja": "水玉模様",
+            "ja": "水玉模様のブラ",
             "postCount": 2339,
             "microcategory": "ブラ・柄・パターン"
           },
           {
             "tag": "print bra",
-            "ja": "柄物全般",
+            "ja": "柄入りのブラ",
             "postCount": 2330,
             "microcategory": "ブラ・柄・パターン"
           },
           {
             "tag": "striped bra",
-            "ja": "縞ブラ",
+            "ja": "ストライプ柄のブラ",
             "postCount": 3937,
             "microcategory": "ブラ・柄・パターン"
           },
           {
             "tag": "plaid bra",
-            "ja": "チェック柄",
+            "ja": "チェック柄のブラ",
             "postCount": 1060,
             "microcategory": "ブラ・柄・パターン"
           },
           {
             "tag": "vertical-striped bra",
-            "ja": "縦縞ブラ",
+            "ja": "縦縞のブラ",
             "postCount": 622,
             "microcategory": "ブラ・柄・パターン"
           },
@@ -6178,7 +6178,7 @@
           },
           {
             "tag": "open bra",
-            "ja": "フロントホックブラ",
+            "ja": "フロントホック",
             "postCount": 2702,
             "microcategory": "ブラ・構造的特徴・状態"
           },
@@ -6923,9 +6923,9 @@
           },
           {
             "tag": "bear hood",
-            "ja": "クマ",
+            "ja": "クマ柄のフード",
             "postCount": 1094,
-            "microcategory": "フード・パーカー"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "hooded robe",
@@ -7639,49 +7639,49 @@
             "tag": "striped jacket",
             "ja": "ストライプ柄のジャケット",
             "postCount": 8625,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "striped coat",
             "ja": "ストライプ柄のコート",
             "postCount": 1210,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "plaid jacket",
             "ja": "チェック柄のジャケット",
             "postCount": 3179,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "vertical-striped coat",
             "ja": "縦縞のコート",
             "postCount": 442,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "print jacket",
             "ja": "柄入りのジャケット",
             "postCount": 2632,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "plaid coat",
             "ja": "チェック柄のコート",
             "postCount": 503,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "camouflage jacket",
             "ja": "迷彩柄のジャケット",
             "postCount": 2333,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "vertical-striped jacket",
             "ja": "縦縞のジャケット",
             "postCount": 2473,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "red cape",
@@ -7855,13 +7855,13 @@
             "tag": "print cape",
             "ja": "柄入りのケープ",
             "postCount": 470,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "striped cape",
             "ja": "ストライプ柄のケープ",
             "postCount": 205,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "white capelet",
@@ -7951,13 +7951,13 @@
             "tag": "plaid capelet",
             "ja": "チェック柄のケープレット",
             "postCount": 500,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "striped capelet",
             "ja": "ストライプ柄のケープレット",
             "postCount": 216,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "red hood",
@@ -8107,25 +8107,25 @@
             "tag": "striped hoodie",
             "ja": "ストライプ柄のパーカー",
             "postCount": 1513,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "print hoodie",
             "ja": "柄入りのパーカー",
             "postCount": 1770,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "polka dot hoodie",
             "ja": "水玉模様のパーカー",
             "postCount": 124,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "camouflage hoodie",
             "ja": "迷彩柄のパーカー",
             "postCount": 69,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "black vest",
@@ -8287,43 +8287,43 @@
             "tag": "plaid vest",
             "ja": "チェック柄のベスト",
             "postCount": 9725,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "striped cardigan",
             "ja": "ストライプ柄のカーディガン",
             "postCount": 187,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "striped vest",
             "ja": "ストライプ柄のベスト",
             "postCount": 1351,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "pinstripe vest",
             "ja": "細い縦縞のベスト",
             "postCount": 730,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "vertical-striped vest",
             "ja": "縦縞のベスト",
             "postCount": 768,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "checkered vest",
             "ja": "市松模様のベスト",
             "postCount": 286,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "print vest",
             "ja": "柄入りのベスト",
             "postCount": 267,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           },
           {
             "tag": "brown sweater vest",
@@ -8461,7 +8461,7 @@
             "tag": "argyle sweater vest",
             "ja": "アーガイル柄のセーターベスト",
             "postCount": 249,
-            "microcategory": "色タグ（アウター）"
+            "microcategory": "柄タグ（アウター）"
           }
         ],
         "optional": false
@@ -9349,7 +9349,7 @@
           },
           {
             "tag": "striped bikini",
-            "ja": "縞ビキニ",
+            "ja": "ストライプ柄のビキニ",
             "postCount": 29584,
             "microcategory": "柄・パターン"
           },
@@ -9367,19 +9367,19 @@
           },
           {
             "tag": "polka dot swimsuit",
-            "ja": "水玉模様のある水着",
+            "ja": "水玉模様の水着",
             "postCount": 1578,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "checkered bikini",
-            "ja": "市松模様ビキニ",
+            "ja": "市松模様のビキニ",
             "postCount": 371,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "print bikini",
-            "ja": "柄付きビキニ",
+            "ja": "柄入りのビキニ",
             "postCount": 29419,
             "microcategory": "柄・パターン"
           },
@@ -9391,37 +9391,37 @@
           },
           {
             "tag": "cow print bikini",
-            "ja": "牛柄ビキニ",
+            "ja": "牛柄のビキニ",
             "postCount": 10528,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "plaid bikini",
-            "ja": "タータンチェック柄のビキニ",
+            "ja": "チェック柄のビキニ",
             "postCount": 3274,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "vertical-striped bikini",
-            "ja": "縦縞ビキニ",
+            "ja": "縦縞のビキニ",
             "postCount": 1448,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "camouflage bikini",
-            "ja": "迷彩ビキニ",
+            "ja": "迷彩柄のビキニ",
             "postCount": 591,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "american flag bikini",
-            "ja": "アメリカ国旗ビキニ",
+            "ja": "星条旗柄のビキニ",
             "postCount": 4148,
             "microcategory": "柄・パターン"
           },
           {
             "tag": "german flag bikini",
-            "ja": "ドイツ国旗ビキニ",
+            "ja": "ドイツ国旗柄のビキニ",
             "postCount": 868,
             "microcategory": "柄・パターン"
           },
@@ -9770,9 +9770,9 @@
           },
           {
             "tag": "black kimono",
-            "ja": "黒の着物",
+            "ja": "黒い着物",
             "postCount": 24083,
-            "microcategory": "和服"
+            "microcategory": "色タグ（和服）"
           },
           {
             "tag": "hakama",
@@ -9782,21 +9782,21 @@
           },
           {
             "tag": "blue kimono",
-            "ja": "青",
+            "ja": "青い着物",
             "postCount": 30271,
-            "microcategory": "和服"
+            "microcategory": "色タグ（和服）"
           },
           {
             "tag": "red kimono",
-            "ja": "赤",
+            "ja": "赤い着物",
             "postCount": 20919,
-            "microcategory": "和服"
+            "microcategory": "色タグ（和服）"
           },
           {
             "tag": "white kimono",
-            "ja": "白",
+            "ja": "白い着物",
             "postCount": 41971,
-            "microcategory": "和服"
+            "microcategory": "色タグ（和服）"
           },
           {
             "tag": "yukata",
@@ -9849,7 +9849,7 @@
         "tags": [
           {
             "tag": "striped clothes",
-            "ja": "縞模様の服",
+            "ja": "ストライプ柄の服",
             "postCount": 272604,
             "microcategory": "柄・デザイン"
           },
@@ -9903,7 +9903,7 @@
           },
           {
             "tag": "lace trim",
-            "ja": "レース飾り",
+            "ja": "レース柄の縁取り",
             "postCount": 59517,
             "microcategory": "柄・デザイン"
           },
@@ -9927,15 +9927,15 @@
           },
           {
             "tag": "checkered clothes",
-            "ja": "チェック柄の服",
+            "ja": "市松模様の服",
             "postCount": 22447,
             "microcategory": "柄・デザイン"
           },
           {
             "tag": "gold trim",
-            "ja": "金の縁飾り",
+            "ja": "金色の縁取り",
             "postCount": 56102,
-            "microcategory": "柄・デザイン"
+            "microcategory": "色タグ（柄・デザイン）"
           },
           {
             "tag": "plaid",
@@ -9993,7 +9993,7 @@
           },
           {
             "tag": "plaid bow",
-            "ja": "タータンチェック柄のリボン",
+            "ja": "チェック柄のリボン",
             "postCount": 10725,
             "microcategory": "柄・デザイン"
           },
@@ -10005,7 +10005,7 @@
           },
           {
             "tag": "pinstripe pattern",
-            "ja": "細い縦縞模様",
+            "ja": "細い縦縞の模様",
             "postCount": 13025,
             "microcategory": "柄・デザイン"
           },
@@ -10041,7 +10041,7 @@
           },
           {
             "tag": "diagonal-striped clothes",
-            "ja": "斜めストライプの服",
+            "ja": "斜め縞の服",
             "postCount": 10884,
             "microcategory": "柄・デザイン"
           }
@@ -10062,7 +10062,7 @@
             "tag": "blue halo",
             "ja": "青い天使の輪",
             "postCount": 41828,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "hat",
@@ -10288,9 +10288,9 @@
           },
           {
             "tag": "striped bow",
-            "ja": "縞模様のリボン",
+            "ja": "ストライプ柄のリボン",
             "postCount": 36766,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "柄タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "hair ribbon",
@@ -10356,7 +10356,7 @@
             "tag": "black hat",
             "ja": "黒い帽子",
             "postCount": 167763,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "bandana",
@@ -10366,9 +10366,9 @@
           },
           {
             "tag": "white hat",
-            "ja": "白",
+            "ja": "白い帽子",
             "postCount": 110806,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "hairband",
@@ -10378,33 +10378,33 @@
           },
           {
             "tag": "red hat",
-            "ja": "赤",
+            "ja": "赤い帽子",
             "postCount": 54451,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "black hairband",
-            "ja": "黒ヘアバンド",
+            "ja": "黒いヘアバンド",
             "postCount": 114713,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "blue hat",
-            "ja": "青",
+            "ja": "青い帽子",
             "postCount": 47643,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "white hairband",
-            "ja": "白",
+            "ja": "白いヘアバンド",
             "postCount": 44663,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "red hairband",
-            "ja": "赤",
+            "ja": "赤いヘアバンド",
             "postCount": 30842,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "色タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "towel on head",
@@ -10588,9 +10588,9 @@
           },
           {
             "tag": "striped ribbon",
-            "ja": "縞模様のリボン",
+            "ja": "ストライプ柄のリボン",
             "postCount": 7330,
-            "microcategory": "帽子・ヘアアクセサリー"
+            "microcategory": "柄タグ（帽子・ヘアアクセサリー）"
           },
           {
             "tag": "wizard hat",
@@ -10649,21 +10649,21 @@
           },
           {
             "tag": "striped necktie",
-            "ja": "縞模様のネクタイ",
+            "ja": "ストライプ柄のネクタイ",
             "postCount": 12871,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "柄タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "red scarf",
-            "ja": "赤",
+            "ja": "赤いスカーフ",
             "postCount": 38983,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "white scarf",
-            "ja": "白",
+            "ja": "白いスカーフ",
             "postCount": 26925,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "bowtie",
@@ -10691,9 +10691,9 @@
           },
           {
             "tag": "red neckerchief",
-            "ja": "赤ネッカチーフ",
+            "ja": "赤いネッカチーフ",
             "postCount": 59856,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "ascot",
@@ -10703,9 +10703,9 @@
           },
           {
             "tag": "yellow ascot",
-            "ja": "黄色のアスコットタイ",
+            "ja": "黄色いアスコットタイ",
             "postCount": 28804,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "choker",
@@ -10721,81 +10721,81 @@
           },
           {
             "tag": "red bow",
-            "ja": "赤リボン",
+            "ja": "赤いリボン",
             "postCount": 253802,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "black ribbon",
-            "ja": "黒リボン",
+            "ja": "黒いリボン",
             "postCount": 157360,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "black bow",
-            "ja": "黒",
+            "ja": "黒いリボン",
             "postCount": 170754,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "white ribbon",
-            "ja": "白",
+            "ja": "白いリボン",
             "postCount": 70449,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "white bow",
-            "ja": "白",
+            "ja": "白いリボン",
             "postCount": 110201,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "red ribbon",
-            "ja": "赤",
+            "ja": "赤いリボン",
             "postCount": 215753,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "blue bow",
-            "ja": "青",
+            "ja": "青いリボン",
             "postCount": 141114,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "blue ribbon",
-            "ja": "青",
+            "ja": "青いリボン",
             "postCount": 90322,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "green bow",
-            "ja": "緑",
+            "ja": "緑のリボン",
             "postCount": 49672,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "yellow ribbon",
-            "ja": "黄色",
+            "ja": "黄色いリボン",
             "postCount": 39919,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "yellow bow",
-            "ja": "黄色",
+            "ja": "黄色いリボン",
             "postCount": 55969,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "pink ribbon",
-            "ja": "ピンク",
+            "ja": "ピンクのリボン",
             "postCount": 51847,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "pink bow",
-            "ja": "ピンク",
+            "ja": "ピンクのリボン",
             "postCount": 91439,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "school bag",
@@ -10897,25 +10897,25 @@
             "tag": "brown gloves",
             "ja": "茶色の手袋",
             "postCount": 53683,
-            "microcategory": "バッグ、鞄"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "black gloves",
-            "ja": "黒",
+            "ja": "黒い手袋",
             "postCount": 532407,
-            "microcategory": "バッグ、鞄"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "white gloves",
-            "ja": "白",
+            "ja": "白い手袋",
             "postCount": 352614,
-            "microcategory": "バッグ、鞄"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "blue gloves",
-            "ja": "青",
+            "ja": "青い手袋",
             "postCount": 30549,
-            "microcategory": "バッグ、鞄"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "spiked collar",
@@ -10975,7 +10975,7 @@
             "tag": "two-tone gloves",
             "ja": "ツートンカラーの手袋",
             "postCount": 8398,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "frilled choker",
@@ -10997,9 +10997,9 @@
           },
           {
             "tag": "aqua necktie",
-            "ja": "アクアカラーのネクタイ",
+            "ja": "水色のネクタイ",
             "postCount": 15595,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "色タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "loose necktie",
@@ -11015,9 +11015,9 @@
           },
           {
             "tag": "striped scarf",
-            "ja": "縞模様のスカーフ",
+            "ja": "ストライプ柄のスカーフ",
             "postCount": 7641,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "柄タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "neck ring",
@@ -11029,7 +11029,7 @@
             "tag": "plaid scarf",
             "ja": "チェック柄のスカーフ",
             "postCount": 8687,
-            "microcategory": "ネックウェア・手袋・バッグ"
+            "microcategory": "柄タグ（ネックウェア・手袋・バッグ）"
           },
           {
             "tag": "lanyard",
@@ -11172,9 +11172,9 @@
           },
           {
             "tag": "heart earrings",
-            "ja": "ハートのイヤリング",
+            "ja": "ハート柄のイヤリング",
             "postCount": 14548,
-            "microcategory": "ジュエリー・アクセサリー"
+            "microcategory": "柄タグ（ジュエリー・アクセサリー）"
           },
           {
             "tag": "chain necklace",
@@ -11226,9 +11226,9 @@
           },
           {
             "tag": "gold earrings",
-            "ja": "ゴールドイヤリング",
+            "ja": "金色のイヤリング",
             "postCount": 10493,
-            "microcategory": "ジュエリー・アクセサリー"
+            "microcategory": "色タグ（ジュエリー・アクセサリー）"
           }
         ],
         "optional": false
@@ -11263,9 +11263,9 @@
           },
           {
             "tag": "black belt",
-            "ja": "黒ベルト",
+            "ja": "黒いベルト",
             "postCount": 76214,
-            "microcategory": "ベルト・メガネ・マスク"
+            "microcategory": "色タグ（ベルト・メガネ・マスク）"
           },
           {
             "tag": "bespectacled",
@@ -11275,9 +11275,9 @@
           },
           {
             "tag": "brown belt",
-            "ja": "茶色ベルト",
+            "ja": "茶色のベルト",
             "postCount": 35487,
-            "microcategory": "ベルト・メガネ・マスク"
+            "microcategory": "色タグ（ベルト・メガネ・マスク）"
           },
           {
             "tag": "eyewear on head",
@@ -11684,9 +11684,9 @@
           },
           {
             "tag": "polka dot bow",
-            "ja": "水玉模様の蝶ネクタイ",
+            "ja": "水玉模様のリボン",
             "postCount": 11532,
-            "microcategory": "未分類のアクセサリー・武器"
+            "microcategory": "柄タグ（未分類のアクセサリー・武器）"
           },
           {
             "tag": "bridal veil",
@@ -11708,9 +11708,9 @@
           },
           {
             "tag": "aqua bow",
-            "ja": "水色のリボン飾り",
+            "ja": "水色のリボン",
             "postCount": 12581,
-            "microcategory": "未分類のアクセサリー・武器"
+            "microcategory": "色タグ（未分類のアクセサリー・武器）"
           },
           {
             "tag": "wrist ribbon",
@@ -11732,9 +11732,9 @@
           },
           {
             "tag": "print bow",
-            "ja": "柄物のリボン",
+            "ja": "柄入りのリボン",
             "postCount": 4933,
-            "microcategory": "未分類のアクセサリー・武器"
+            "microcategory": "柄タグ（未分類のアクセサリー・武器）"
           },
           {
             "tag": "pocket watch",
@@ -11783,7 +11783,7 @@
             "tag": "black wings",
             "ja": "黒い翼",
             "postCount": 55174,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "horse tail",
@@ -11867,7 +11867,7 @@
             "tag": "white wings",
             "ja": "白い翼",
             "postCount": 45743,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "cat tail",
@@ -11999,13 +11999,13 @@
             "tag": "red horns",
             "ja": "赤い角",
             "postCount": 20038,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "black horns",
             "ja": "黒い角",
             "postCount": 41055,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "horn ornament",
@@ -12039,15 +12039,15 @@
           },
           {
             "tag": "red wings",
-            "ja": "赤色の翼",
+            "ja": "赤い翼",
             "postCount": 9489,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "blue wings",
-            "ja": "青色の翼",
+            "ja": "青い翼",
             "postCount": 8234,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "insect wings",
@@ -12075,9 +12075,9 @@
           },
           {
             "tag": "multicolored wings",
-            "ja": "複数の色の翼",
+            "ja": "カラフルな翼",
             "postCount": 6808,
-            "microcategory": "翼・尻尾・角"
+            "microcategory": "色タグ（翼・尻尾・角）"
           },
           {
             "tag": "energy wings",
@@ -12498,7 +12498,7 @@
           },
           {
             "tag": "white skin",
-            "ja": "完全な白色の肌",
+            "ja": "白い肌",
             "postCount": 51273,
             "microcategory": "肌の色"
           },
@@ -12546,67 +12546,67 @@
           },
           {
             "tag": "colored skin",
-            "ja": "異色肌",
+            "ja": "色付きの肌",
             "postCount": 164425,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "red skin",
-            "ja": "赤肌",
+            "ja": "赤い肌",
             "postCount": 15874,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "blue skin",
-            "ja": "青肌",
+            "ja": "青い肌",
             "postCount": 31505,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "purple skin",
-            "ja": "紫肌",
+            "ja": "紫の肌",
             "postCount": 14204,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "green skin",
-            "ja": "緑肌",
+            "ja": "緑の肌",
             "postCount": 24497,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "pink skin",
-            "ja": "ピンク肌",
+            "ja": "ピンクの肌",
             "postCount": 10216,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "grey skin",
-            "ja": "pale skinとは異なる",
+            "ja": "グレーの肌",
             "postCount": 17827,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "yellow skin",
-            "ja": "黄肌",
+            "ja": "黄色い肌",
             "postCount": 5856,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "black skin",
-            "ja": "石炭や黒檀のような黒色",
+            "ja": "黒い肌",
             "postCount": 10681,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "orange skin",
-            "ja": "オレンジ肌",
+            "ja": "オレンジ色の肌",
             "postCount": 2768,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "multicolored skin",
-            "ja": "2色以上の異なる色で構成される肌",
+            "ja": "カラフルな肌",
             "postCount": 19606,
             "microcategory": "ファンタジー的な肌色"
           },
@@ -12618,13 +12618,13 @@
           },
           {
             "tag": "two-tone skin",
-            "ja": "2色のみで構成される異色肌",
+            "ja": "ツートンカラーの肌",
             "postCount": 14926,
             "microcategory": "ファンタジー的な肌色"
           },
           {
             "tag": "gradient skin",
-            "ja": "グラデーション肌",
+            "ja": "グラデーションの肌",
             "postCount": 3080,
             "microcategory": "ファンタジー的な肌色"
           },
@@ -21187,9 +21187,9 @@
           },
           {
             "tag": "blue sky",
-            "ja": "青空",
+            "ja": "青い空",
             "postCount": 238681,
-            "microcategory": "天候・空の状態"
+            "microcategory": "色タグ（天候・空・四季・時間帯・天体）"
           },
           {
             "tag": "cloudy sky",
@@ -21237,7 +21237,7 @@
             "tag": "orange sky",
             "ja": "オレンジ色の空",
             "postCount": 7331,
-            "microcategory": "天候・空の状態"
+            "microcategory": "色タグ（天候・空・四季・時間帯・天体）"
           },
           {
             "tag": "light rays",
@@ -21247,9 +21247,9 @@
           },
           {
             "tag": "grey sky",
-            "ja": "灰色の空",
+            "ja": "グレーの空",
             "postCount": 6050,
-            "microcategory": "天候・空の状態"
+            "microcategory": "色タグ（天候・空・四季・時間帯・天体）"
           },
           {
             "tag": "glint",
@@ -21259,15 +21259,15 @@
           },
           {
             "tag": "purple sky",
-            "ja": "紫色の空",
+            "ja": "紫の空",
             "postCount": 4759,
-            "microcategory": "天候・空の状態"
+            "microcategory": "色タグ（天候・空・四季・時間帯・天体）"
           },
           {
             "tag": "red sky",
             "ja": "赤い空",
             "postCount": 3850,
-            "microcategory": "天候・空の状態"
+            "microcategory": "色タグ（天候・空・四季・時間帯・天体）"
           },
           {
             "tag": "autumn",
@@ -21333,7 +21333,7 @@
             "tag": "red moon",
             "ja": "赤い月",
             "postCount": 5420,
-            "microcategory": "天体"
+            "microcategory": "色タグ（天候・空・四季・時間帯・天体）"
           },
           {
             "tag": "huge moon",
@@ -21496,9 +21496,9 @@
           },
           {
             "tag": "white background",
-            "ja": "白",
+            "ja": "白い背景",
             "postCount": 1823931,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "blurry background",
@@ -21508,9 +21508,9 @@
           },
           {
             "tag": "grey background",
-            "ja": "グレー",
+            "ja": "グレーの背景",
             "postCount": 314099,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "blurry foreground",
@@ -21520,9 +21520,9 @@
           },
           {
             "tag": "black background",
-            "ja": "黒",
+            "ja": "黒い背景",
             "postCount": 101819,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "chibi inset",
@@ -21532,9 +21532,9 @@
           },
           {
             "tag": "gradient background",
-            "ja": "グラデーション",
+            "ja": "グラデーションの背景",
             "postCount": 159809,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "photo background",
@@ -21556,15 +21556,15 @@
           },
           {
             "tag": "blue background",
-            "ja": "青",
+            "ja": "青い背景",
             "postCount": 149242,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "red background",
-            "ja": "赤",
+            "ja": "赤い背景",
             "postCount": 73715,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "projected inset",
@@ -21574,111 +21574,111 @@
           },
           {
             "tag": "yellow background",
-            "ja": "黄",
+            "ja": "黄色い背景",
             "postCount": 79156,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "pink background",
-            "ja": "ピンク",
+            "ja": "ピンクの背景",
             "postCount": 115892,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "two-tone background",
-            "ja": "ツートンカラー",
+            "ja": "ツートンカラーの背景",
             "postCount": 53276,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "brown background",
-            "ja": "茶色",
+            "ja": "茶色の背景",
             "postCount": 51803,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "floral background",
-            "ja": "花柄",
+            "ja": "花柄の背景",
             "postCount": 26300,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "green background",
-            "ja": "緑",
+            "ja": "緑の背景",
             "postCount": 52447,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "polka dot background",
-            "ja": "ドット柄",
+            "ja": "水玉模様の背景",
             "postCount": 18982,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "purple background",
-            "ja": "紫",
+            "ja": "紫の背景",
             "postCount": 51400,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "striped background",
-            "ja": "縞模様",
+            "ja": "ストライプ柄の背景",
             "postCount": 14203,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "orange background",
-            "ja": "オレンジ",
+            "ja": "オレンジ色の背景",
             "postCount": 35133,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "checkered background",
-            "ja": "市松模様",
+            "ja": "市松模様の背景",
             "postCount": 10678,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "multicolored background",
-            "ja": "カラフル",
+            "ja": "カラフルな背景",
             "postCount": 14068,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "heart background",
-            "ja": "ハート柄",
+            "ja": "ハート柄の背景",
             "postCount": 7391,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "aqua background",
-            "ja": "水色",
+            "ja": "水色の背景",
             "postCount": 14021,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "argyle background",
-            "ja": "アーガイル柄",
+            "ja": "アーガイル柄の背景",
             "postCount": 6307,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "grid background",
-            "ja": "格子柄",
+            "ja": "格子柄の背景",
             "postCount": 9491,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "rainbow background",
-            "ja": "虹色",
+            "ja": "虹色の背景",
             "postCount": 898,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "色タグ（効果・色・柄背景）"
           },
           {
             "tag": "plaid background",
-            "ja": "タータンチェック柄",
+            "ja": "チェック柄の背景",
             "postCount": 3136,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "sunburst background",
@@ -21688,33 +21688,33 @@
           },
           {
             "tag": "paw print background",
-            "ja": "肉球柄",
+            "ja": "肉球柄の背景",
             "postCount": 2021,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "snowflake background",
-            "ja": "雪の結晶柄",
+            "ja": "雪の結晶柄の背景",
             "postCount": 1310,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "honeycomb background",
-            "ja": "ハニカム柄",
+            "ja": "ハニカム柄の背景",
             "postCount": 1087,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "flag background",
-            "ja": "旗柄",
+            "ja": "旗柄の背景",
             "postCount": 1264,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "lace background",
-            "ja": "レース柄",
+            "ja": "レース柄の背景",
             "postCount": 744,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "fiery background",
@@ -21724,9 +21724,9 @@
           },
           {
             "tag": "food-themed background",
-            "ja": "食べ物柄",
+            "ja": "食べ物柄の背景",
             "postCount": 649,
-            "microcategory": "効果・色・柄背景"
+            "microcategory": "柄タグ（効果・色・柄背景）"
           },
           {
             "tag": "sofmap background",
@@ -22485,7 +22485,7 @@
             "tag": "white pupils",
             "ja": "白い瞳孔",
             "postCount": 86383,
-            "microcategory": "目の形・瞳孔"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "heart-shaped eyes",
@@ -22531,9 +22531,9 @@
           },
           {
             "tag": "multicolored eyes",
-            "ja": "多色の目",
+            "ja": "カラフルな瞳",
             "postCount": 49508,
-            "microcategory": "目の形・瞳孔"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "diamond-shaped pupils",
@@ -22597,9 +22597,9 @@
           },
           {
             "tag": "black sclera",
-            "ja": "強膜 (黒)",
+            "ja": "黒い強膜",
             "postCount": 28347,
-            "microcategory": "特殊な目"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "one-eyed",
@@ -22609,9 +22609,9 @@
           },
           {
             "tag": "colored sclera",
-            "ja": "強膜 (色つき)",
+            "ja": "色付きの強膜",
             "postCount": 56191,
-            "microcategory": "特殊な目"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "third eye",
@@ -22621,9 +22621,9 @@
           },
           {
             "tag": "yellow sclera",
-            "ja": "強膜 (黄)",
+            "ja": "黄色い強膜",
             "postCount": 12641,
-            "microcategory": "特殊な目"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "extra eyes",
@@ -22633,9 +22633,9 @@
           },
           {
             "tag": "red sclera",
-            "ja": "強膜 (赤)",
+            "ja": "赤い強膜",
             "postCount": 7264,
-            "microcategory": "特殊な目"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "artificial eye",
@@ -22645,9 +22645,9 @@
           },
           {
             "tag": "blue sclera",
-            "ja": "強膜 (青)",
+            "ja": "青い強膜",
             "postCount": 3012,
-            "microcategory": "特殊な目"
+            "microcategory": "色タグ（目の形・瞳孔）"
           },
           {
             "tag": "mechanical eye",
@@ -23505,15 +23505,15 @@
           },
           {
             "tag": "red eyeliner",
-            "ja": "アイライナー (赤)",
+            "ja": "赤いアイライナー",
             "postCount": 13468,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "black eyeliner",
-            "ja": "アイライナー (黒)",
+            "ja": "黒いアイライナー",
             "postCount": 1666,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "eyelashes",
@@ -23523,9 +23523,9 @@
           },
           {
             "tag": "pink lips",
-            "ja": "ピンク",
+            "ja": "ピンクの唇",
             "postCount": 36393,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "colored eyelashes",
@@ -23535,9 +23535,9 @@
           },
           {
             "tag": "red lips",
-            "ja": "赤",
+            "ja": "赤い唇",
             "postCount": 30523,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "long eyelashes",
@@ -23547,9 +23547,9 @@
           },
           {
             "tag": "purple lips",
-            "ja": "紫",
+            "ja": "紫の唇",
             "postCount": 9763,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "thick eyelashes",
@@ -23559,9 +23559,9 @@
           },
           {
             "tag": "black lips",
-            "ja": "黒",
+            "ja": "黒い唇",
             "postCount": 6939,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "mascara",
@@ -23571,9 +23571,9 @@
           },
           {
             "tag": "blue lips",
-            "ja": "青",
+            "ja": "青い唇",
             "postCount": 5948,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "runny makeup",
@@ -23583,9 +23583,9 @@
           },
           {
             "tag": "green lips",
-            "ja": "緑",
+            "ja": "緑の唇",
             "postCount": 3888,
-            "microcategory": "化粧"
+            "microcategory": "色タグ（化粧）"
           },
           {
             "tag": "lipstick mark",

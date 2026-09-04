@@ -26,6 +26,7 @@ const groupByMicrocategory = (tags: DictionaryTag[], fallback: string) => {
 };
 const microcategoriesFor = (subcategory: Subcategory) => [...new Set(subcategory.tags.map(tag => tag.microcategory || subcategory.name))];
 const microAnchorId = (categoryId: string, subcategoryId: string, microcategory: string) => `dict-${categoryId}-${subcategoryId}-${encodeURIComponent(microcategory)}`;
+const isFoldableMicrocategory = (name: string) => /色タグ|柄タグ|色・柄タグ|柄・パターン/.test(name);
 
 export default function Home() {
   const [selected, setSelected] = useState<Selection>(blankSelection);
@@ -36,6 +37,7 @@ export default function Home() {
   const [dictionaryMenuOpen, setDictionaryMenuOpen] = useState(false);
   const [expandedJumpCategory, setExpandedJumpCategory] = useState<string | null>(categories[0]?.id || null);
   const [expandedJumpSubcategory, setExpandedJumpSubcategory] = useState<string | null>(null);
+  const [expandedFoldableMicros, setExpandedFoldableMicros] = useState<Set<string>>(() => new Set());
   const [sortMode, setSortMode] = useState<'default'|'count'>('default');
   const [query, setQuery] = useState('');
   const [characterOpen, setCharacterOpen] = useState(false);
@@ -119,8 +121,14 @@ export default function Home() {
   };
   const jumpToMicrocategory = (categoryId: string, subcategoryId: string, microcategory: string) => {
     setDictCategory(categoryId); setQuery(''); setDictionaryMenuOpen(false);
+    if (isFoldableMicrocategory(microcategory)) setExpandedFoldableMicros(current => new Set(current).add(microAnchorId(categoryId, subcategoryId, microcategory)));
     setTimeout(() => document.getElementById(microAnchorId(categoryId, subcategoryId, microcategory))?.scrollIntoView({ behavior:'smooth', block:'start' }), 0);
   };
+  const toggleFoldableMicro = (id: string) => setExpandedFoldableMicros(current => {
+    const next = new Set(current);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    return next;
+  });
 
   return <main className="min-h-screen pb-28">
     <header className="topbar"><div className="shell topbar-inner">
@@ -165,10 +173,10 @@ export default function Home() {
           const tags = shownTags.filter(x => x.subcategory.id === sub.id);
           if (!tags.length) return null;
           return <section key={sub.id} id={`dict-${dictCategory}-${sub.id}`}><h3>{sub.name}<small>{tags.length}件・複数選択可</small></h3>
-            {groupByMicrocategory(tags, sub.name).map(([microName, microTags]) => <div className="dict-micro" id={microAnchorId(dictCategory, sub.id, microName)} key={microName}>
-              <h4>{microName}<small>{microTags.length}件</small></h4>
-              <div className="dict-tags">{microTags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><em>{formatCount(item.postCount)}</em>{on && <Check />}</button>})}</div>
-            </div>)}
+            {groupByMicrocategory(tags, sub.name).map(([microName, microTags]) => { const microId = microAnchorId(dictCategory, sub.id, microName); const foldable = isFoldableMicrocategory(microName); const expanded = !foldable || expandedFoldableMicros.has(microId); return <div className={`dict-micro ${foldable ? 'foldable' : ''}`} id={microId} key={microName}>
+              {foldable ? <button className="dict-micro-toggle" aria-expanded={expanded} onClick={() => toggleFoldableMicro(microId)}><span>{microName}</span><small>{microTags.length}件</small><ChevronDown /></button> : <h4>{microName}<small>{microTags.length}件</small></h4>}
+              {expanded && <div className="dict-tags">{microTags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><em>{formatCount(item.postCount)}</em>{on && <Check />}</button>})}</div>}
+            </div>})}
           </section>;
         })}{!shownTags.length && <p className="no-result">一致するタグがありません。</p>}</div>
       </div><footer className="dict-footer"><span>{tagNames.length}件 選択中</span><Button onClick={() => setDictionaryOpen(false)}>選択を反映して閉じる</Button></footer>
