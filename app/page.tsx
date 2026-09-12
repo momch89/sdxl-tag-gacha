@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { BadgeCheck, BookOpen, Check, ChevronDown, Copy, Dice5, Lock, LockOpen, Menu, Save, Search, Sparkles, Trash2, UserRound, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { allTags, categories, type Category, type Subcategory, type Tag } from './tag-data';
+import { allTags, categories, migrateCharacter, type Category, type Subcategory, type Tag } from './tag-data';
 import { createSceneGacha, defaultSceneSettings, sceneOptions, type SceneSettings } from './scene-gacha';
 
 type Selection = Record<string, Tag[]>;
@@ -106,9 +106,10 @@ export default function Home() {
     setCharacters(v => [...v, { id: crypto.randomUUID(), name, tags, freePrompt: characterFree.trim(), locks }]); setCharacterName('');
   };
   const applyCharacter = (character: SavedCharacter) => {
-    setSelected(v => ({ ...v, ...character.tags }));
+    const migrated = migrateCharacter(character.tags, character.locks);
+    setSelected(v => ({ ...v, ...migrated.tags }));
     setCharacterFree(character.freePrompt || '');
-    const ids = Object.keys(character.tags); setLocked(v => ({ ...v, ...Object.fromEntries(ids.map(id => [id, character.locks?.[id] ?? true])) }));
+    setLocked(v => ({ ...v, ...migrated.locks }));
     setCharacterOpen(false);
   };
   const saveQuality = () => {

@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createSceneGacha, defaultSceneSettings, sceneOptions } from '../app/scene-gacha.ts';
+import { organizeSceneCategories } from '../app/scene-categories.ts';
 
-const categories = JSON.parse(readFileSync(new URL('../app/danbooru-import.json', import.meta.url), 'utf8'));
+const categories = organizeSceneCategories(JSON.parse(readFileSync(new URL('../app/danbooru-import.json', import.meta.url), 'utf8')));
 const engine = createSceneGacha(categories);
 assert.deepEqual(engine.missing, [], 'All curated tags must exist in the dictionary');
 const blank = Object.fromEntries(categories.flatMap(c=>c.subcategories.map(s=>[s.id,[]])));
@@ -18,12 +19,14 @@ for (let n=0;n<12;n++) {
   assert.notEqual(result.selection,blank, result.message);
   const tags = Object.values(result.selection).flat().map(t=>t.tag);
   assert.equal(engine.conflicts(tags),'', tags.join(', '));
-  assert.ok(tags.length>=10 && tags.length<=22, tags.length);
+  assert.ok(tags.length>=14 && tags.length<=30, tags.length);
+  for (const id of ['hair_bangs','hair_texture','eye_color','eye_shape']) assert.equal(result.selection[id].length,1,id);
+  for (const id of ['hair_special_color','eye_pupils']) assert.ok(result.selection[id].length<=1,id);
   assert.equal(tags.includes('1girl'),gender==='female');
   assert.equal(tags.includes('1boy'),gender==='male');
   assert.equal(tags.includes('holographic monitor'),world==='future');
   if(tags.includes('reading')) assert.ok(tags.includes('holding book') && !tags.includes('looking at viewer'));
-  assert.ok(Object.values(result.selection).filter(t=>t.length).length < 20);
+  assert.ok(Object.values(result.selection).filter(t=>t.length).length < 26);
   const hairId = categories.find(c=>c.id==='hair').subcategories[0].id;
   const locked = engine.roll(result.selection, {[hairId]:true}, {gender,world,clothing,mood}, '', {}, random);
   assert.deepEqual(locked.selection[hairId], result.selection[hairId]);

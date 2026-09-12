@@ -1,4 +1,5 @@
 import type { Category, Tag } from './tag-data';
+import { bangTags, textureTags, specialColorTags, eyeShapeTags, eyeColorTags } from './scene-categories.ts';
 
 export type Selection = Record<string, Tag[]>;
 export const sceneOptions = {
@@ -14,28 +15,28 @@ type Scope = { category?: string; subcategory?: string };
 type Wardrobe = string[];
 const wardrobes: Record<Resolved['world'], Record<Resolved['clothing'], Wardrobe[]>> = {
   modern: {
-    casual: [['shirt','pants','sneakers'], ['hoodie','pants','sneakers'], ['sweater','long skirt','shoes']],
-    elegant: [['collared shirt','pants','loafers'], ['dress','shoes'], ['sweater','long skirt','shoes']],
-    cute: [['frilled dress','shoes'], ['sweater','pleated skirt','shoes'], ['hoodie','skirt','sneakers']],
-    cool: [['jacket','shirt','pants','boots'], ['vest','shirt','pants','loafers']],
+    casual: [['shirt','pants','sneakers'], ['hoodie','pants','sneakers'], ['sweater','long skirt','shoes'], ['t-shirt','jeans','sneakers'], ['cardigan','blouse','skirt','loafers'], ['t-shirt','denim shorts','sandals']],
+    elegant: [['collared shirt','pants','loafers'], ['dress','shoes'], ['sweater','long skirt','shoes'], ['blouse','long skirt','shoes'], ['trench coat','collared shirt','pants','loafers'], ['sleeveless dress','cardigan','shoes']],
+    cute: [['frilled dress','shoes'], ['sweater','pleated skirt','shoes'], ['hoodie','skirt','sneakers'], ['pinafore dress','blouse','shoes'], ['sailor dress','loafers'], ['sundress','sandals']],
+    cool: [['jacket','shirt','pants','boots'], ['vest','shirt','pants','loafers'], ['leather jacket','t-shirt','jeans','boots'], ['bomber jacket','t-shirt','pants','sneakers'], ['turtleneck sweater','pants','boots']],
   },
   fantasy: {
-    casual: [['shirt','pants','boots'], ['robe','boots']],
-    elegant: [['dress','cape','shoes'], ['robe','cape','boots']],
-    cute: [['frilled dress','shoes'], ['dress','capelet','shoes']],
-    cool: [['armor','boots'], ['shirt','pants','cloak','boots']],
+    casual: [['shirt','pants','boots'], ['robe','boots'], ['shirt','pants','hooded cloak','boots']],
+    elegant: [['dress','cape','shoes'], ['robe','cape','boots'], ['long skirt','blouse','corset','boots']],
+    cute: [['frilled dress','shoes'], ['dress','capelet','shoes'], ['dress','witch hat','boots'], ['pinafore dress','blouse','boots']],
+    cool: [['armor','boots'], ['shirt','pants','cloak','boots'], ['armor','tabard','boots'], ['robe','hooded cloak','boots']],
   },
   japanese: {
-    casual: [['kimono','geta'], ['kimono','haori','geta']],
-    elegant: [['kimono','hakama','geta'], ['kimono','haori','geta']],
-    cute: [['kimono','hair ribbon','geta']],
-    cool: [['kimono','hakama','haori','geta']],
+    casual: [['kimono','geta'], ['kimono','haori','geta'], ['yukata','geta']],
+    elegant: [['kimono','hakama','geta'], ['kimono','haori','geta'], ['kimono','tabi','geta']],
+    cute: [['kimono','hair ribbon','geta'], ['yukata','hair ribbon','geta']],
+    cool: [['kimono','hakama','haori','geta'], ['kimono','hakama','boots']],
   },
   future: {
-    casual: [['hoodie','pants','sneakers'], ['jacket','shirt','pants','sneakers']],
-    elegant: [['black dress','shoes'], ['collared shirt','black pants','loafers']],
-    cute: [['hoodie','pleated skirt','sneakers'], ['white dress','shoes']],
-    cool: [['jacket','shirt','black pants','boots'], ['bodysuit','boots']],
+    casual: [['hoodie','pants','sneakers'], ['jacket','shirt','pants','sneakers'], ['bomber jacket','t-shirt','jeans','sneakers']],
+    elegant: [['black dress','shoes'], ['collared shirt','black pants','loafers'], ['sleeveless dress','long coat','boots']],
+    cute: [['hoodie','pleated skirt','sneakers'], ['white dress','shoes'], ['jacket','t-shirt','shorts','sneakers']],
+    cool: [['jacket','shirt','black pants','boots'], ['bodysuit','boots'], ['bodysuit','long coat','boots'], ['leather jacket','turtleneck sweater','pants','boots']],
   },
 };
 const locations: Record<Resolved['world'], string[]> = {
@@ -43,22 +44,30 @@ const locations: Record<Resolved['world'], string[]> = {
   japanese: ['shrine','temple','bamboo forest'], future: ['city','rooftop','street'],
 };
 const moods: Record<Resolved['mood'], string[][]> = {
-  cheerful: [['day','smile'], ['day','grin']], calm: [['day','smile'], ['sunset','closed mouth']],
-  dramatic: [['sunset','serious'], ['night','serious']], mysterious: [['night','expressionless'], ['night','closed mouth']],
+  cheerful: [['day','smile'], ['day','grin'], ['day','happy','open mouth'], ['day','light smile','closed mouth'], ['sunset','smile','parted lips']],
+  calm: [['day','light smile','closed mouth'], ['sunset','smile'], ['day','expressionless','closed mouth'], ['sunset','light smile']],
+  dramatic: [['sunset','serious'], ['night','angry','open mouth'], ['sunset','sad','tearing up'], ['night','scowl','closed mouth'], ['sunset','annoyed','closed mouth']],
+  mysterious: [['night','expressionless'], ['night','smug','closed mouth'], ['night','serious','parted lips'], ['night','light smile']],
 };
 const hairColors = ['black hair','brown hair','white hair','grey hair','blue hair','purple hair','pink hair','red hair'];
 const hairstyles = ['short hair','medium hair','long hair','bob cut','ponytail','braid'];
+const rolledBangs = bangTags.filter(t => !['hair over eyes','hair over one eye','hair between eyes','long bangs'].includes(t));
+const rolledTextures = ['straight hair','wavy hair','curly hair','fluffy hair'];
+const rolledSpecialColors = ['gradient hair','streaked hair','colored inner hair','colored tips','two-tone hair'];
+const rolledEyeShapes = ['tsurime','tareme','sanpaku'];
+const rolledPupils = ['slit pupils','constricted pupils','star-shaped pupils','diamond-shaped pupils'];
 const positions = ['standing','sitting','walking'];
 const frames = ['full body','cowboy shot','upper body'];
 const activities = [['standing'], ['sitting'], ['walking'], ['sitting','holding book','reading']];
 const colorPrefix = /^(?:white|black|blue|brown|red|grey|green|pink|purple|yellow|orange|aqua|striped|plaid) /;
 const base = (name: string) => name.replace(colorPrefix, '').replace(/^(?:collared|frilled|pleated|long) /, '');
 const clothingWords = new Set(Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)).map(base));
-const families: string[][] = [hairColors, hairstyles, positions, frames, ['straight hair','wavy hair'], ['1girl','1boy'], ['day','night','sunset'],
-  ['smile','grin','serious','expressionless'], [...new Set(Object.values(locations).flat())]];
+const feelings = ['smile','light smile','grin','happy','smug','serious','expressionless','angry','annoyed','scowl','sad'];
+const families: string[][] = [hairColors, hairstyles, bangTags, textureTags, specialColorTags, eyeColorTags.map(t=>t.tag), eyeShapeTags, rolledPupils, positions, frames, ['1girl','1boy'], ['day','night','sunset'],
+  feelings, ['open mouth','closed mouth','parted lips'], [...new Set(Object.values(locations).flat())]];
 export const curatedTagNames = [...new Set([
   ...Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)), ...Object.values(locations).flat(),
-  ...Object.values(moods).flat(2), ...hairColors, ...hairstyles, ...positions, ...frames,
+  ...Object.values(moods).flat(2), ...hairColors, ...hairstyles, ...rolledBangs, ...rolledTextures, ...rolledSpecialColors, ...eyeColorTags.map(t=>t.tag), ...rolledEyeShapes, ...rolledPupils, ...positions, ...frames,
   'solo','1girl','1boy','looking at viewer','wavy hair','straight hair','holding book','reading','holographic monitor',
 ])];
 
@@ -105,7 +114,8 @@ export function createSceneGacha(categories: Category[]) {
           if (variants.length) outfit[outfit.indexOf(noun)] = choose(variants).tag;
         }
         const activity = choose(activities);
-        const names = ['solo', ...(resolved.gender === 'neutral' ? [] : [resolved.gender === 'female' ? '1girl':'1boy']), choose(hairColors), choose(hairstyles),
+        const names = ['solo', ...(resolved.gender === 'neutral' ? [] : [resolved.gender === 'female' ? '1girl':'1boy']), choose(hairColors), choose(hairstyles), choose(rolledBangs), choose(rolledTextures), ...(random()<0.35 ? [choose(rolledSpecialColors)] : []),
+          choose(eyeColorTags).tag, choose(rolledEyeShapes), ...(random()<0.4 ? [choose(resolved.world==='fantasy'||resolved.world==='future' ? rolledPupils : ['constricted pupils'])] : []),
           ...outfit, choose(locations[resolved.world]), ...(resolved.world === 'future' ? ['holographic monitor'] : []), ...choose(moods[resolved.mood]), ...activity, choose(frames), ...(activity.includes('reading') ? [] : ['looking at viewer'])];
         const next: Selection = Object.fromEntries(Object.entries(retained).map(([id,tags]) => [id,[...tags]]));
         for (const name of names) {
