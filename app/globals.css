@@ -829,6 +829,15 @@ button {
   font-size: 8px;
   font-weight: 600;
 }
+.scene-controls { margin-bottom: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: #fff; }
+.scene-control-top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.scene-control-top > strong { font-size: 16px; margin-right: auto; }
+.scene-fields { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 16px; }
+.scene-fields label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.scene-fields select { min-width: 0; width: 100%; min-height: 42px; border: 1px solid var(--border); border-radius: 8px; padding: 8px; background: white; font-size: 14px; }
+.scene-controls p { font-size: 13px; margin: 12px 0 0; color: var(--soft); line-height: 1.6; }
+.scene-controls .scene-result { color: #45416f; background: #f3f2fc; padding: 9px 12px; border-radius: 8px; }
+@media (max-width: 650px) { .scene-fields { grid-template-columns: repeat(2,minmax(0,1fr)); } .scene-control-top > strong { width: 100%; } .scene-control-top > button { margin-left: auto; } }
 .dict-micro-toggle {
   display: flex;
   width: 100%;

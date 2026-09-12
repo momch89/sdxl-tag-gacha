@@ -5,15 +5,13 @@ import { BadgeCheck, BookOpen, Check, ChevronDown, Copy, Dice5, Lock, LockOpen, 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { allTags, categories, type Category, type Subcategory, type Tag } from './tag-data';
+import { createSceneGacha, defaultSceneSettings, sceneOptions, type SceneSettings } from './scene-gacha';
 
 type Selection = Record<string, Tag[]>;
 type SavedCharacter = { id: string; name: string; tags: Record<string, Tag[]>; freePrompt?: string; locks?: Record<string, boolean> };
 type QualityPreset = { id: string; name: string; prompt: string; position: 'before'|'after' };
 const blankSelection = (): Selection => Object.fromEntries(categories.flatMap(c => c.subcategories.map(s => [s.id, []])));
-const pick = (items: Tag[], current: Tag[]) => {
-  const pool = items.length > 1 ? items.filter(item => !current.some(x => x.tag === item.tag)) : items;
-  return pool[Math.floor(Math.random() * pool.length)] ?? items[0];
-};
+const sceneGacha = createSceneGacha(categories);
 const formatCount = (count = 0) => count >= 1_000_000 ? `${(count / 1_000_000).toFixed(count >= 10_000_000 ? 0 : 1).replace('.0','')}M` : count >= 1_000 ? `${(count / 1_000).toFixed(count >= 100_000 ? 0 : 1).replace('.0','')}k` : `${count}`;
 type DictionaryTag = (typeof allTags)[number];
 const groupByMicrocategory = (tags: DictionaryTag[], fallback: string) => {
@@ -50,6 +48,10 @@ export default function Home() {
   const [quality, setQuality] = useState('');
   const [position, setPosition] = useState<'before'|'after'>('before');
   const [copied, setCopied] = useState(false);
+  const [gachaMode, setGachaMode] = useState<'random'|'guided'>('random');
+  const [sceneSettings, setSceneSettings] = useState<SceneSettings>(defaultSceneSettings);
+  const [gachaMessage, setGachaMessage] = useState('');
+  const [settingsReady, setSettingsReady] = useState(false);
 
   useEffect(() => {
     try {
@@ -58,11 +60,16 @@ export default function Home() {
       setCharacterFree(settings.characterFree || '');
       setCharacters(JSON.parse(localStorage.getItem('tag-gacha-characters') || '[]'));
       setQualityPresets(JSON.parse(localStorage.getItem('tag-gacha-quality-presets') || '[]'));
+      const gacha = JSON.parse(localStorage.getItem('tag-gacha-scene') || '{}');
+      if (gacha.mode === 'guided') setGachaMode('guided');
+      setSceneSettings(Object.fromEntries(Object.entries(sceneOptions).map(([key,values]) => [key, gacha.settings?.[key] in values ? gacha.settings[key] : 'auto'])) as SceneSettings);
     } catch {}
+    setSettingsReady(true);
   }, []);
-  useEffect(() => { localStorage.setItem('tag-gacha-settings-v2', JSON.stringify({ quality, position, characterFree })); }, [quality, position, characterFree]);
-  useEffect(() => { localStorage.setItem('tag-gacha-characters', JSON.stringify(characters)); }, [characters]);
-  useEffect(() => { localStorage.setItem('tag-gacha-quality-presets', JSON.stringify(qualityPresets)); }, [qualityPresets]);
+  useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-settings-v2', JSON.stringify({ quality, position, characterFree })); }, [quality, position, characterFree, settingsReady]);
+  useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-characters', JSON.stringify(characters)); }, [characters, settingsReady]);
+  useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-quality-presets', JSON.stringify(qualityPresets)); }, [qualityPresets, settingsReady]);
+  useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-scene', JSON.stringify({ mode: gachaMode, settings: sceneSettings })); }, [gachaMode, sceneSettings, settingsReady]);
 
   const active = categories.find(c => c.id === activeId) ?? categories[0];
   const flatSelected = useMemo(() => categories.flatMap(c => c.subcategories.flatMap(s => selected[s.id] || [])), [selected]);
@@ -81,12 +88,13 @@ export default function Home() {
     const current = v[subcategoryId] || []; const exists = current.some(x => x.tag === tag.tag);
     return { ...v, [subcategoryId]: exists ? current.filter(x => x.tag !== tag.tag) : [...current, tag] };
   });
-  const rollSubcategory = (subcategory: Subcategory) => {
-    if (locked[subcategory.id]) return;
-    setSelected(v => ({ ...v, [subcategory.id]: [pick(subcategory.tags, v[subcategory.id] || [])] }));
+  const rollScene = (scope: { category?: string; subcategory?: string } = {}) => {
+    const result = sceneGacha.roll(selected, locked, gachaMode === 'guided' ? sceneSettings : defaultSceneSettings, characterFree, scope);
+    setSelected(result.selection); setGachaMessage(result.message);
   };
-  const rollCategory = (category: Category) => setSelected(v => ({ ...v, ...Object.fromEntries(category.subcategories.map(s => [s.id, locked[s.id] ? v[s.id] : [pick(s.tags, v[s.id] || [])]])) }));
-  const rollAll = () => setSelected(v => ({ ...v, ...Object.fromEntries(categories.flatMap(c => c.subcategories.map(s => [s.id, locked[s.id] ? v[s.id] : [pick(s.tags, v[s.id] || [])]]))) }));
+  const rollSubcategory = (subcategory: Subcategory) => rollScene({ subcategory: subcategory.id });
+  const rollCategory = (category: Category) => rollScene({ category: category.id });
+  const rollAll = () => rollScene();
   const clear = () => setSelected(blankSelection());
   const copyPrompt = async () => { if (!prompt) return; await navigator.clipboard.writeText(prompt); setCopied(true); setTimeout(() => setCopied(false), 1400); };
 
@@ -137,11 +145,17 @@ export default function Home() {
         <Button variant="outline" className="header-tool" onClick={() => setCharacterOpen(true)}><UserRound /><span>キャラ固定</span>{characters.length > 0 && <b>{characters.length}</b>}</Button>
         <Button variant="outline" className="header-tool" onClick={() => setQualityOpen(true)}><BadgeCheck /><span>クオリティタグ</span>{qualityPresets.length > 0 && <b>{qualityPresets.length}</b>}</Button>
         <Button variant="outline" className="header-tool" onClick={() => setDictionaryOpen(true)}><BookOpen /><span>タグ一覧から選ぶ</span></Button>
-        <Button className="roll-all" onClick={rollAll}><Sparkles /><span className="wide-label">ぜんぶまとめて</span>抽選</Button>
+        <Button className="roll-all" onClick={rollAll}><Sparkles />一枚絵を抽選</Button>
       </div>
     </div></header>
 
     <div className="shell workspace">
+      <section className="scene-controls" aria-label="一枚絵ガチャ">
+        <div className="scene-control-top"><strong>一枚絵ガチャ</strong><div className="segmented"><button aria-pressed={gachaMode === 'random'} className={gachaMode === 'random' ? 'active' : ''} onClick={() => setGachaMode('random')}>おまかせ</button><button aria-pressed={gachaMode === 'guided'} className={gachaMode === 'guided' ? 'active' : ''} onClick={() => setGachaMode('guided')}>条件を指定</button></div><Button onClick={rollAll}><Dice5 />一枚絵を抽選</Button></div>
+        {gachaMode === 'guided' && <div className="scene-fields">{(Object.keys(sceneOptions) as (keyof SceneSettings)[]).map(key => <label key={key}><span>{{ gender:'人物', world:'世界観', clothing:'服の雰囲気', mood:'絵の雰囲気' }[key]}</span><select value={sceneSettings[key]} onChange={e => setSceneSettings(v => ({ ...v, [key]:e.target.value }))}>{Object.entries(sceneOptions[key]).map(([value,label]) => <option key={value} value={value}>{label}</option>)}</select></label>)}</div>}
+        <p>組み合わせ確認済みの候補から、服一式・髪・場所・ポーズを抽選。絵の雰囲気は表情と時間帯で指定します。</p>
+        {gachaMessage && <p className="scene-result" role="status">{gachaMessage}</p>}
+      </section>
       <section className="prompt-dock">
         <div className="prompt-main"><div className="prompt-meta"><strong>FINAL PROMPT</strong><span>{tagNames.length + (characterFree.trim() ? 1 : 0)} tags</span>{quality.trim() && <span className="quality-active">品質固定あり</span>}</div><p>{prompt || 'カテゴリを抽選するか、タグ一覧から選んでください。'}</p></div>
         <Button className="copy-main" onClick={copyPrompt} disabled={!prompt}>{copied ? <Check /> : <Copy />}{copied ? 'コピー済み' : 'コピー'}</Button>
@@ -152,11 +166,11 @@ export default function Home() {
       </nav>
 
       <section className="category-work" style={{ '--cat': active.color } as React.CSSProperties}>
-        <div className="work-heading"><div><p className="section-kicker">CATEGORY</p><h1>{active.icon} {active.name}</h1><p>細分類ごとに抽選。選択済みタグは複数残せます。</p></div><div><Button variant="outline" onClick={() => { setDictCategory(active.id); setDictionaryOpen(true); }}><BookOpen />タグ一覧から選ぶ</Button><Button onClick={() => rollCategory(active)}><Dice5 />このカテゴリを一括抽選</Button></div></div>
+        <div className="work-heading"><div><p className="section-kicker">CATEGORY</p><h1>{active.icon} {active.name}</h1><p>再抽選は他の選択・固定タグとの組み合わせを確認します。</p></div><div><Button variant="outline" onClick={() => { setDictCategory(active.id); setDictionaryOpen(true); }}><BookOpen />タグ一覧から選ぶ</Button><Button onClick={() => rollCategory(active)}><Dice5 />このカテゴリを再抽選</Button></div></div>
         <div className="subcategory-grid">{active.subcategories.map(subcategory => <article className="subcategory-row" key={subcategory.id}>
           <div className="sub-name"><strong>{subcategory.name}</strong>{subcategory.optional && <small>任意</small>}</div>
           <div className="sub-values">{(selected[subcategory.id] || []).map(tag => <button key={tag.tag} className="selected-token" onClick={() => toggleTag(subcategory.id, tag)} title={tag.ja}><span>{tag.tag}</span><small>{tag.ja}</small><X /></button>)}{!selected[subcategory.id]?.length && <span className="unselected">未選択</span>}</div>
-          <div className="sub-actions"><button className={locked[subcategory.id] ? 'locked' : ''} onClick={() => setLocked(v => ({ ...v, [subcategory.id]: !v[subcategory.id] }))} aria-label={`${subcategory.name}の固定`}>{locked[subcategory.id] ? <Lock /> : <LockOpen />}</button><button onClick={() => rollSubcategory(subcategory)} disabled={locked[subcategory.id]} aria-label={`${subcategory.name}を抽選`}><Dice5 /></button></div>
+          <div className="sub-actions"><button className={locked[subcategory.id] ? 'locked' : ''} onClick={() => setLocked(v => ({ ...v, [subcategory.id]: !v[subcategory.id] }))} aria-label={`${subcategory.name}の固定`}>{locked[subcategory.id] ? <Lock /> : <LockOpen />}</button><button onClick={() => rollSubcategory(subcategory)} disabled={locked[subcategory.id] || !sceneGacha.eligibleSubcategories.has(subcategory.id)} title={sceneGacha.eligibleSubcategories.has(subcategory.id) ? '整合する候補から再抽選' : 'この項目はタグ一覧から選択'} aria-label={`${subcategory.name}を抽選`}><Dice5 /></button></div>
         </article>)}</div>
         <div className="category-bottom"><button onClick={() => setSelected(v => ({ ...v, ...Object.fromEntries(active.subcategories.map(s => [s.id, []])) }))}>このカテゴリを空にする</button></div>
       </section>
