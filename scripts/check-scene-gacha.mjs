@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createSceneGacha, defaultSceneSettings, sceneOptions } from '../app/scene-gacha.ts';
 import { organizeSceneCategories } from '../app/scene-categories.ts';
+const related = JSON.parse(readFileSync(new URL('../app/related-tags.json', import.meta.url), 'utf8'));
 
 const categories = organizeSceneCategories(JSON.parse(readFileSync(new URL('../app/danbooru-import.json', import.meta.url), 'utf8')));
 const engine = createSceneGacha(categories);
@@ -52,6 +53,19 @@ assert.ok(seenActivities.size>=16,`activities: ${seenActivities.size}`);
 for(const [world,sets] of seenBackgrounds) assert.ok(sets.size>=8,`${world} backgrounds: ${sets.size}`);
 assert.ok(shapePresent && shapeAbsent,'eye shape must be optional');
 assert.ok(seenPupils.size>=10,`pupils: ${seenPupils.size}`);
+const relatedExpansions = {
+  maid:['maid apron','frilled apron','puffy sleeves'], witch:['broom','holding broom','wand','fur cloak'],
+  'school uniform':['serafuku','sailor collar','neckerchief','pleated skirt'], 'business suit':['suit jacket','shirt tucked in','pencil skirt','skirt suit'],
+  miko:['white kimono','hakama skirt','wide sleeves','ribbon-trimmed sleeves'], angry:['anger vein','clenched teeth','v-shaped eyebrows','glaring','frown'],
+  sad:['tearing up','furrowed brow','crying with eyes open'], surprised:['wide-eyed',':o','sweatdrop'],
+  forest:['nature','outdoors','scenery','river','bush','moss','stream','rock'], castle:['tower','sky','moon','architecture','bridge'],
+  city:['building','cityscape','city lights','scenery','street','road','outdoors','night','skyline'], shrine:['east asian architecture','architecture','stairs','tree','outdoors','scenery','lantern'],
+  'space station':['space'],
+};
+for(const [source,candidates] of Object.entries(relatedExpansions)) {
+  const counts=new Map(related[source]||[]);
+  for(const candidate of candidates) assert.ok(counts.get(candidate)>=200,`${source} -> ${candidate}: ${counts.get(candidate)||0}`);
+}
 const scene = engine.roll(blank, {}, defaultSceneSettings, '', {}, random).selection;
 for(const category of categories) {
   const next=engine.roll(scene,{},defaultSceneSettings,'',{category:category.id},random);
