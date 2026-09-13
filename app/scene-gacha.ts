@@ -43,9 +43,11 @@ const wardrobes: Record<Resolved['world'], Record<Resolved['clothing'], Wardrobe
     costume: [['bodysuit','long coat','boots'], ['pilot suit','boots'], ['military uniform','boots'], ['lab coat','bodysuit','boots'], ['idol','sleeveless dress','boots'], ['magical girl','frilled dress','boots']],
   },
 };
-const locations: Record<Resolved['world'], string[]> = {
-  modern: ['park','garden','street','rooftop'], fantasy: ['forest','castle','garden'],
-  japanese: ['shrine','temple','bamboo forest'], future: ['city','rooftop','street'],
+const backgrounds: Record<Resolved['world'], string[][]> = {
+  modern: [['park','tree'], ['garden','tree'], ['street','cityscape'], ['rooftop','cityscape'], ['classroom','window','indoors'], ['cafe','window','indoors'], ['train station','cityscape'], ['crosswalk','cityscape'], ['alley','city lights'], ['library','indoors'], ['beach','ocean']],
+  fantasy: [['forest','tree','sunlight'], ['castle','stone wall'], ['cave','crystal'], ['ruins','overgrown'], ['mountain','cloud'], ['lake','sunlight'], ['throne room','indoors'], ['floating city','cloud'], ['flower field','sunlight'], ['stone bridge','river']],
+  japanese: [['shrine','lantern'], ['temple','stone wall'], ['bamboo forest','sunlight'], ['onsen','mountain'], ['garden','lantern'], ['wooden bridge','river'], ['train station','cityscape'], ['beach','ocean'], ['flower field','sunlight']],
+  future: [['city','city lights'], ['rooftop','cityscape'], ['laboratory','monitor','indoors'], ['space station','space'], ['spacecraft interior','monitor'], ['server room','monitor','indoors'], ['floating city','cloud'], ['space elevator','cityscape'], ['industrial','cityscape'], ['underwater city','ocean']],
 };
 const moods: Record<Resolved['mood'], string[][]> = {
   cheerful: [['day','smile','closed mouth'], ['day','grin','open mouth'], ['day','happy','open mouth'], ['day','light smile','closed mouth','blush'], ['sunset','smile','parted lips'], ['day','laughing','open mouth','closed eyes']],
@@ -74,10 +76,12 @@ const base = (name: string) => name.replace(colorPrefix, '').replace(/^(?:collar
 const clothingWords = new Set(Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)).map(base));
 const feelings = ['smile','light smile','grin','happy','smug','serious','expressionless','angry','annoyed','scowl','sad','worried','surprised','smirk','pout','crying','laughing'];
 const movementTags = ['walking','running','jumping','dancing','reading','drinking','eating','writing','stretching','waving','salute'];
+const primaryBackgrounds = ['park','garden','street','rooftop','classroom','cafe','train station','crosswalk','alley','library','beach','forest','castle','cave','ruins','mountain','lake','throne room','floating city','flower field','stone bridge','shrine','temple','bamboo forest','onsen','wooden bridge','city','laboratory','space station','spacecraft interior','server room','space elevator','industrial','underwater city'];
+const backgroundNames = new Set(Object.values(backgrounds).flat(2));
 const families: string[][] = [hairColors, hairstyles, bangTags, textureTags, specialColorTags, eyeColorTags.map(t=>t.tag), eyeShapeTags, pupilTags, positions, ['on back','on side'], movementTags, frames, ['1girl','1boy'], ['day','night','sunset'],
-  feelings, ['open mouth','closed mouth','parted lips'], ['closed eyes','half-closed eyes'], [...new Set(Object.values(locations).flat())]];
+  feelings, ['open mouth','closed mouth','parted lips'], ['closed eyes','half-closed eyes'], primaryBackgrounds];
 export const curatedTagNames = [...new Set([
-  ...Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)), ...Object.values(locations).flat(),
+  ...Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)), ...backgroundNames,
   ...Object.values(moods).flat(2), ...activities.flat(), ...hairColors, ...hairstyles, ...rolledBangs, ...rolledTextures, ...rolledSpecialColors, ...eyeColorTags.map(t=>t.tag), ...rolledEyeShapes, ...rolledPupils, ...positions, ...frames,
   'solo','1girl','1boy','male focus','handsome','looking at viewer','wavy hair','straight hair','holding book','reading','holographic monitor',
 ])];
@@ -107,6 +111,7 @@ export function createSceneGacha(categories: Category[]) {
     if (['walking','running','jumping','dancing'].some(t=>unique.includes(t)) && positions.some(t=>unique.includes(t))) return '移動動作と静止ポーズが両立しません。';
     if (['waving','salute','stretching'].some(t=>unique.includes(t)) && !unique.includes('standing')) return 'この動作には立ちポーズが必要です。';
     if (unique.includes('1girl') && ['male focus','handsome'].some(t=>unique.includes(t))) return '女性指定と男性向けの特徴が両立しません。';
+    if (unique.includes('night') && unique.includes('sunlight')) return '夜と日光の背景指定が両立しません。';
     return '';
   };
   return {
@@ -135,10 +140,11 @@ export function createSceneGacha(categories: Category[]) {
         }
         const activity = choose(activities);
         const expression = choose(moods[resolved.mood]);
+        const background = choose(backgrounds[resolved.world].filter(set=>!(expression.includes('night') && set.includes('sunlight'))));
         const people = resolved.gender === 'male' ? ['1boy','male focus','handsome','solo'] : resolved.gender === 'female' ? ['1girl','solo'] : ['solo'];
         const names = [...people, choose(hairColors), choose(hairstyles), choose(rolledBangs), choose(rolledTextures), ...(random()<0.35 ? [choose(rolledSpecialColors)] : []),
           choose(eyeColorTags).tag, ...(random()<0.75 ? [choose(rolledEyeShapes)] : []), ...choose(pupilPatterns[resolved.world]),
-          ...outfit, choose(locations[resolved.world]), ...(resolved.world === 'future' ? ['holographic monitor'] : []), ...expression, ...activity, choose(frames), ...(activity.some(t=>['reading','looking away'].includes(t)) || expression.includes('closed eyes') ? [] : ['looking at viewer'])];
+          ...outfit, ...background, ...(resolved.world === 'future' ? ['holographic monitor'] : []), ...expression, ...activity, choose(frames), ...(activity.some(t=>['reading','looking away'].includes(t)) || expression.includes('closed eyes') ? [] : ['looking at viewer'])];
         const next: Selection = Object.fromEntries(Object.entries(retained).map(([id,tags]) => [id,[...tags]]));
         for (const name of names) {
           const t = index.get(name);
@@ -150,7 +156,8 @@ export function createSceneGacha(categories: Category[]) {
         if (fixed.includes('holographic monitor') && resolved.world !== 'future') continue;
         // Retained components must also fit the resolved world, wardrobe and mood.
         if (fixed.some(t => clothingWords.has(base(t)) && !wardrobes[resolved.world][resolved.clothing].some(set=>set.map(base).includes(base(t))))) continue;
-        if (fixed.some(t => Object.values(locations).flat().includes(t) && !locations[resolved.world].includes(t))) continue;
+        const fixedBackground = fixed.filter(t=>backgroundNames.has(t));
+        if (fixedBackground.length && !backgrounds[resolved.world].some(set=>fixedBackground.every(t=>set.includes(t)))) continue;
         if (fixed.some(t => Object.values(moods).flat(2).includes(t) && !moods[resolved.mood].flat().includes(t))) continue;
         const changed = Object.keys(next).some(id => next[id].map(t=>t.tag).join('|') !== (current[id]||[]).map(t=>t.tag).join('|'));
         if (!changed || !Object.values(next).some(tags=>tags.length)) continue;
