@@ -100,7 +100,7 @@ export default function Home() {
 
   const saveCharacter = () => {
     const name = characterName.trim(); if (!name) return;
-    const ids = categories.filter(c => ['hair','pose_body','species','expression'].includes(c.id)).flatMap(c => c.subcategories.map(s => s.id));
+    const ids = categories.filter(c => ['person','hair','pose_body','species','expression'].includes(c.id)).flatMap(c => c.subcategories.map(s => s.id));
     const tags = Object.fromEntries(ids.map(id => [id, selected[id] || []]));
     const locks = Object.fromEntries(ids.map(id => [id, !!locked[id]]));
     setCharacters(v => [...v, { id: crypto.randomUUID(), name, tags, freePrompt: characterFree.trim(), locks }]); setCharacterName('');
@@ -146,7 +146,7 @@ export default function Home() {
         <Button variant="outline" className="header-tool" onClick={() => setCharacterOpen(true)}><UserRound /><span>キャラ固定</span>{characters.length > 0 && <b>{characters.length}</b>}</Button>
         <Button variant="outline" className="header-tool" onClick={() => setQualityOpen(true)}><BadgeCheck /><span>クオリティタグ</span>{qualityPresets.length > 0 && <b>{qualityPresets.length}</b>}</Button>
         <Button variant="outline" className="header-tool" onClick={() => setDictionaryOpen(true)}><BookOpen /><span>タグ一覧から選ぶ</span></Button>
-        <Button className="roll-all" onClick={rollAll}><Sparkles />一枚絵を抽選</Button>
+        <Button className="roll-all" aria-label="一枚絵を抽選" onClick={rollAll}><Sparkles /><span className="wide-label">一枚絵を抽選</span></Button>
       </div>
     </div></header>
 

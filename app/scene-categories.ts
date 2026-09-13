@@ -13,17 +13,21 @@ export const eyeColorTags = [
   { tag:'grey eyes', ja:'グレーの瞳', postCount:289747 }, { tag:'pink eyes', ja:'ピンクの瞳', postCount:431119 },
 ];
 export function organizeSceneCategories(source: Category[]): Category[] {
-  return source.map(category => {
+  const personNames = new Set(['1girl','1boy','solo','male focus']);
+  const personTags = source.flatMap(c=>c.subcategories.flatMap(s=>s.tags)).filter(t=>personNames.has(t.tag));
+  personTags.push({tag:'handsome',ja:'ハンサム',postCount:0,microcategory:'人物の特徴'});
+  const organized = source.map(category => {
     const subdivisions = category.id === 'hair' ? [
       ['hair_bangs','前髪',bangTags], ['hair_texture','髪質',textureTags], ['hair_special_color','特殊髪色',specialColorTags],
     ] as const : category.id === 'expression' ? [
       ['eye_shape','目の形',eyeShapeTags], ['eye_pupils','瞳孔',pupilTags],
     ] as const : [];
-    const moved = new Set(subdivisions.flatMap(x=>[...x[2]]));
+    const moved = new Set([...subdivisions.flatMap(x=>[...x[2]]), ...personNames]);
     const all = category.subcategories.flatMap(s=>s.tags);
     const subcategories = category.subcategories.map(s=>({...s,tags:s.tags.filter(t=>!moved.has(t.tag))})).filter(s=>s.tags.length);
     for (const [id,name,names] of subdivisions) subcategories.push({id,name,tags:all.filter(t=>names.includes(t.tag)).map(t=>({...t,microcategory:name})), optional:id==='hair_special_color'||id==='eye_pupils'});
     if(category.id==='expression') subcategories.unshift({id:'eye_color',name:'目の色',tags:eyeColorTags.map(t=>({...t,microcategory:'色タグ（瞳）'}))});
     return {...category,subcategories};
-  });
+  }).filter(category=>category.subcategories.length);
+  return [{id:'person',name:'人物',icon:'●',color:'#c8563f',subcategories:[{id:'person_count',name:'人数・性別',tags:personTags}]} as Category,...organized];
 }
