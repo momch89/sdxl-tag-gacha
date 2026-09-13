@@ -76,7 +76,8 @@ export default function Home() {
   const tagNames = useMemo(() => [...new Set(flatSelected.map(t => t.tag))], [flatSelected]);
   const prompt = useMemo(() => {
     const main = [characterFree.trim().replace(/^,|,$/g, '').trim(), ...tagNames].filter(Boolean).join(', '); const fixed = quality.trim().replace(/^,|,$/g, '').trim();
-    return fixed && main ? (position === 'before' ? `${fixed}, ${main}` : `${main}, ${fixed}`) : fixed || main;
+    const combined = fixed && main ? (position === 'before' ? `${fixed}, ${main}` : `${main}, ${fixed}`) : fixed || main;
+    return combined ? `${combined},` : '';
   }, [tagNames, characterFree, quality, position]);
   const shownTags = useMemo(() => {
     const q = query.toLowerCase().trim();

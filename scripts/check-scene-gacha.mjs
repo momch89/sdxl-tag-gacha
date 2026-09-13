@@ -10,7 +10,8 @@ const blank = Object.fromEntries(categories.flatMap(c=>c.subcategories.map(s=>[s
 let seed = 93721;
 const random = () => { seed = (Math.imul(seed,1664525)+1013904223) >>> 0; return seed / 4294967296; };
 let runs = 0;
-const seenCostumes = new Set(), seenExpressions = new Set(), seenActivities = new Set();
+const seenCostumes = new Set(), seenExpressions = new Set(), seenActivities = new Set(), seenPupils = new Set();
+let shapePresent = false, shapeAbsent = false;
 for (const gender of Object.keys(sceneOptions.gender).filter(x=>x!=='auto'))
 for (const world of Object.keys(sceneOptions.world).filter(x=>x!=='auto'))
 for (const clothing of Object.keys(sceneOptions.clothing).filter(x=>x!=='auto'))
@@ -21,8 +22,11 @@ for (let n=0;n<12;n++) {
   const tags = Object.values(result.selection).flat().map(t=>t.tag);
   assert.equal(engine.conflicts(tags),'', tags.join(', '));
   assert.ok(tags.length>=14 && tags.length<=30, tags.length);
-  for (const id of ['hair_bangs','hair_texture','eye_color','eye_shape']) assert.equal(result.selection[id].length,1,id);
-  for (const id of ['hair_special_color','eye_pupils']) assert.ok(result.selection[id].length<=1,id);
+  for (const id of ['hair_bangs','hair_texture','eye_color']) assert.equal(result.selection[id].length,1,id);
+  for (const id of ['hair_special_color','eye_shape','eye_pupils']) assert.ok(result.selection[id].length<=1,id);
+  shapePresent ||= result.selection.eye_shape.length===1;
+  shapeAbsent ||= result.selection.eye_shape.length===0;
+  seenPupils.add(result.selection.eye_pupils[0]?.tag || '(none)');
   assert.equal(tags.includes('1girl'),gender==='female');
   assert.equal(tags.includes('1boy'),gender==='male');
   if(gender==='male') {
@@ -43,6 +47,8 @@ for (let n=0;n<12;n++) {
 assert.ok(seenCostumes.size>=20,`costumes: ${seenCostumes.size}`);
 assert.ok(seenExpressions.size>=16,`expressions: ${seenExpressions.size}`);
 assert.ok(seenActivities.size>=16,`activities: ${seenActivities.size}`);
+assert.ok(shapePresent && shapeAbsent,'eye shape must be optional');
+assert.ok(seenPupils.size>=10,`pupils: ${seenPupils.size}`);
 const scene = engine.roll(blank, {}, defaultSceneSettings, '', {}, random).selection;
 for(const category of categories) {
   const next=engine.roll(scene,{},defaultSceneSettings,'',{category:category.id},random);

@@ -25,7 +25,7 @@ export function organizeSceneCategories(source: Category[]): Category[] {
     const moved = new Set([...subdivisions.flatMap(x=>[...x[2]]), ...personNames]);
     const all = category.subcategories.flatMap(s=>s.tags);
     const subcategories = category.subcategories.map(s=>({...s,tags:s.tags.filter(t=>!moved.has(t.tag))})).filter(s=>s.tags.length);
-    for (const [id,name,names] of subdivisions) subcategories.push({id,name,tags:all.filter(t=>names.includes(t.tag)).map(t=>({...t,microcategory:name})), optional:id==='hair_special_color'||id==='eye_pupils'});
+    for (const [id,name,names] of subdivisions) subcategories.push({id,name,tags:all.filter(t=>names.includes(t.tag)).map(t=>({...t,microcategory:name})), optional:['hair_special_color','eye_shape','eye_pupils'].includes(id)});
     if(category.id==='expression') subcategories.unshift({id:'eye_color',name:'目の色',tags:eyeColorTags.map(t=>({...t,microcategory:'色タグ（瞳）'}))});
     return {...category,subcategories};
   }).filter(category=>category.subcategories.length);

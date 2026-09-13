@@ -1,5 +1,5 @@
 import type { Category, Tag } from './tag-data';
-import { bangTags, textureTags, specialColorTags, eyeShapeTags, eyeColorTags } from './scene-categories.ts';
+import { bangTags, textureTags, specialColorTags, eyeShapeTags, pupilTags, eyeColorTags } from './scene-categories.ts';
 
 export type Selection = Record<string, Tag[]>;
 export const sceneOptions = {
@@ -59,7 +59,13 @@ const rolledBangs = bangTags.filter(t => !['hair over eyes','hair over one eye',
 const rolledTextures = ['straight hair','wavy hair','curly hair','fluffy hair'];
 const rolledSpecialColors = ['gradient hair','streaked hair','colored inner hair','colored tips','two-tone hair'];
 const rolledEyeShapes = ['tsurime','tareme','sanpaku'];
-const rolledPupils = ['slit pupils','constricted pupils','star-shaped pupils','diamond-shaped pupils'];
+const pupilPatterns: Record<Resolved['world'], string[][]> = {
+  modern: [[], [], ['constricted pupils'], ['bright pupils'], ['white pupils']],
+  japanese: [[], [], ['constricted pupils'], ['bright pupils'], ['slit pupils']],
+  fantasy: [[], ['slit pupils'], ['horizontal pupils'], ['heart-shaped pupils'], ['star-shaped pupils'], ['flower-shaped pupils'], ['cross-shaped pupils'], ['diamond-shaped pupils'], ['symbol-shaped pupils'], ['no pupils']],
+  future: [[], ['constricted pupils'], ['star-shaped pupils'], ['diamond-shaped pupils'], ['x-shaped pupils'], ['white pupils'], ['bright pupils'], ['mismatched pupils'], ['no pupils']],
+};
+const rolledPupils = [...new Set(Object.values(pupilPatterns).flat(2))];
 const positions = ['standing','sitting','kneeling','lying'];
 const frames = ['full body','cowboy shot','upper body'];
 const activities = [['standing'], ['standing','waving'], ['standing','salute'], ['standing','stretching'], ['standing','looking away'], ['standing','looking back'], ['walking'], ['running'], ['jumping'], ['dancing'], ['sitting'], ['sitting','holding book','reading'], ['sitting','drinking'], ['sitting','eating'], ['sitting','writing'], ['kneeling'], ['lying','on back'], ['lying','on side']];
@@ -68,7 +74,7 @@ const base = (name: string) => name.replace(colorPrefix, '').replace(/^(?:collar
 const clothingWords = new Set(Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)).map(base));
 const feelings = ['smile','light smile','grin','happy','smug','serious','expressionless','angry','annoyed','scowl','sad','worried','surprised','smirk','pout','crying','laughing'];
 const movementTags = ['walking','running','jumping','dancing','reading','drinking','eating','writing','stretching','waving','salute'];
-const families: string[][] = [hairColors, hairstyles, bangTags, textureTags, specialColorTags, eyeColorTags.map(t=>t.tag), eyeShapeTags, rolledPupils, positions, ['on back','on side'], movementTags, frames, ['1girl','1boy'], ['day','night','sunset'],
+const families: string[][] = [hairColors, hairstyles, bangTags, textureTags, specialColorTags, eyeColorTags.map(t=>t.tag), eyeShapeTags, pupilTags, positions, ['on back','on side'], movementTags, frames, ['1girl','1boy'], ['day','night','sunset'],
   feelings, ['open mouth','closed mouth','parted lips'], ['closed eyes','half-closed eyes'], [...new Set(Object.values(locations).flat())]];
 export const curatedTagNames = [...new Set([
   ...Object.values(wardrobes).flatMap(w => Object.values(w).flat(2)), ...Object.values(locations).flat(),
@@ -131,7 +137,7 @@ export function createSceneGacha(categories: Category[]) {
         const expression = choose(moods[resolved.mood]);
         const people = resolved.gender === 'male' ? ['1boy','male focus','handsome','solo'] : resolved.gender === 'female' ? ['1girl','solo'] : ['solo'];
         const names = [...people, choose(hairColors), choose(hairstyles), choose(rolledBangs), choose(rolledTextures), ...(random()<0.35 ? [choose(rolledSpecialColors)] : []),
-          choose(eyeColorTags).tag, choose(rolledEyeShapes), ...(random()<0.4 ? [choose(resolved.world==='fantasy'||resolved.world==='future' ? rolledPupils : ['constricted pupils'])] : []),
+          choose(eyeColorTags).tag, ...(random()<0.75 ? [choose(rolledEyeShapes)] : []), ...choose(pupilPatterns[resolved.world]),
           ...outfit, choose(locations[resolved.world]), ...(resolved.world === 'future' ? ['holographic monitor'] : []), ...expression, ...activity, choose(frames), ...(activity.some(t=>['reading','looking away'].includes(t)) || expression.includes('closed eyes') ? [] : ['looking at viewer'])];
         const next: Selection = Object.fromEntries(Object.entries(retained).map(([id,tags]) => [id,[...tags]]));
         for (const name of names) {
