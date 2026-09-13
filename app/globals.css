@@ -1301,3 +1301,15 @@ button {
       transform 0.16s ease;
   }
 }
+
+.dict-tag-card { display: flex; min-width: 0; }
+.dict-tag-card > button:first-child { flex: 1; min-width: 0; border-radius: 8px 0 0 8px; }
+.dict-tags .related-trigger { flex: 0 0 44px; padding: 4px; border-radius: 0 8px 8px 0; border-left: 0; font-size: 12px; text-align: center; }
+.related-back, .related-source button { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; }
+.related-panel > h3 { margin-top: 16px; font-size: 16px; }
+.related-source { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; overflow-wrap: anywhere; }
+.related-note, .related-credit { margin: 12px 0; font-size: 13px; color: var(--soft); }
+.related-credit a { text-decoration: underline; }
+.related-panel button:disabled { opacity: .5; cursor: not-allowed; }
+.related-conflict { display: block; margin-top: 5px; font-size: 12px; font-weight: normal; }
+.dict-tag-card button:focus-visible, .related-panel button:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }

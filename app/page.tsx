@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { allTags, categories, migrateCharacter, type Category, type Subcategory, type Tag } from './tag-data';
 import { createSceneGacha, defaultSceneSettings, sceneOptions, type SceneSettings } from './scene-gacha';
+import RelatedTagsPanel from './related-tags-panel';
 
 type Selection = Record<string, Tag[]>;
 type SavedCharacter = { id: string; name: string; tags: Record<string, Tag[]>; freePrompt?: string; locks?: Record<string, boolean> };
@@ -38,6 +39,7 @@ export default function Home() {
   const [expandedFoldableMicros, setExpandedFoldableMicros] = useState<Set<string>>(() => new Set());
   const [sortMode, setSortMode] = useState<'default'|'count'>('default');
   const [query, setQuery] = useState('');
+  const [relatedSource, setRelatedSource] = useState<DictionaryTag | null>(null);
   const [characterOpen, setCharacterOpen] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterFree, setCharacterFree] = useState('');
@@ -70,6 +72,7 @@ export default function Home() {
   useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-characters', JSON.stringify(characters)); }, [characters, settingsReady]);
   useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-quality-presets', JSON.stringify(qualityPresets)); }, [qualityPresets, settingsReady]);
   useEffect(() => { if (settingsReady) localStorage.setItem('tag-gacha-scene', JSON.stringify({ mode: gachaMode, settings: sceneSettings })); }, [gachaMode, sceneSettings, settingsReady]);
+  useEffect(() => { setRelatedSource(null); }, [dictCategory, query, dictionaryOpen]);
 
   const active = categories.find(c => c.id === activeId) ?? categories[0];
   const flatSelected = useMemo(() => categories.flatMap(c => c.subcategories.flatMap(s => selected[s.id] || [])), [selected]);
@@ -118,18 +121,21 @@ export default function Home() {
     setQualityPresets(v => [...v, { id: crypto.randomUUID(), name, prompt: quality.trim(), position }]); setQualityName('');
   };
   const chooseDictionaryCategory = (categoryId: string) => {
+    setRelatedSource(null);
     if (expandedJumpCategory === categoryId) { setExpandedJumpCategory(null); setExpandedJumpSubcategory(null); return; }
     setExpandedJumpCategory(categoryId); setExpandedJumpSubcategory(null);
     setDictCategory(categoryId); setQuery('');
     requestAnimationFrame(() => document.querySelector('.dict-content')?.scrollTo({ top:0, behavior:'smooth' }));
   };
   const toggleJumpSubcategory = (categoryId: string, subcategoryId: string) => {
+    setRelatedSource(null);
     const key = `${categoryId}:${subcategoryId}`;
     if (expandedJumpSubcategory === key) { setExpandedJumpSubcategory(null); return; }
     setExpandedJumpSubcategory(key); setDictCategory(categoryId); setQuery('');
     setTimeout(() => document.getElementById(`dict-${categoryId}-${subcategoryId}`)?.scrollIntoView({ behavior:'smooth', block:'start' }), 0);
   };
   const jumpToMicrocategory = (categoryId: string, subcategoryId: string, microcategory: string) => {
+    setRelatedSource(null);
     setDictCategory(categoryId); setQuery(''); setDictionaryMenuOpen(false);
     if (isFoldableMicrocategory(microcategory)) setExpandedFoldableMicros(current => new Set(current).add(microAnchorId(categoryId, subcategoryId, microcategory)));
     setTimeout(() => document.getElementById(microAnchorId(categoryId, subcategoryId, microcategory))?.scrollIntoView({ behavior:'smooth', block:'start' }), 0);
@@ -185,16 +191,16 @@ export default function Home() {
       {dictionaryMenuOpen && <><button className="dict-menu-scrim" aria-label="分類メニューを閉じる" onClick={() => setDictionaryMenuOpen(false)}/><aside className="dict-jump-menu" id="dictionary-jump-menu"><header><strong>分類から移動</strong><button aria-label="分類メニューを閉じる" onClick={() => setDictionaryMenuOpen(false)}><X /></button></header><nav>{categories.map(category => <div key={category.id}><button className={`jump-category ${dictCategory === category.id ? 'active' : ''}`} aria-expanded={expandedJumpCategory === category.id} style={{ '--cat':category.color } as React.CSSProperties} onClick={() => chooseDictionaryCategory(category.id)}><span>{category.icon}</span><strong>{category.name}</strong><small>{category.subcategories.length}</small><ChevronDown /></button>{expandedJumpCategory === category.id && <div className="jump-subcategories">{category.subcategories.map(subcategory => { const subKey = `${category.id}:${subcategory.id}`; const expanded = expandedJumpSubcategory === subKey; return <div className="jump-subcategory" key={subcategory.id}><button aria-expanded={expanded} onClick={() => toggleJumpSubcategory(category.id, subcategory.id)}><span>{subcategory.name}</span><small>{subcategory.tags.length}</small><ChevronDown /></button>{expanded && <div className="jump-microcategories">{microcategoriesFor(subcategory).map(microcategory => <button key={microcategory} onClick={() => jumpToMicrocategory(category.id, subcategory.id, microcategory)}><span>{microcategory}</span></button>)}</div>}</div>})}</div>}</div>)}</nav></aside></>}
       <div className="dict-search"><div className="dict-search-field"><Search /><Input value={query} onChange={e => setQuery(e.target.value)} placeholder="日本語・英語タグで検索"/></div><div className="dict-sort" aria-label="タグの表示順"><span>表示順</span><button className={sortMode === 'default' ? 'active' : ''} onClick={() => setSortMode('default')}>デフォルト</button><button className={sortMode === 'count' ? 'active' : ''} onClick={() => setSortMode('count')}>Danbooru件数</button></div></div>
       <div className="dict-layout"><nav className="dict-categories">{categories.map(c => <button key={c.id} className={dictCategory === c.id ? 'active' : ''} style={{ '--cat': c.color } as React.CSSProperties} onClick={() => setDictCategory(c.id)}><span>{c.icon}</span>{c.name}<b>{c.subcategories.reduce((n,s) => n + (selected[s.id]?.length || 0),0)}</b></button>)}</nav>
-        <div className="dict-content">{(categories.find(c => c.id === dictCategory)?.subcategories || []).map(sub => {
+        <div className="dict-content">{relatedSource ? <RelatedTagsPanel source={relatedSource} selected={tagNames} onToggle={toggleTag} onBack={() => setRelatedSource(null)} conflicts={tags => sceneGacha.conflicts([...new Set([...tags, ...characterFree.split(',').map(t => t.trim().replaceAll('_', ' ')).filter(Boolean)])])} /> : <>{(categories.find(c => c.id === dictCategory)?.subcategories || []).map(sub => {
           const tags = shownTags.filter(x => x.subcategory.id === sub.id);
           if (!tags.length) return null;
           return <section key={sub.id} id={`dict-${dictCategory}-${sub.id}`}><h3>{sub.name}<small>{tags.length}件・複数選択可</small></h3>
             {groupByMicrocategory(tags, sub.name).map(([microName, microTags]) => { const microId = microAnchorId(dictCategory, sub.id, microName); const foldable = isFoldableMicrocategory(microName); const expanded = !foldable || expandedFoldableMicros.has(microId); return <div className={`dict-micro ${foldable ? 'foldable' : ''}`} id={microId} key={microName}>
               {foldable ? <button className="dict-micro-toggle" aria-expanded={expanded} onClick={() => toggleFoldableMicro(microId)}><span>{microName}</span><small>{microTags.length}件</small><ChevronDown /></button> : <h4>{microName}<small>{microTags.length}件</small></h4>}
-              {expanded && <div className="dict-tags">{microTags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <button key={item.tag} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><em>{formatCount(item.postCount)}</em>{on && <Check />}</button>})}</div>}
+              {expanded && <div className="dict-tags">{microTags.map(item => { const on = selected[sub.id]?.some(x => x.tag === item.tag); return <div className="dict-tag-card" key={item.tag}><button aria-pressed={!!on} className={on ? 'active' : ''} style={{ '--cat': item.category.color } as React.CSSProperties} onClick={() => toggleTag(sub.id,item)}><span>{item.ja}</span><code>{item.tag}</code><em>{formatCount(item.postCount)}</em>{on && <Check />}</button><button className="related-trigger" aria-label={`${item.ja}の関連タグ`} onClick={() => { setRelatedSource(item); document.querySelector('.dict-content')?.scrollTo({ top: 0 }); }}>関連</button></div>})}</div>}
             </div>})}
           </section>;
-        })}{!shownTags.length && <p className="no-result">一致するタグがありません。</p>}</div>
+        })}{!shownTags.length && <p className="no-result">一致するタグがありません。</p>}</>}</div>
       </div><footer className="dict-footer"><span>{tagNames.length}件 選択中</span><Button onClick={() => setDictionaryOpen(false)}>選択を反映して閉じる</Button></footer>
     </section></div>}
 
